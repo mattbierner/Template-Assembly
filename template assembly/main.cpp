@@ -9,7 +9,7 @@
 struct XXXX {
     template <typename p, typename c>
     struct apply {
-        using type = string_add<to_bytes<p>, to_bytes<c>>;
+        using type = bytes_add<to_bytes<p>, to_bytes<c>>;
     };
 };
 
