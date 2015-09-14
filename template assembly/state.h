@@ -50,7 +50,7 @@ using pass1state = Pass1State<0, empty_symbol_table>;
 
 
 /**
-    Undefined instruction that signals that an undefined label was used in pass2.
+    Undefined struct that signals that an undefined label was used in pass2.
 */
 template <typename label>
 struct no_such_label;

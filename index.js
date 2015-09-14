@@ -113,7 +113,7 @@ var getEncoding = function(encoding, ops) {
         let size = encoding.Immediate[0].$.size;
         let index = encoding.Immediate[0].$['operand-number'];
         let data = argToName(ops[index])
-        immediate = `to_string<${size * 8}, ${data}>`;
+        immediate = `to_string<${size}, ${data}>`;
     }
     let data = [].concat(prefix, opcode, modrm, codeOffset, immediate).join(', ');
     return `Instruction<${data}>{}`

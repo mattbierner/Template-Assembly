@@ -12,14 +12,14 @@ constexpr auto AAD() {
         };
 template <uint8_t a>
         constexpr auto AAD(Byte<a>) {
-            return Instruction<Opcode<'\xD5'>, to_string<8, Byte<a>>>{};
+            return Instruction<Opcode<'\xD5'>, to_string<1, Byte<a>>>{};
         };
 constexpr auto AAM() {
             return Instruction<Opcode<'\xD4'>, Opcode<'\x0A'>>{};
         };
 template <uint8_t a>
         constexpr auto AAM(Byte<a>) {
-            return Instruction<Opcode<'\xD4'>, to_string<8, Byte<a>>>{};
+            return Instruction<Opcode<'\xD4'>, to_string<1, Byte<a>>>{};
         };
 constexpr auto AAS() {
             return Instruction<Opcode<'\x3F'>>{};
@@ -27,7 +27,7 @@ constexpr auto AAS() {
 
 template <size_t a, uint8_t b>
         constexpr auto ADC(GeneralPurposeRegister<8, a>, Byte<b>) {
-            return Instruction<Opcode<'\x80'>, modrm<3, 2, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\x80'>, modrm<3, 2, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto ADC(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -37,11 +37,11 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto ADC(GeneralPurposeRegister<16, a>, Byte<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x83'>, modrm<3, 2, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x83'>, modrm<3, 2, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, uint16_t b>
         constexpr auto ADC(GeneralPurposeRegister<16, a>, Word<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x81'>, modrm<3, 2, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<16, Word<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x81'>, modrm<3, 2, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<2, Word<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto ADC(GeneralPurposeRegister<16, a>, GeneralPurposeRegister<16, b>) {
@@ -51,11 +51,11 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto ADC(GeneralPurposeRegister<32, a>, Byte<b>) {
-            return Instruction<Opcode<'\x83'>, modrm<3, 2, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\x83'>, modrm<3, 2, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, uint32_t b>
         constexpr auto ADC(GeneralPurposeRegister<32, a>, DWord<b>) {
-            return Instruction<Opcode<'\x81'>, modrm<3, 2, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<32, DWord<b>>>{};
+            return Instruction<Opcode<'\x81'>, modrm<3, 2, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<4, DWord<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto ADC(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>) {
@@ -78,7 +78,7 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto ADD(GeneralPurposeRegister<8, a>, Byte<b>) {
-            return Instruction<Opcode<'\x80'>, modrm<3, 0, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\x80'>, modrm<3, 0, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto ADD(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -88,11 +88,11 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto ADD(GeneralPurposeRegister<16, a>, Byte<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x83'>, modrm<3, 0, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x83'>, modrm<3, 0, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, uint16_t b>
         constexpr auto ADD(GeneralPurposeRegister<16, a>, Word<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x81'>, modrm<3, 0, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<16, Word<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x81'>, modrm<3, 0, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<2, Word<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto ADD(GeneralPurposeRegister<16, a>, GeneralPurposeRegister<16, b>) {
@@ -102,11 +102,11 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto ADD(GeneralPurposeRegister<32, a>, Byte<b>) {
-            return Instruction<Opcode<'\x83'>, modrm<3, 0, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\x83'>, modrm<3, 0, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, uint32_t b>
         constexpr auto ADD(GeneralPurposeRegister<32, a>, DWord<b>) {
-            return Instruction<Opcode<'\x81'>, modrm<3, 0, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<32, DWord<b>>>{};
+            return Instruction<Opcode<'\x81'>, modrm<3, 0, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<4, DWord<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto ADD(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>) {
@@ -153,7 +153,7 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto AND(GeneralPurposeRegister<8, a>, Byte<b>) {
-            return Instruction<Opcode<'\x80'>, modrm<3, 4, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\x80'>, modrm<3, 4, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto AND(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -163,11 +163,11 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto AND(GeneralPurposeRegister<16, a>, Byte<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x83'>, modrm<3, 4, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x83'>, modrm<3, 4, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, uint16_t b>
         constexpr auto AND(GeneralPurposeRegister<16, a>, Word<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x81'>, modrm<3, 4, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<16, Word<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x81'>, modrm<3, 4, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<2, Word<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto AND(GeneralPurposeRegister<16, a>, GeneralPurposeRegister<16, b>) {
@@ -177,11 +177,11 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto AND(GeneralPurposeRegister<32, a>, Byte<b>) {
-            return Instruction<Opcode<'\x83'>, modrm<3, 4, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\x83'>, modrm<3, 4, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, uint32_t b>
         constexpr auto AND(GeneralPurposeRegister<32, a>, DWord<b>) {
-            return Instruction<Opcode<'\x81'>, modrm<3, 4, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<32, DWord<b>>>{};
+            return Instruction<Opcode<'\x81'>, modrm<3, 4, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<4, DWord<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto AND(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>) {
@@ -211,7 +211,7 @@ template <size_t a, size_t b, size_t c>
 
 template <size_t a, size_t b, uint32_t c>
         constexpr auto BEXTR(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>, DWord<c>) {
-            return Instruction<Opcode<'\x10'>, modrm<3, get_reg(GeneralPurposeRegister<32, a>{}), get_reg(GeneralPurposeRegister<32, b>{})>, to_string<32, DWord<c>>>{};
+            return Instruction<Opcode<'\x10'>, modrm<3, get_reg(GeneralPurposeRegister<32, a>{}), get_reg(GeneralPurposeRegister<32, b>{})>, to_string<4, DWord<c>>>{};
         };
 template <size_t a, size_t b, size_t c>
         constexpr auto BEXTR(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>, GeneralPurposeRegister<32, c>) {
@@ -319,7 +319,7 @@ template <size_t a>
         };
 template <size_t a, uint8_t b>
         constexpr auto BT(GeneralPurposeRegister<16, a>, Byte<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x0F'>, Opcode<'\xBA'>, modrm<3, 4, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x0F'>, Opcode<'\xBA'>, modrm<3, 4, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto BT(GeneralPurposeRegister<16, a>, GeneralPurposeRegister<16, b>) {
@@ -327,7 +327,7 @@ template <size_t a, size_t b>
         };
 template <size_t a, uint8_t b>
         constexpr auto BT(GeneralPurposeRegister<32, a>, Byte<b>) {
-            return Instruction<Opcode<'\x0F'>, Opcode<'\xBA'>, modrm<3, 4, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\x0F'>, Opcode<'\xBA'>, modrm<3, 4, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto BT(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>) {
@@ -339,7 +339,7 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto BTC(GeneralPurposeRegister<16, a>, Byte<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x0F'>, Opcode<'\xBA'>, modrm<3, 7, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x0F'>, Opcode<'\xBA'>, modrm<3, 7, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto BTC(GeneralPurposeRegister<16, a>, GeneralPurposeRegister<16, b>) {
@@ -347,7 +347,7 @@ template <size_t a, size_t b>
         };
 template <size_t a, uint8_t b>
         constexpr auto BTC(GeneralPurposeRegister<32, a>, Byte<b>) {
-            return Instruction<Opcode<'\x0F'>, Opcode<'\xBA'>, modrm<3, 7, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\x0F'>, Opcode<'\xBA'>, modrm<3, 7, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto BTC(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>) {
@@ -359,7 +359,7 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto BTR(GeneralPurposeRegister<16, a>, Byte<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x0F'>, Opcode<'\xBA'>, modrm<3, 6, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x0F'>, Opcode<'\xBA'>, modrm<3, 6, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto BTR(GeneralPurposeRegister<16, a>, GeneralPurposeRegister<16, b>) {
@@ -367,7 +367,7 @@ template <size_t a, size_t b>
         };
 template <size_t a, uint8_t b>
         constexpr auto BTR(GeneralPurposeRegister<32, a>, Byte<b>) {
-            return Instruction<Opcode<'\x0F'>, Opcode<'\xBA'>, modrm<3, 6, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\x0F'>, Opcode<'\xBA'>, modrm<3, 6, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto BTR(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>) {
@@ -379,7 +379,7 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto BTS(GeneralPurposeRegister<16, a>, Byte<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x0F'>, Opcode<'\xBA'>, modrm<3, 5, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x0F'>, Opcode<'\xBA'>, modrm<3, 5, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto BTS(GeneralPurposeRegister<16, a>, GeneralPurposeRegister<16, b>) {
@@ -387,7 +387,7 @@ template <size_t a, size_t b>
         };
 template <size_t a, uint8_t b>
         constexpr auto BTS(GeneralPurposeRegister<32, a>, Byte<b>) {
-            return Instruction<Opcode<'\x0F'>, Opcode<'\xBA'>, modrm<3, 5, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\x0F'>, Opcode<'\xBA'>, modrm<3, 5, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto BTS(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>) {
@@ -726,7 +726,7 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto CMP(GeneralPurposeRegister<8, a>, Byte<b>) {
-            return Instruction<Opcode<'\x80'>, modrm<3, 7, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\x80'>, modrm<3, 7, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto CMP(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -736,11 +736,11 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto CMP(GeneralPurposeRegister<16, a>, Byte<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x83'>, modrm<3, 7, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x83'>, modrm<3, 7, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, uint16_t b>
         constexpr auto CMP(GeneralPurposeRegister<16, a>, Word<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x81'>, modrm<3, 7, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<16, Word<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x81'>, modrm<3, 7, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<2, Word<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto CMP(GeneralPurposeRegister<16, a>, GeneralPurposeRegister<16, b>) {
@@ -750,11 +750,11 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto CMP(GeneralPurposeRegister<32, a>, Byte<b>) {
-            return Instruction<Opcode<'\x83'>, modrm<3, 7, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\x83'>, modrm<3, 7, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, uint32_t b>
         constexpr auto CMP(GeneralPurposeRegister<32, a>, DWord<b>) {
-            return Instruction<Opcode<'\x81'>, modrm<3, 7, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<32, DWord<b>>>{};
+            return Instruction<Opcode<'\x81'>, modrm<3, 7, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<4, DWord<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto CMP(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>) {
@@ -973,21 +973,21 @@ template <size_t a, size_t b>
 
 template <size_t a, size_t b, uint8_t c>
         constexpr auto IMUL(GeneralPurposeRegister<16, a>, GeneralPurposeRegister<16, b>, Byte<c>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x6B'>, modrm<3, get_reg(GeneralPurposeRegister<16, a>{}), get_reg(GeneralPurposeRegister<16, b>{})>, to_string<8, Byte<c>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x6B'>, modrm<3, get_reg(GeneralPurposeRegister<16, a>{}), get_reg(GeneralPurposeRegister<16, b>{})>, to_string<1, Byte<c>>>{};
         };
 template <size_t a, size_t b, uint16_t c>
         constexpr auto IMUL(GeneralPurposeRegister<16, a>, GeneralPurposeRegister<16, b>, Word<c>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x69'>, modrm<3, get_reg(GeneralPurposeRegister<16, a>{}), get_reg(GeneralPurposeRegister<16, b>{})>, to_string<16, Word<c>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x69'>, modrm<3, get_reg(GeneralPurposeRegister<16, a>{}), get_reg(GeneralPurposeRegister<16, b>{})>, to_string<2, Word<c>>>{};
         };
 
 
 template <size_t a, size_t b, uint8_t c>
         constexpr auto IMUL(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>, Byte<c>) {
-            return Instruction<Opcode<'\x6B'>, modrm<3, get_reg(GeneralPurposeRegister<32, a>{}), get_reg(GeneralPurposeRegister<32, b>{})>, to_string<8, Byte<c>>>{};
+            return Instruction<Opcode<'\x6B'>, modrm<3, get_reg(GeneralPurposeRegister<32, a>{}), get_reg(GeneralPurposeRegister<32, b>{})>, to_string<1, Byte<c>>>{};
         };
 template <size_t a, size_t b, uint32_t c>
         constexpr auto IMUL(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>, DWord<c>) {
-            return Instruction<Opcode<'\x69'>, modrm<3, get_reg(GeneralPurposeRegister<32, a>{}), get_reg(GeneralPurposeRegister<32, b>{})>, to_string<32, DWord<c>>>{};
+            return Instruction<Opcode<'\x69'>, modrm<3, get_reg(GeneralPurposeRegister<32, a>{}), get_reg(GeneralPurposeRegister<32, b>{})>, to_string<4, DWord<c>>>{};
         };
 
 
@@ -1013,7 +1013,7 @@ template <size_t a>
 
 template <uint8_t a>
         constexpr auto INT(Byte<a>) {
-            return Instruction<Opcode<'\xCD'>, to_string<8, Byte<a>>>{};
+            return Instruction<Opcode<'\xCD'>, to_string<1, Byte<a>>>{};
         };
 constexpr auto INTO() {
             return Instruction<Opcode<'\xCE'>>{};
@@ -1290,7 +1290,7 @@ constexpr auto MFENCE() {
 
 template <size_t a, uint8_t b>
         constexpr auto MOV(GeneralPurposeRegister<8, a>, Byte<b>) {
-            return Instruction<Opcode<'\xC6'>, modrm<3, 0, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\xC6'>, modrm<3, 0, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto MOV(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -1299,7 +1299,7 @@ template <size_t a, size_t b>
 
 template <size_t a, uint16_t b>
         constexpr auto MOV(GeneralPurposeRegister<16, a>, Word<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\xC7'>, modrm<3, 0, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<16, Word<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\xC7'>, modrm<3, 0, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<2, Word<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto MOV(GeneralPurposeRegister<16, a>, GeneralPurposeRegister<16, b>) {
@@ -1309,7 +1309,7 @@ template <size_t a, size_t b>
 
 template <size_t a, uint32_t b>
         constexpr auto MOV(GeneralPurposeRegister<32, a>, DWord<b>) {
-            return Instruction<Opcode<'\xC7'>, modrm<3, 0, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<32, DWord<b>>>{};
+            return Instruction<Opcode<'\xC7'>, modrm<3, 0, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<4, DWord<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto MOV(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>) {
@@ -1489,7 +1489,7 @@ template <size_t a>
 
 template <size_t a, uint8_t b>
         constexpr auto OR(GeneralPurposeRegister<8, a>, Byte<b>) {
-            return Instruction<Opcode<'\x80'>, modrm<3, 1, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\x80'>, modrm<3, 1, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto OR(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -1499,11 +1499,11 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto OR(GeneralPurposeRegister<16, a>, Byte<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x83'>, modrm<3, 1, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x83'>, modrm<3, 1, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, uint16_t b>
         constexpr auto OR(GeneralPurposeRegister<16, a>, Word<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x81'>, modrm<3, 1, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<16, Word<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x81'>, modrm<3, 1, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<2, Word<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto OR(GeneralPurposeRegister<16, a>, GeneralPurposeRegister<16, b>) {
@@ -1513,11 +1513,11 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto OR(GeneralPurposeRegister<32, a>, Byte<b>) {
-            return Instruction<Opcode<'\x83'>, modrm<3, 1, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\x83'>, modrm<3, 1, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, uint32_t b>
         constexpr auto OR(GeneralPurposeRegister<32, a>, DWord<b>) {
-            return Instruction<Opcode<'\x81'>, modrm<3, 1, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<32, DWord<b>>>{};
+            return Instruction<Opcode<'\x81'>, modrm<3, 1, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<4, DWord<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto OR(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>) {
@@ -2024,11 +2024,11 @@ template <size_t a, size_t b>
 
 template <uint8_t a>
         constexpr auto PUSH(Byte<a>) {
-            return Instruction<Opcode<'\x6A'>, to_string<8, Byte<a>>>{};
+            return Instruction<Opcode<'\x6A'>, to_string<1, Byte<a>>>{};
         };
 template <uint32_t a>
         constexpr auto PUSH(DWord<a>) {
-            return Instruction<Opcode<'\x68'>, to_string<32, DWord<a>>>{};
+            return Instruction<Opcode<'\x68'>, to_string<4, DWord<a>>>{};
         };
 template <size_t a>
         constexpr auto PUSH(GeneralPurposeRegister<16, a>) {
@@ -2047,19 +2047,19 @@ template <size_t a>
 
 template <size_t a, uint8_t b>
         constexpr auto RCL(GeneralPurposeRegister<8, a>, Byte<b>) {
-            return Instruction<Opcode<'\xC0'>, modrm<3, 2, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\xC0'>, modrm<3, 2, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
 template <size_t a, uint8_t b>
         constexpr auto RCL(GeneralPurposeRegister<16, a>, Byte<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\xC1'>, modrm<3, 2, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\xC1'>, modrm<3, 2, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
 template <size_t a, uint8_t b>
         constexpr auto RCL(GeneralPurposeRegister<32, a>, Byte<b>) {
-            return Instruction<Opcode<'\xC1'>, modrm<3, 2, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\xC1'>, modrm<3, 2, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
@@ -2078,19 +2078,19 @@ template <size_t a, uint8_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto RCR(GeneralPurposeRegister<8, a>, Byte<b>) {
-            return Instruction<Opcode<'\xC0'>, modrm<3, 3, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\xC0'>, modrm<3, 3, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
 template <size_t a, uint8_t b>
         constexpr auto RCR(GeneralPurposeRegister<16, a>, Byte<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\xC1'>, modrm<3, 3, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\xC1'>, modrm<3, 3, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
 template <size_t a, uint8_t b>
         constexpr auto RCR(GeneralPurposeRegister<32, a>, Byte<b>) {
-            return Instruction<Opcode<'\xC1'>, modrm<3, 3, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\xC1'>, modrm<3, 3, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
@@ -2129,24 +2129,24 @@ constexpr auto RET() {
         };
 template <uint16_t a>
         constexpr auto RET(Word<a>) {
-            return Instruction<Opcode<'\xC2'>, to_string<16, Word<a>>>{};
+            return Instruction<Opcode<'\xC2'>, to_string<2, Word<a>>>{};
         };
 
 template <size_t a, uint8_t b>
         constexpr auto ROL(GeneralPurposeRegister<8, a>, Byte<b>) {
-            return Instruction<Opcode<'\xC0'>, modrm<3, 0, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\xC0'>, modrm<3, 0, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
 template <size_t a, uint8_t b>
         constexpr auto ROL(GeneralPurposeRegister<16, a>, Byte<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\xC1'>, modrm<3, 0, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\xC1'>, modrm<3, 0, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
 template <size_t a, uint8_t b>
         constexpr auto ROL(GeneralPurposeRegister<32, a>, Byte<b>) {
-            return Instruction<Opcode<'\xC1'>, modrm<3, 0, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\xC1'>, modrm<3, 0, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
@@ -2161,19 +2161,19 @@ template <size_t a, uint8_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto ROR(GeneralPurposeRegister<8, a>, Byte<b>) {
-            return Instruction<Opcode<'\xC0'>, modrm<3, 1, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\xC0'>, modrm<3, 1, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
 template <size_t a, uint8_t b>
         constexpr auto ROR(GeneralPurposeRegister<16, a>, Byte<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\xC1'>, modrm<3, 1, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\xC1'>, modrm<3, 1, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
 template <size_t a, uint8_t b>
         constexpr auto ROR(GeneralPurposeRegister<32, a>, Byte<b>) {
-            return Instruction<Opcode<'\xC1'>, modrm<3, 1, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\xC1'>, modrm<3, 1, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
@@ -2187,7 +2187,7 @@ template <size_t a, uint8_t b>
 
 template <size_t a, size_t b, uint8_t c>
         constexpr auto RORX(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>, Byte<c>) {
-            return Instruction<Opcode<'\xF0'>, modrm<3, get_reg(GeneralPurposeRegister<32, a>{}), get_reg(GeneralPurposeRegister<32, b>{})>, to_string<8, Byte<c>>>{};
+            return Instruction<Opcode<'\xF0'>, modrm<3, get_reg(GeneralPurposeRegister<32, a>{}), get_reg(GeneralPurposeRegister<32, b>{})>, to_string<1, Byte<c>>>{};
         };
 
 
@@ -2208,19 +2208,19 @@ constexpr auto SAHF() {
 
 template <size_t a, uint8_t b>
         constexpr auto SAL(GeneralPurposeRegister<8, a>, Byte<b>) {
-            return Instruction<Opcode<'\xC0'>, modrm<3, 4, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\xC0'>, modrm<3, 4, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
 template <size_t a, uint8_t b>
         constexpr auto SAL(GeneralPurposeRegister<16, a>, Byte<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\xC1'>, modrm<3, 4, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\xC1'>, modrm<3, 4, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
 template <size_t a, uint8_t b>
         constexpr auto SAL(GeneralPurposeRegister<32, a>, Byte<b>) {
-            return Instruction<Opcode<'\xC1'>, modrm<3, 4, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\xC1'>, modrm<3, 4, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
@@ -2235,19 +2235,19 @@ template <size_t a, uint8_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto SAR(GeneralPurposeRegister<8, a>, Byte<b>) {
-            return Instruction<Opcode<'\xC0'>, modrm<3, 7, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\xC0'>, modrm<3, 7, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
 template <size_t a, uint8_t b>
         constexpr auto SAR(GeneralPurposeRegister<16, a>, Byte<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\xC1'>, modrm<3, 7, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\xC1'>, modrm<3, 7, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
 template <size_t a, uint8_t b>
         constexpr auto SAR(GeneralPurposeRegister<32, a>, Byte<b>) {
-            return Instruction<Opcode<'\xC1'>, modrm<3, 7, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\xC1'>, modrm<3, 7, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
@@ -2267,7 +2267,7 @@ template <size_t a, size_t b, size_t c>
 
 template <size_t a, uint8_t b>
         constexpr auto SBB(GeneralPurposeRegister<8, a>, Byte<b>) {
-            return Instruction<Opcode<'\x80'>, modrm<3, 3, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\x80'>, modrm<3, 3, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto SBB(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -2277,11 +2277,11 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto SBB(GeneralPurposeRegister<16, a>, Byte<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x83'>, modrm<3, 3, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x83'>, modrm<3, 3, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, uint16_t b>
         constexpr auto SBB(GeneralPurposeRegister<16, a>, Word<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x81'>, modrm<3, 3, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<16, Word<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x81'>, modrm<3, 3, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<2, Word<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto SBB(GeneralPurposeRegister<16, a>, GeneralPurposeRegister<16, b>) {
@@ -2291,11 +2291,11 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto SBB(GeneralPurposeRegister<32, a>, Byte<b>) {
-            return Instruction<Opcode<'\x83'>, modrm<3, 3, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\x83'>, modrm<3, 3, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, uint32_t b>
         constexpr auto SBB(GeneralPurposeRegister<32, a>, DWord<b>) {
-            return Instruction<Opcode<'\x81'>, modrm<3, 3, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<32, DWord<b>>>{};
+            return Instruction<Opcode<'\x81'>, modrm<3, 3, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<4, DWord<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto SBB(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>) {
@@ -2480,19 +2480,19 @@ constexpr auto SFENCE() {
 
 template <size_t a, uint8_t b>
         constexpr auto SHL(GeneralPurposeRegister<8, a>, Byte<b>) {
-            return Instruction<Opcode<'\xC0'>, modrm<3, 4, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\xC0'>, modrm<3, 4, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
 template <size_t a, uint8_t b>
         constexpr auto SHL(GeneralPurposeRegister<16, a>, Byte<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\xC1'>, modrm<3, 4, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\xC1'>, modrm<3, 4, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
 template <size_t a, uint8_t b>
         constexpr auto SHL(GeneralPurposeRegister<32, a>, Byte<b>) {
-            return Instruction<Opcode<'\xC1'>, modrm<3, 4, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\xC1'>, modrm<3, 4, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
@@ -2506,12 +2506,12 @@ template <size_t a, uint8_t b>
 
 template <size_t a, size_t b, uint8_t c>
         constexpr auto SHLD(GeneralPurposeRegister<16, a>, GeneralPurposeRegister<16, b>, Byte<c>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x0F'>, Opcode<'\xA4'>, modrm<3, get_reg(GeneralPurposeRegister<16, b>{}), get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<c>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x0F'>, Opcode<'\xA4'>, modrm<3, get_reg(GeneralPurposeRegister<16, b>{}), get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<c>>>{};
         };
 
 template <size_t a, size_t b, uint8_t c>
         constexpr auto SHLD(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>, Byte<c>) {
-            return Instruction<Opcode<'\x0F'>, Opcode<'\xA4'>, modrm<3, get_reg(GeneralPurposeRegister<32, b>{}), get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<c>>>{};
+            return Instruction<Opcode<'\x0F'>, Opcode<'\xA4'>, modrm<3, get_reg(GeneralPurposeRegister<32, b>{}), get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<c>>>{};
         };
 
 
@@ -2526,19 +2526,19 @@ template <size_t a, size_t b, size_t c>
 
 template <size_t a, uint8_t b>
         constexpr auto SHR(GeneralPurposeRegister<8, a>, Byte<b>) {
-            return Instruction<Opcode<'\xC0'>, modrm<3, 5, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\xC0'>, modrm<3, 5, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
 template <size_t a, uint8_t b>
         constexpr auto SHR(GeneralPurposeRegister<16, a>, Byte<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\xC1'>, modrm<3, 5, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\xC1'>, modrm<3, 5, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
 template <size_t a, uint8_t b>
         constexpr auto SHR(GeneralPurposeRegister<32, a>, Byte<b>) {
-            return Instruction<Opcode<'\xC1'>, modrm<3, 5, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\xC1'>, modrm<3, 5, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<b>>>{};
         };
 
 
@@ -2552,12 +2552,12 @@ template <size_t a, uint8_t b>
 
 template <size_t a, size_t b, uint8_t c>
         constexpr auto SHRD(GeneralPurposeRegister<16, a>, GeneralPurposeRegister<16, b>, Byte<c>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x0F'>, Opcode<'\xAC'>, modrm<3, get_reg(GeneralPurposeRegister<16, b>{}), get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<c>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x0F'>, Opcode<'\xAC'>, modrm<3, get_reg(GeneralPurposeRegister<16, b>{}), get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<c>>>{};
         };
 
 template <size_t a, size_t b, uint8_t c>
         constexpr auto SHRD(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>, Byte<c>) {
-            return Instruction<Opcode<'\x0F'>, Opcode<'\xAC'>, modrm<3, get_reg(GeneralPurposeRegister<32, b>{}), get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<c>>>{};
+            return Instruction<Opcode<'\x0F'>, Opcode<'\xAC'>, modrm<3, get_reg(GeneralPurposeRegister<32, b>{}), get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<c>>>{};
         };
 
 
@@ -2591,7 +2591,7 @@ constexpr auto STD() {
 
 template <size_t a, uint8_t b>
         constexpr auto SUB(GeneralPurposeRegister<8, a>, Byte<b>) {
-            return Instruction<Opcode<'\x80'>, modrm<3, 5, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\x80'>, modrm<3, 5, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto SUB(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -2601,11 +2601,11 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto SUB(GeneralPurposeRegister<16, a>, Byte<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x83'>, modrm<3, 5, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x83'>, modrm<3, 5, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, uint16_t b>
         constexpr auto SUB(GeneralPurposeRegister<16, a>, Word<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x81'>, modrm<3, 5, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<16, Word<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x81'>, modrm<3, 5, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<2, Word<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto SUB(GeneralPurposeRegister<16, a>, GeneralPurposeRegister<16, b>) {
@@ -2615,11 +2615,11 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto SUB(GeneralPurposeRegister<32, a>, Byte<b>) {
-            return Instruction<Opcode<'\x83'>, modrm<3, 5, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\x83'>, modrm<3, 5, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, uint32_t b>
         constexpr auto SUB(GeneralPurposeRegister<32, a>, DWord<b>) {
-            return Instruction<Opcode<'\x81'>, modrm<3, 5, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<32, DWord<b>>>{};
+            return Instruction<Opcode<'\x81'>, modrm<3, 5, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<4, DWord<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto SUB(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>) {
@@ -2652,7 +2652,7 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto TEST(GeneralPurposeRegister<8, a>, Byte<b>) {
-            return Instruction<Opcode<'\xF6'>, modrm<3, 0, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\xF6'>, modrm<3, 0, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto TEST(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -2661,7 +2661,7 @@ template <size_t a, size_t b>
 
 template <size_t a, uint16_t b>
         constexpr auto TEST(GeneralPurposeRegister<16, a>, Word<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\xF7'>, modrm<3, 0, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<16, Word<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\xF7'>, modrm<3, 0, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<2, Word<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto TEST(GeneralPurposeRegister<16, a>, GeneralPurposeRegister<16, b>) {
@@ -2670,7 +2670,7 @@ template <size_t a, size_t b>
 
 template <size_t a, uint32_t b>
         constexpr auto TEST(GeneralPurposeRegister<32, a>, DWord<b>) {
-            return Instruction<Opcode<'\xF7'>, modrm<3, 0, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<32, DWord<b>>>{};
+            return Instruction<Opcode<'\xF7'>, modrm<3, 0, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<4, DWord<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto TEST(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>) {
@@ -4181,7 +4181,7 @@ constexpr auto XLATB() {
 
 template <size_t a, uint8_t b>
         constexpr auto XOR(GeneralPurposeRegister<8, a>, Byte<b>) {
-            return Instruction<Opcode<'\x80'>, modrm<3, 6, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\x80'>, modrm<3, 6, get_reg(GeneralPurposeRegister<8, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto XOR(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -4191,11 +4191,11 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto XOR(GeneralPurposeRegister<16, a>, Byte<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x83'>, modrm<3, 6, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x83'>, modrm<3, 6, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, uint16_t b>
         constexpr auto XOR(GeneralPurposeRegister<16, a>, Word<b>) {
-            return Instruction<Prefix<'\x66'>, Opcode<'\x81'>, modrm<3, 6, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<16, Word<b>>>{};
+            return Instruction<Prefix<'\x66'>, Opcode<'\x81'>, modrm<3, 6, get_reg(GeneralPurposeRegister<16, a>{})>, to_string<2, Word<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto XOR(GeneralPurposeRegister<16, a>, GeneralPurposeRegister<16, b>) {
@@ -4205,11 +4205,11 @@ template <size_t a, size_t b>
 
 template <size_t a, uint8_t b>
         constexpr auto XOR(GeneralPurposeRegister<32, a>, Byte<b>) {
-            return Instruction<Opcode<'\x83'>, modrm<3, 6, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<8, Byte<b>>>{};
+            return Instruction<Opcode<'\x83'>, modrm<3, 6, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<1, Byte<b>>>{};
         };
 template <size_t a, uint32_t b>
         constexpr auto XOR(GeneralPurposeRegister<32, a>, DWord<b>) {
-            return Instruction<Opcode<'\x81'>, modrm<3, 6, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<32, DWord<b>>>{};
+            return Instruction<Opcode<'\x81'>, modrm<3, 6, get_reg(GeneralPurposeRegister<32, a>{})>, to_string<4, DWord<b>>>{};
         };
 template <size_t a, size_t b>
         constexpr auto XOR(GeneralPurposeRegister<32, a>, GeneralPurposeRegister<32, b>) {

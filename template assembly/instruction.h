@@ -8,10 +8,10 @@
     Instruction components.
 */
 template <char... codes>
-using Prefix = String<codes...>;
+using Prefix = ByteString<codes...>;
 
 template <char... codes>
-using Opcode = String<codes...>;
+using Opcode = ByteString<codes...>;
 
 
 template <typename s, typename...>
@@ -53,20 +53,4 @@ struct Instruction  {
         using nexts = typename s::template inc<size>;
         using type = Pair<nexts, typename Rewrite<nexts, xs...>::type>;
     };
-};
-
-/*------------------------------------------------------------------------------
-    Functor
-*/
-template <typename f, typename... codes>
-struct FMap<f, Instruction<codes...>> {
-    using type = Instruction<fmap<f, codes>...>;
-};
-
-/*------------------------------------------------------------------------------
-    Foldable
-*/
-template <typename f, typename z, typename... codes>
-struct Foldable<f, z, Instruction<codes...>> {
-    using type = fold_args<f, z, codes...>;
 };

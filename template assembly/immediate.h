@@ -1,6 +1,6 @@
 #pragma once
 
-#include "string.h"
+#include "byte_string.h"
 
 /**
 */
@@ -24,4 +24,4 @@ using DWord = Immediate<uint32_t, x>;
 
 template <typename T, T x>
 struct ToBytes<Immediate<T, x>> :
-    IntToString<sizeof(T) * 8, x> { };
+    IntToBytes<sizeof(T), x> { };

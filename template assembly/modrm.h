@@ -4,7 +4,7 @@
 #include "string.h"
 
 template <unsigned mode, unsigned reg, unsigned rm>
-using modrm = typename IntToString<8, (mode << 6) | (reg << 3) | rm>::type;
+using modrm = typename IntToBytes<1, (mode << 6) | (reg << 3) | rm>::type;
 
 
 template <size_t s, size_t i>

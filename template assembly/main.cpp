@@ -18,7 +18,7 @@ template <typename program,
 using compile = 
     fold<
         XXXX,
-        String<>,
+        ByteString<>,
         typename call<program, pass2state<typename r1::state>>::value>;
 
 
