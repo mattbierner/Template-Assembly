@@ -23,7 +23,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		895B23571BA4DCD200CB0CC2 /* map.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = map.h; sourceTree = "<group>"; };
+		895B23571BA4DCD200CB0CC2 /* symbol_table.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = symbol_table.h; sourceTree = "<group>"; };
 		895B235A1BA4F2F500CB0CC2 /* instruction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = instruction.h; sourceTree = "<group>"; };
 		895B235B1BA4F4B000CB0CC2 /* immediate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = immediate.h; sourceTree = "<group>"; };
 		895B235C1BA4F66A00CB0CC2 /* string.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = string.h; sourceTree = "<group>"; };
@@ -72,7 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				89CD33741BA4BC7800902714 /* list.h */,
-				895B23571BA4DCD200CB0CC2 /* map.h */,
+				895B23571BA4DCD200CB0CC2 /* symbol_table.h */,
 				89CD33751BA4BCFB00902714 /* foldable.h */,
 				89B88E321BA4A53D005FFC09 /* main.cpp */,
 				89CD33761BA4BD4100902714 /* functor.h */,

@@ -2,7 +2,6 @@
 
 #include "list.h"
 #include "label.h"
-#include "map.h"
 #include "../instr.h"
 #include "state.h"
 

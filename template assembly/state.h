@@ -1,6 +1,6 @@
 #pragma once
 
-#include "map.h"
+#include "symbol_table.h"
 
 /**
     Base assembler state object.
@@ -28,7 +28,7 @@ struct BaseState {
     */
     template <typename newLabel>
     using add_label = self<index, cons<
-        MapPair<newLabel, Offset<index>>,
+        SymbolTableEntry<newLabel, Offset<index>>,
         labels>>;
 };
 
@@ -39,14 +39,14 @@ struct BaseState {
 */
 template <size_t lc, typename _labels>
 struct Pass1State : BaseState<Pass1State, lc, _labels> {
-    template <typename name, typename def = None>
-    using lookup_label = typename MapLookupDef<Constant<def>, name, _labels>::type;
+    template <typename name>
+    using lookup_label = symbol_table_lookup<None, name, _labels>;
 };
 
 /**
     Initial state for pass1
 */
-using pass1state = Pass1State<0, Map<>>;
+using pass1state = Pass1State<0, empty_symbol_table>;
 
 
 /**
@@ -63,11 +63,8 @@ struct no_such_label;
 */
 template <size_t lc, typename _labels>
 struct Pass2State : BaseState<Pass2State, lc, _labels> {
-    template <typename name, typename def = None>
-    using lookup_label = typename MapLookupDef<
-        Constant<no_such_label<name>>,
-        name,
-        _labels>::type;
+    template <typename name>
+    using lookup_label = symbol_table_lookup<no_such_label<name>, name, _labels>;
 };
 
 /**
