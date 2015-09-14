@@ -19,6 +19,8 @@ struct of {
     };
 };
 
+/**
+*/
 template <typename p, typename f>
 struct bind {
     template <typename s>

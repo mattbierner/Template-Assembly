@@ -26,9 +26,9 @@ var getOperandTemplateArgs = function(operand) {
 
     case 'rel8': return { type: 'Rel8', needs: ['typename'] };
 
-    case 'r8': return { type: 'GeneralPurposeRegister', args: ['8'], needs: ['size_t'] };
-    case 'r16': return { type: 'GeneralPurposeRegister', args: ['16'], needs: ['size_t'] };
-    case 'r32': return { type: 'GeneralPurposeRegister', args: ['32'], needs: ['size_t'] };
+    case 'r8': return { type: 'GeneralPurposeRegister', args: ['1'], needs: ['size_t'] };
+    case 'r16': return { type: 'GeneralPurposeRegister', args: ['2'], needs: ['size_t'] };
+    case 'r32': return { type: 'GeneralPurposeRegister', args: ['4'], needs: ['size_t'] };
 
     case 'm128':
     case 'm256':
