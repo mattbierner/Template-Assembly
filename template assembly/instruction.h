@@ -1,18 +1,6 @@
 #pragma once
 
-#include "foldable.h"
-#include "functor.h"
 #include "string.h"
-
-/**
-    Instruction components.
-*/
-template <char... codes>
-using Prefix = ByteString<codes...>;
-
-template <char... codes>
-using Opcode = ByteString<codes...>;
-
 
 template <typename s, typename...>
 struct Rewrite {
@@ -37,8 +25,6 @@ struct Rewrite<s, Rel8<x>, xs...> {
     
     using type = cons<typename GetOffset<s, label>::type, typename Rewrite<s, xs...>::type>;
 };
-
-
 
 /**
     Encodes a single, basic instruction as a series of bytes.

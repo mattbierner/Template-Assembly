@@ -1,7 +1,7 @@
 #pragma once
+#include "encoding.h"
 #include "immediate.h"
 #include "instruction.h"
-#include "modrm.h"
 #include "register.h"
 #include "string.h"
 

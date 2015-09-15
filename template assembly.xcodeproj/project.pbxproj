@@ -29,10 +29,10 @@
 		895B235C1BA4F66A00CB0CC2 /* byte_string.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = byte_string.h; sourceTree = "<group>"; };
 		895B235D1BA6111C00CB0CC2 /* register.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = register.h; sourceTree = "<group>"; };
 		895B235E1BA6114600CB0CC2 /* memory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = memory.h; sourceTree = "<group>"; };
-		895B235F1BA64E7F00CB0CC2 /* modrm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = modrm.h; sourceTree = "<group>"; };
 		895B23601BA6A0A800CB0CC2 /* asm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = asm.h; sourceTree = "<group>"; };
 		895B23611BA6A11D00CB0CC2 /* state.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = state.h; sourceTree = "<group>"; };
 		895B23621BA7A66200CB0CC2 /* assert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = assert.h; sourceTree = "<group>"; };
+		895B23631BA7E64C00CB0CC2 /* encoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = encoding.h; sourceTree = "<group>"; };
 		89B88E2F1BA4A53D005FFC09 /* template assembly */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "template assembly"; sourceTree = BUILT_PRODUCTS_DIR; };
 		89B88E321BA4A53D005FFC09 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		89CD33741BA4BC7800902714 /* list.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = list.h; path = ../list.h; sourceTree = "<group>"; };
@@ -84,10 +84,10 @@
 				895B235B1BA4F4B000CB0CC2 /* immediate.h */,
 				895B235D1BA6111C00CB0CC2 /* register.h */,
 				895B235E1BA6114600CB0CC2 /* memory.h */,
-				895B235F1BA64E7F00CB0CC2 /* modrm.h */,
 				895B23601BA6A0A800CB0CC2 /* asm.h */,
 				895B23611BA6A11D00CB0CC2 /* state.h */,
 				895B23621BA7A66200CB0CC2 /* assert.h */,
+				895B23631BA7E64C00CB0CC2 /* encoding.h */,
 			);
 			path = "template assembly";
 			sourceTree = "<group>";
