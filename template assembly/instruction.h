@@ -25,15 +25,14 @@ struct Rewrite<s, x, xs...> {
 };
 
 template <typename s, typename labelOffset>
-struct GetOffset { using type = Byte<labelOffset::value - s::index>; };
+struct GetOffset : IntToBytes<1, static_cast<uint8_t>(labelOffset::value - s::index)> { };
 
 template <typename s>
-struct GetOffset<s, None> { using type = Byte<0>; };
+struct GetOffset<s, None> { using type = byte<0>; };
 
 
 template <typename s, typename x, typename... xs>
 struct Rewrite<s, Rel8<x>, xs...> {
-   
     using label = typename s::template lookup_label<x>;
     
     using type = cons<typename GetOffset<s, label>::type, typename Rewrite<s, xs...>::type>;

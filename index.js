@@ -4,7 +4,7 @@ var fs = require('fs');
 var path = require('path');
 var xml2js = require('xml2js');
  
-var IN_FILE = 'x86.xml'
+var IN_FILE = 'x86_64.xml'
 var OUT_FILE = 'instr.h'
 
 var prefix =
@@ -20,9 +20,9 @@ var flatten = Function.prototype.apply.bind(Array.prototype.concat, []);
 
 var getOperandTemplateArgs = function(operand) {
     switch (operand.$.type) {
-    case 'imm8': return { type: 'Byte', needs: ['uint8_t'] };
-    case 'imm16': return { type: 'Word', needs: ['uint16_t'] };
-    case 'imm32': return { type: 'DWord', needs: ['uint32_t'] };
+    case 'imm8': return { type: 'byte', needs: ['int8_t'] };
+    case 'imm16': return { type: 'word', needs: ['int16_t'] };
+    case 'imm32': return { type: 'dword', needs: ['int32_t'] };
 
     case 'rel8': return { type: 'Rel8', needs: ['typename'] };
 
@@ -98,8 +98,13 @@ var getEncoding = function(encoding, ops) {
     var opcode = [];
     if (encoding.Opcode) {
         opcode = encoding.Opcode.map(x => {
-            let data = x.$['byte'];
-            return `Opcode<'\\x${data}'>`
+            let b = x.$['byte'];
+            if (x.$['addend-operand-number']) {
+                let reg = argToName(ops[x.$['addend-operand-number']]);
+                return `typename IntToBytes<1, 0x${b} + ${reg}::index>::type`
+            } else {
+                return `Opcode<'\\x${b}'>`;
+            }
         });
     }
     
@@ -122,6 +127,9 @@ var getEncoding = function(encoding, ops) {
 
 
 var processForm = function(name, form) {
+    if (form.ImplicitOperand)
+        return '';
+
     var operands = form.Operand;
     if (!operands || operands.length === 0) {
         let encoding = getEncoding(form.Encoding[0], []);

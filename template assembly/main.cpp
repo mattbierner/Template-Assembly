@@ -23,7 +23,7 @@ using compile =
 
 
 /**
-    Wrap some template assembly is a standard functor.
+    Wrap some template assembly is a functor.
     
     @param R Type of value returned from the assembly.
     @param P Assembly byte string.
@@ -52,15 +52,37 @@ constexpr auto Asm(x, xs...) {
 
 int main(int argc, const char * argv[]) {
     auto p = Asm<int>(
-        MOV(eax, DWord<3>()),
+        MOV(eax, dword<3>()),
         JMP("a"_rel8),
-        ADD(eax, DWord<2>()),
+        ADD(eax, dword<2>()),
         //MOV(eax, ebp),
        // SUB(eax, esp),
         "a"_label,
         RET());
 
-   // P<decltype(p)::program> {};
-    std::cout << std::hex << p() << std::endl;
+    auto loop = Asm<int>(
+        MOV(ecx, dword<5>()),
+        MOV(eax, dword<0>()),
+    "start"_label,
+        CMP(ecx, dword<0>()),
+        JE("done"_rel8),
+        ADD(eax, dword<5>()),
+        DEC(ecx),
+        JMP("start"_rel8),
+    "done"_label,
+        RET());
+
+    auto x = Asm<int>(
+        MOV(eax, dword<4>()),
+        SUB(eax, dword<1>()),
+        MOV(ecx, eax),
+        RET());
+
+ //  P<decltype(x)::program> {};
+    std::cout << p() << std::endl;
+    std::cout << loop() << std::endl;
+    
+    std::cout << x() << std::endl;
+
     return 0;
 }
