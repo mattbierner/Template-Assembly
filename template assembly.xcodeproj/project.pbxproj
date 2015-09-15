@@ -32,6 +32,7 @@
 		895B235F1BA64E7F00CB0CC2 /* modrm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = modrm.h; sourceTree = "<group>"; };
 		895B23601BA6A0A800CB0CC2 /* asm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = asm.h; sourceTree = "<group>"; };
 		895B23611BA6A11D00CB0CC2 /* state.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = state.h; sourceTree = "<group>"; };
+		895B23621BA7A66200CB0CC2 /* assert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = assert.h; sourceTree = "<group>"; };
 		89B88E2F1BA4A53D005FFC09 /* template assembly */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "template assembly"; sourceTree = BUILT_PRODUCTS_DIR; };
 		89B88E321BA4A53D005FFC09 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		89CD33741BA4BC7800902714 /* list.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = list.h; path = ../list.h; sourceTree = "<group>"; };
@@ -86,6 +87,7 @@
 				895B235F1BA64E7F00CB0CC2 /* modrm.h */,
 				895B23601BA6A0A800CB0CC2 /* asm.h */,
 				895B23611BA6A11D00CB0CC2 /* state.h */,
+				895B23621BA7A66200CB0CC2 /* assert.h */,
 			);
 			path = "template assembly";
 			sourceTree = "<group>";

@@ -19,7 +19,7 @@ using compile =
     fold<
         XXXX,
         ByteString<>,
-        typename call<program, pass2state<typename r1::state>>::value>;
+        typename call<program, pass2state<typename r1::first>>::second>;
 
 
 /**
@@ -52,29 +52,27 @@ constexpr auto Asm(x, xs...) {
 
 int main(int argc, const char * argv[]) {
     auto p = Asm<int>(
-        MOV(eax, dword<3>()),
+        MOV(eax, 3_d),
         JMP("a"_rel8),
-        ADD(eax, dword<2>()),
-        //MOV(eax, ebp),
-       // SUB(eax, esp),
-        "a"_label,
+        ADD(eax, 2_d),
+    "a"_label,
         RET());
 
     auto loop = Asm<int>(
-        MOV(ecx, dword<5>()),
-        MOV(eax, dword<0>()),
+        MOV(ecx, 5_d),
+        MOV(eax, 0_d),
     "start"_label,
-        CMP(ecx, dword<0>()),
+        CMP(ecx, 0_d),
         JE("done"_rel8),
-        ADD(eax, dword<5>()),
+        ADD(eax, 5_d),
         DEC(ecx),
         JMP("start"_rel8),
     "done"_label,
         RET());
 
     auto x = Asm<int>(
-        MOV(eax, dword<4>()),
-        SUB(eax, dword<1>()),
+        MOV(eax, 4_d),
+        SUB(eax, 1_d),
         MOV(ecx, eax),
         RET());
 

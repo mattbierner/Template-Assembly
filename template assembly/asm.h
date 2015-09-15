@@ -1,13 +1,6 @@
 #pragma once
 
-/**
-    State, instruction list pair
-*/
-template <typename s, typename x>
-struct Pair {
-    using state = s;
-    using value = x;
-};
+
 
 /**
 */
@@ -26,8 +19,8 @@ struct bind {
     template <typename s>
     struct apply {
         using left = call<p, s>;
-        using right = call<call<f, typename left::value>, typename left::state>;
-        using type = Pair<typename right::state, append<typename left::value, typename right::value>>;
+        using right = call<call<f, typename left::second>, typename left::first>;
+        using type = Pair<typename right::first, append<typename left::second, typename right::second>>;
     };
 };
 

@@ -51,3 +51,13 @@ struct P;
     Nothing type.
 */
 struct None {};
+
+
+/**
+    State, instruction list pair
+*/
+template <typename l, typename r>
+struct Pair {
+    using first = l;
+    using second = r;
+};
