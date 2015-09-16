@@ -22,13 +22,6 @@ constexpr auto operator+(Memory<size, reg, reg2, mult, disp>, Immediate<T, x>) {
     return Memory<size, reg, reg2, mult, disp + x>{};
 }
 
-/**
-*/
-template <char... values>
-constexpr auto operator ""_displacement() {
-    return typename Details::ImmediateFromString<typename word<0>::type, values...>::type{};
-}
-
 
 /**
 */
