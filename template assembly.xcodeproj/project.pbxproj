@@ -35,6 +35,7 @@
 		895B23631BA7E64C00CB0CC2 /* encoding.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = encoding.h; sourceTree = "<group>"; };
 		895B23641BA94A9900CB0CC2 /* instr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = instr.h; sourceTree = "<group>"; };
 		895B23651BA94A9900CB0CC2 /* list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = list.h; sourceTree = "<group>"; };
+		895B23661BA94EF200CB0CC2 /* asm_monad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = asm_monad.h; sourceTree = "<group>"; };
 		89B88E2F1BA4A53D005FFC09 /* template assembly */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "template assembly"; sourceTree = BUILT_PRODUCTS_DIR; };
 		89B88E321BA4A53D005FFC09 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		89CD33751BA4BCFB00902714 /* foldable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = foldable.h; sourceTree = "<group>"; };
@@ -90,6 +91,7 @@
 				895B23611BA6A11D00CB0CC2 /* state.h */,
 				895B23621BA7A66200CB0CC2 /* assert.h */,
 				895B23631BA7E64C00CB0CC2 /* encoding.h */,
+				895B23661BA94EF200CB0CC2 /* asm_monad.h */,
 			);
 			path = "template assembly";
 			sourceTree = "<group>";

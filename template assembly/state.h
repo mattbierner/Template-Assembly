@@ -29,7 +29,7 @@ struct BaseState {
     */
     template <typename newLabel>
     using add_label = self<index, cons<
-        SymbolTableEntry<newLabel, Offset<index>>,
+        SymbolTableEntry<newLabel, LabelOffset<index>>,
         labels>>;
 };
 

@@ -14,7 +14,7 @@ struct Scaling { };
     
     Suppored syntaxes:
     
-        _[ax]     [eax]
+        _[eax]    [eax]
         _[4_b]    [4]
  
         _[eax + 4_b]        4[eax]

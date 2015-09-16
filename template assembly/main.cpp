@@ -2,13 +2,25 @@
 
 #include <cassert>
 #include "asm.h"
-#include "label.h"
-#include "instr.h"
 
 template <typename A, typename B>
 void check_same(const char* msg, A x, B y) {
     if (!(x == y))
         std::cerr << msg << ": " << x << " != " << y  << std::endl;
+}
+
+template <typename Count, typename... Body>
+constexpr auto do_x_times(Count count, Body... body)
+{
+    return block(
+        MOV(ecx, count),
+    "start"_label,
+        CMP(ecx, 0_d),
+        JE("done"_rel8),
+        body...,
+        DEC(ecx),
+        JMP("start"_rel8),
+    "done"_label);
 }
 
 int main(int argc, const char * argv[]) {
@@ -52,6 +64,14 @@ int main(int argc, const char * argv[]) {
             DEC(ecx),
             JMP("start"_rel8),
         "done"_label,
+            RET())()
+    );
+    
+    check_same("Macro simple loop", 30,
+        Asm<int>(
+            MOV(eax, 0_d),
+            do_x_times(5_d,
+                ADD(eax, 6_d)),
             RET())()
     );
 

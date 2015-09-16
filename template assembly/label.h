@@ -1,7 +1,6 @@
 #pragma once
 
-#include "asm.h"
-#include "string.h"
+#include "list.h"
 
 /**
     Name used to identify an assembly label.
@@ -20,27 +19,14 @@ constexpr auto operator""_label() {
 };
 
 /**
-    Information about a label in assembly code.
-    
-    Includes the name used to identify the label in assembly + the relative
-    offset of the label in the program.
+    Relative offset of a label in a program.
 */
-template <typename n, size_t off>
-struct LabelData {
-    using name = n;
-    static constexpr size_t offset = off;
-};
-
 template <size_t x>
-struct Offset {
-    static constexpr size_t value = x;
-};
+using LabelOffset = std::integral_constant<size_t, x>;
 
 
-
-
-
-
+/**
+*/
 template <typename name>
 struct Rel8 { static constexpr size_t size = 1; };
 
