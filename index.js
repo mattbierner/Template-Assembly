@@ -5,7 +5,7 @@ var path = require('path');
 var xml2js = require('xml2js');
  
 var IN_FILE = 'x86_64.xml'
-var OUT_FILE = 'instr.h'
+var OUT_FILE = 'template assembly/instr.h'
 
 var prefix =
 `#pragma once

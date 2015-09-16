@@ -3,7 +3,7 @@
 #include <cassert>
 #include "asm.h"
 #include "label.h"
-#include "../instr.h"
+#include "instr.h"
 
 template <typename A, typename B>
 void check_same(const char* msg, A x, B y) {
