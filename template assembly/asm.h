@@ -1,4 +1,4 @@
-#pragma once
+ #pragma once
 
 #include "asm_monad.h"
 #include "byte_string.h"

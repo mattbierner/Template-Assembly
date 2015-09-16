@@ -1,6 +1,8 @@
 #pragma once
 
-#include "string.h"
+#include "byte_string.h"
+#include "functor.h"
+#include "list.h"
 
 namespace Details {
 
@@ -13,28 +15,22 @@ struct GetOffset : IntToBytes<1, static_cast<uint8_t>(labelOffset::value - s::in
 template <typename s>
 struct GetOffset<s, None> { using type = byte<0>; };
 
-
 /**
-    Rewrite an instruction to replace labels with relative offset.
+    Functor that rewrites instruction components to replace labels with relative offsets.
 */
-template <typename s, typename...>
+template <typename state>
 struct Rewrite {
-    using type = List<>;
-};
-
-template <typename s, typename x, typename... xs>
-struct Rewrite<s, x, xs...> {
-    using type = cons<x, typename Rewrite<s, xs...>::type>;
-};
-
-template <typename s, typename x, typename... xs>
-struct Rewrite<s, Rel8<x>, xs...> {
-    using label = typename s::template lookup_label<x>;
+    template <typename x>
+    struct apply {
+        using type = x;
+    };
     
-    using type = cons<typename GetOffset<s, label>::type, typename Rewrite<s, xs...>::type>;
+    template <typename x>
+    struct apply<Rel8<x>> :
+        GetOffset<state, typename state::template lookup_label<x>> {};
 };
 
-}
+} // Details
 
 /**
     Encodes a single, basic instruction as a series of bytes.
@@ -46,6 +42,6 @@ struct Instruction  {
     template <typename s>
     struct apply {
         using nexts = typename s::template inc<size>;
-        using type = Pair<nexts, typename Details::Rewrite<nexts, xs...>::type>;
+        using type = Pair<nexts, fmap<typename Details::Rewrite<nexts>, List<xs...>>>;
     };
 };

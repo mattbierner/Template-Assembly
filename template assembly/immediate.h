@@ -121,7 +121,7 @@ constexpr auto operator ""_w() {
 }
 
 /**
-    Asm dword literal
+    Asm dword literal.
 */
 template <int32_t x>
 using dword = Immediate<int32_t, x>;

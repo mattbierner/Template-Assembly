@@ -58,7 +58,7 @@ constexpr struct {
     */
     template <size_t size, size_t index>
     constexpr auto operator[](GeneralPurposeRegister<size, index> r) const {
-        return Memory<size, decltype(r), None, 0, 0> {};
+        return Memory<size, decltype(r), None, 0, 0>{};
     }
 
     /**
@@ -67,11 +67,11 @@ constexpr struct {
     template <size_t size, typename T, T x>
     constexpr auto operator[](Immediate<T, x>) const {
         static_assert(x < 0xffff, "Displacement too large");
-        return Memory<size, None, None, 0, x> {};
+        return Memory<size, None, None, 0, x>{};
     }
     
     /**
-        Identity.
+        Identity function to support syntax like `_[esp + 4_b]`
     */
     template <size_t size, typename reg, typename reg2, size_t mult, size_t disp>
     constexpr auto operator[](Memory<size, reg, reg2, mult, disp> mem) const {
@@ -80,11 +80,11 @@ constexpr struct {
 } _ { };
 
 /**
-    Add a displayment to memory.
+    Add displayment to memory.
 */
-template <size_t size, typename reg, typename reg2, size_t mult, size_t disp, typename T, T x>
-constexpr auto operator+(Memory<size, reg, reg2, mult, disp>, Immediate<T, x>) {
-    return Memory<size, reg, reg2, mult, disp + x>{};
+template <size_t size, typename reg1, typename reg2, size_t mult, size_t disp, typename T, T x>
+constexpr auto operator+(Memory<size, reg1, reg2, mult, disp>, Immediate<T, x>) {
+    return Memory<size, reg1, reg2, mult, disp + x>{};
 }
 
 template <size_t size, size_t index, typename T, T x>
