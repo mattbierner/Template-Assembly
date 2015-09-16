@@ -9,11 +9,11 @@ namespace Details {
 /**
     Get the offset of a label.
 */
-template <typename s, typename labelOffset>
-struct GetOffset : IntToBytes<1, static_cast<uint8_t>(labelOffset::value - s::index)> { };
+template <size_t size, typename state, typename labelOffset>
+struct GetOffset : IntToBytes<size, static_cast<uint8_t>(labelOffset::value - state::index)> { };
 
-template <typename s>
-struct GetOffset<s, None> { using type = byte<0>; };
+template <size_t size, typename state>
+struct GetOffset<size, state, None> : IntToBytes<size, 0> { };
 
 /**
     Functor that rewrites instruction components to replace labels with relative offsets.
@@ -27,7 +27,7 @@ struct Rewrite {
     
     template <typename x>
     struct apply<Rel8<x>> :
-        GetOffset<state, typename state::template lookup_label<x>> {};
+        GetOffset<1, state, typename state::template lookup_label<x>> {};
 };
 
 } // Details
@@ -35,13 +35,13 @@ struct Rewrite {
 /**
     Encodes a single, basic instruction as a series of bytes.
 */
-template <typename... xs>
+template <typename... components>
 struct Instruction  {
-    static constexpr size_t size = (... + xs::size);
+    static constexpr size_t size = (... + components::size);
     
-    template <typename s>
+    template <typename state>
     struct apply {
-        using nexts = typename s::template inc<size>;
-        using type = Pair<nexts, fmap<typename Details::Rewrite<nexts>, List<xs...>>>;
+        using next_state = typename state::template inc<size>;
+        using type = Pair<next_state, fmap<typename Details::Rewrite<next_state>, List<components...>>>;
     };
 };
