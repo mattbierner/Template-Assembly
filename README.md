@@ -1,8 +1,8 @@
-Stupid Template Tricks: Template Assembly
+### Stupid Template Tricks: Template Assembly
 
 Uses C++ templates to embed x86 assembly code directly in normal C++ at compile-time using a domain specific language.
 
-```
+```cpp
 // A simple loop with labels.
 Asm<int>(
     MOV(ecx, 5_d),
@@ -17,8 +17,8 @@ Asm<int>(
     RET());
 ```
 
-```
-// Accessing c++ args. Note memory access syntax.
+```cpp
+// Accessing c++ args. Note memory addressing syntax.
 Asm<int>(
     MOV(ecx, 4_d),
     MOV(eax, _[esp + 20_d][ecx * 2_b]),
@@ -38,14 +38,14 @@ This project is for demonstration purposes and only supports a super limited sub
 ## Usage
 `asm.h` includes all the files needed to write a basic program.
 
-```
+```cpp
 #include "asm.h"
 ```
 
 ### Basics
 `Asm` is the top level function that creates assembly code. This code acts like a functor with its implementation written in assembly language. `Asm` takes a single parmeter specifying the expected result type of the assembly code. 
 
-```
+```cpp
 auto assembly_program = Asm<int>(
     MOV(eax, 4_d),
     RET());
@@ -57,7 +57,7 @@ The assembly directives are provided in the body of `Asm`. Instructions are in i
 
 All the normal registers are available for use directly by name: `eax, esp, ...`. Immediate values are specified with user defined literals: `_b` for byte, `_w` for word, and `_d` for dword.
 
-```
+```cpp
 Asm<int>(
     MOV(ecx, 4_d)
     MOV(eax, ecx)
@@ -69,7 +69,7 @@ The size of the immediate must match the expected size of the operation (registe
 ### Labels
 You can also define labels and use labels with jump instructions.
 
-```
+```cpp
 auto jump_program = Asm<int>(
     MOV(eax, 4_d),
     JMP("a"_rel8),
@@ -86,7 +86,7 @@ It is a compile time error if you try to use a label that does not exist.
 ### Memory
 A few of the x86 addressing modes are supported in a syntax that emulates normal assembly as much as reasonable:
 
-```
+```cpp
 C++                       ASSEMBLY
 _[ax]                     [eax]
 _[4_b]                    [4]
@@ -104,10 +104,9 @@ In general, `_` converts a register to a memory address with the `[]` operator. 
 ### Macro-ish
 Because the assembly is written directly in normal C++, you can use metaprogramming to construct simple assembly macros for instructions or groups of instructions:
 
-```
+```cpp
 template <typename Count, typename... Body>
-constexpr auto do_x_times(Count count, Body... body)
-{
+constexpr auto do_x_times(Count count, Body... body) {
     return block(
         MOV(ecx, count),
     "start"_label,
@@ -120,7 +119,7 @@ constexpr auto do_x_times(Count count, Body... body)
 }
 ```
 
-```
+```cpp
 Asm<int>(
     MOV(eax, 0_d),
     do_x_times(5_d,
