@@ -27,11 +27,10 @@ int main(int argc, const char * argv[]) {
 
     auto x = Asm<int>(
       //  MOV(eax, 0_d),
-        MOV(eax, mem(eax)),
+        MOV(eax, mem(esp) + 28_d),
         RET());
-
-    
-  // P<decltype(x)::program> {};
+   
+ //   Print<decltype(x)::program> {};
     std::cout << p() << std::endl;
     std::cout << loop() << std::endl;
     

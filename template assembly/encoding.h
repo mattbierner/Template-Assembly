@@ -101,9 +101,22 @@ struct modrm<GeneralPurposeRegister<s, i>, Memory<size, None, None, mult, disp>>
 /// Memory reg1 only
 template <size_t s, size_t i, size_t size, typename reg, size_t mult, size_t disp>
 struct modrm<GeneralPurposeRegister<s, i>, Memory<size, reg, None, mult, disp>> {
-    using type = bytes_join<
-        make_modrm<Details::get_mode_for_disp(disp, false), GeneralPurposeRegister<s, i>::index, reg::index>,
-        typename Details::get_disp<disp, false>::type>;
+    template <size_t reg1Size, size_t reg1Index>
+    struct impl {
+        using type = bytes_join<
+            make_modrm<Details::get_mode_for_disp(disp, false), GeneralPurposeRegister<s, i>::index, reg::index>,
+            typename Details::get_disp<disp, false>::type>;
+    };
+    
+    template <size_t reg1Size> // esp
+    struct impl<reg1Size, 4> {
+        using type = bytes_join<
+            make_modrm<Details::get_mode_for_disp(disp, false), GeneralPurposeRegister<s, i>::index, reg::index>,
+            make_sib<0, 4, 4>,
+            typename Details::get_disp<disp, false>::type>;
+    };
+    
+    using type = typename impl<reg::size, reg::index>::type;
 };
 
 

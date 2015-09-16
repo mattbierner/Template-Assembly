@@ -1,9 +1,11 @@
 #pragma once
 
+#include "assert.h"
 #include "byte_string.h"
 #include "foldable.h"
 #include "list.h"
 #include "state.h"
+#include <type_traits>
 #include "utility.h"
 
 /**
@@ -56,7 +58,7 @@ struct AsmProgram {
     
     template <typename... Args>
     R operator()(Args... args) {
-        return ((R(*)(Args...))P::data)(args...);
+        return ((R(*)(std::decay_t<Args>...))P::data)(args...);
     }
 };
 

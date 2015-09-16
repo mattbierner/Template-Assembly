@@ -14,4 +14,4 @@ struct assert_is_same<a, a> { };
     Compile time print of type.
 */
 template <typename...>
-struct P;
+struct Print;
