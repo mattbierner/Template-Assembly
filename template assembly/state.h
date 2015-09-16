@@ -1,5 +1,6 @@
 #pragma once
 
+#include "label.h"
 #include "symbol_table.h"
 
 /**

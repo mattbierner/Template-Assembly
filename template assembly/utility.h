@@ -43,10 +43,6 @@ struct mfunc {
     using apply = identity<f<args...>>;
 };
 
-
-template <typename...>
-struct P;
-
 /**
     Nothing type.
 */

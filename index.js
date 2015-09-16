@@ -12,6 +12,7 @@ var prefix =
 #include "encoding.h"
 #include "immediate.h"
 #include "instruction.h"
+#include "memory.h"
 #include "register.h"
 #include "string.h"
 `;
@@ -20,15 +21,19 @@ var flatten = Function.prototype.apply.bind(Array.prototype.concat, []);
 
 var getOperandTemplateArgs = function(operand) {
     switch (operand.$.type) {
-    case 'imm8': return { type: 'byte', needs: ['int8_t'] };
-    case 'imm16': return { type: 'word', needs: ['int16_t'] };
-    case 'imm32': return { type: 'dword', needs: ['int32_t'] };
+    case 'imm8': return [{ type: 'byte', needs: ['int8_t'] }];
+    case 'imm16': return [{ type: 'word', needs: ['int16_t'] }];
+    case 'imm32': return [{ type: 'dword', needs: ['int32_t'] }];
 
-    case 'rel8': return { type: 'Rel8', needs: ['typename'] };
+    case 'rel8': return [{ type: 'Rel8', needs: ['typename'] }];
 
-    case 'r8': return { type: 'GeneralPurposeRegister', args: ['1'], needs: ['size_t'] };
-    case 'r16': return { type: 'GeneralPurposeRegister', args: ['2'], needs: ['size_t'] };
-    case 'r32': return { type: 'GeneralPurposeRegister', args: ['4'], needs: ['size_t'] };
+    case 'r8': return [{ type: 'GeneralPurposeRegister', args: ['1'], needs: ['size_t'] }];
+    case 'r16': return [{ type: 'GeneralPurposeRegister', args: ['2'], needs: ['size_t'] }];
+    case 'r32': return [{ type: 'GeneralPurposeRegister', args: ['4'], needs: ['size_t'] }];
+
+    case 'm8':  return [{ type: 'Memory', args: ['1'], needs: ['typename', 'typename', 'size_t', 'size_t'] }];
+    case 'm16': return [{ type: 'Memory', args: ['2'], needs: ['typename', 'typename', 'size_t', 'size_t'] }];
+    case 'm32': return [{ type: 'Memory', args: ['4'], needs: ['typename', 'typename', 'size_t', 'size_t'] }];
 
     case 'm128':
     case 'm256':
@@ -45,8 +50,13 @@ let padZero = (len, number) =>
         + number.toString(16);
 
 var toModRM = function(data, operands) {
+    return `typename modrm<${operands.map(argToName).join(', ')}>::type`;
     var mode = parseInt(data.mode, 2);
-    
+    if (data['mode-operand-number']) {
+        let index = data['mode-operand-number'];
+        let value = argToName(operands[index])
+        mode = `get_mode(${value}{})`
+    }
     var reg = data.reg;
     if (reg === undefined && data['reg-operand-number']) {
         let index = data['reg-operand-number'];
@@ -60,6 +70,28 @@ var toModRM = function(data, operands) {
         rm = `get_reg(${value}{})`
     }
     return `modrm<${mode}, ${reg}, ${rm}>`
+};
+
+var toRex = function(data, operands) {
+    var w = parseInt(data.w) || 0;
+    
+    var r = parseInt(data.r) || 0;
+    if (data['R-operand-number']) {
+        let index = data['R-operand-number'];
+        let value = argToName(operands[index]);
+        r = `get_rex_r(${value}{})`;
+    }
+    
+    var b = parseInt(data.b) || 0;
+    if (data['B-operand-number']) {
+        let index = data['B-operand-number'];
+        let value = argToName(operands[index]);
+        b = `get_rex_b(${value}{})`;
+    }
+    
+    var x = parseInt(data.x) || 0;
+    
+    return `rex<${w}, ${r}, ${b}, ${x}>`
 };
 
 
@@ -95,6 +127,11 @@ var getEncoding = function(encoding, ops) {
         modrm = toModRM(encoding.ModRM[0].$, ops);
     }
     
+    var rex = [];
+    if (encoding.REX) {
+        rex = toRex(encoding.REX[0].$, ops);
+    }
+    
     var opcode = [];
     if (encoding.Opcode) {
         opcode = encoding.Opcode.map(x => {
@@ -120,7 +157,7 @@ var getEncoding = function(encoding, ops) {
         let data = argToName(ops[index])
         immediate = `to_string<${size}, ${data}>`;
     }
-    let data = [].concat(prefix, opcode, modrm, codeOffset, immediate).join(', ');
+    let data = [].concat(prefix, rex, opcode, modrm, codeOffset, immediate).join(', ');
     return `Instruction<${data}>{}`
 };
 
@@ -139,8 +176,10 @@ var processForm = function(name, form) {
     };
      
     var aa = operands.map(getOperandTemplateArgs);
-    if (aa.some(x => x === null))
+    if (aa.some(x => x === null)) // check for unmapped args
         return '';
+    aa = flatten(aa);
+    
     
     var args = createNames(aa);
     var parameters = flatten(args.map(arg =>
