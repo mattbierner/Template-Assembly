@@ -18,6 +18,13 @@ int main(int argc, const char * argv[]) {
             RET())()
     );
     
+    check_same("Negative literal", -103,
+        Asm<int>(
+            MOV(eax, -3_d),
+            ADD(eax, - - -100_d),
+            RET())()
+    );
+    
     check_same("Simple jmp", 3,
         Asm<int>(
             MOV(eax, 3_d),
@@ -27,14 +34,14 @@ int main(int argc, const char * argv[]) {
             RET())()
     );
     
-    check_same("Simple loop", 25,
+    check_same("Simple loop", 30,
         Asm<int>(
             MOV(ecx, 5_d),
             MOV(eax, 0_d),
         "start"_label,
             CMP(ecx, 0_d),
             JE("done"_rel8),
-            ADD(eax, 5_d),
+            ADD(eax, 6_d),
             DEC(ecx),
             JMP("start"_rel8),
         "done"_label,
@@ -43,11 +50,11 @@ int main(int argc, const char * argv[]) {
 
     check_same("Access arg using esp", 1,
         Asm<int>(
-            MOV(eax, _[esp] + 28_d),
+            MOV(eax, _[esp + 28_d]),
             RET())(1, 2, 3)
     );
     
-    Print<decltype(_[esp + 10_b][ebp * 2_b])> {};
+   // Print<decltype(_[esp + 10_b][ebp * 2_b])> {};
     
    /*  auto p = Asm<int>(
         MOV(ebx, 1_d),

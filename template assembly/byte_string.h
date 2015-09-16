@@ -84,14 +84,14 @@ using bytes_pack = bytes_add<bytes_gen<size - s::size, '\0'>, s>;
 /**
     Convert a number to a byte string of `size` bytes.
 */
-template <size_t count, unsigned x>
+template <size_t count, long long x>
 struct IntToBytes {
     using type = bytes_add<
         ByteString<static_cast<char>(x & 0xff)>,
         typename IntToBytes<count - 1, (x >> 8)>::type>;
 };
 
-template <unsigned x>
+template <long long x>
 struct IntToBytes<0, x> {
     using type = ByteString<>;
 };
