@@ -21,6 +21,11 @@ constexpr auto operator+(Immediate<L, lx>, Immediate<R, rx>) {
 }
 
 template <typename L, L lx, typename R, R rx>
+constexpr auto operator*(Immediate<L, lx>, Immediate<R, rx>) {
+    return Immediate<L, static_cast<L>(lx * rx)>{};
+}
+
+template <typename L, L lx, typename R, R rx>
 constexpr auto operator-(Immediate<L, lx>, Immediate<R, rx>) {
     return Immediate<L, static_cast<R>(lx - rx)>{};
 }

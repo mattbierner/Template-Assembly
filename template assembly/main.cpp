@@ -43,10 +43,19 @@ int main(int argc, const char * argv[]) {
 
     check_same("Access arg using esp", 1,
         Asm<int>(
-            MOV(eax, mem(esp) + 28_d),
+            MOV(eax, _[esp] + 28_d),
             RET())(1, 2, 3)
     );
-   
+    
+    Print<decltype(_[esp + 10_b][ebp * 2_b])> {};
+    
+   /*  auto p = Asm<int>(
+        MOV(ebx, 1_d),
+        MOV(eax, mem(esp)[ebp][ebp]),
+        RET());
+
+    std::cout << p(1, 2, 3) << std::endl;
+   */
     std::cout << "done" << std::endl;
     return 0;
 }
