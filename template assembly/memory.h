@@ -38,7 +38,7 @@ struct Memory {
     */
     template <size_t rSize, size_t rIndex>
     constexpr auto operator[](GeneralPurposeRegister<rSize, rIndex> r) {
-        return operator[](Scaling<decltype(r), 0>{});
+        return operator[](Scaling<decltype(r), 1>{});
     }
     
     template <typename sBase, size_t sMult>

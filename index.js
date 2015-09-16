@@ -91,7 +91,7 @@ var toRex = function(data, operands) {
     
     var x = parseInt(data.x) || 0;
     
-    return `rex<${w}, ${r}, ${b}, ${x}>`
+    return `make_rex<${w}, ${r}, ${x}, ${b}>`
 };
 
 

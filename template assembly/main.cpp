@@ -25,6 +25,13 @@ int main(int argc, const char * argv[]) {
             RET())()
     );
     
+    check_same("Move reg to reg", 4,
+        Asm<int>(
+            MOV(ecx, 4_d),
+            MOV(eax, ecx),
+            RET())()
+    );
+    
     check_same("Simple jmp", 3,
         Asm<int>(
             MOV(eax, 3_d),
@@ -54,7 +61,41 @@ int main(int argc, const char * argv[]) {
             RET())(1, 2, 3)
     );
     
-   // Print<decltype(_[esp + 10_b][ebp * 2_b])> {};
+    check_same("Access second register zero", 1,
+        Asm<int>(
+            MOV(ecx, 0_d),
+            MOV(eax, _[esp + 28_d][ecx]),
+            RET())(1, 2, 3)
+    );
+    
+    check_same("Access second register with offset", 1,
+        Asm<int>(
+            MOV(ecx, 8_d),
+            MOV(eax, _[esp + 20_d][ecx]),
+            RET())(1, 2, 3)
+    );
+    
+    check_same("Access second register with offset and 1 scale", 1,
+        Asm<int>(
+            MOV(ecx, 8_d),
+            MOV(eax, _[esp + 20_d][ecx * 1_b]),
+            RET())(1, 2, 3)
+    );
+
+    check_same("Access second register with offset and 4 scale", 1,
+        Asm<int>(
+            MOV(ecx, 2_d),
+            MOV(eax, _[esp + 20_d][ecx * 4_b]),
+            RET())(1, 2, 3)
+    );
+
+
+       auto p = Asm<int>(
+            MOV(eax, _[ecx + 20_d][esp])//MOV(eax, eax),
+            //RET()
+        );
+    
+  //  Print<decltype(p)::program> {};
     
    /*  auto p = Asm<int>(
         MOV(ebx, 1_d),

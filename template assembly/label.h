@@ -15,7 +15,9 @@ struct Label {
 };
 
 template <typename T, T... chars>
-constexpr auto operator""_label() { return Label<chars...>{}; };
+constexpr auto operator""_label() {
+    return Label<chars...>{};
+};
 
 /**
     Information about a label in assembly code.
