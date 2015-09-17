@@ -23,10 +23,23 @@ constexpr auto do_x_times(Count count, Body... body)
     "done"_label);
 }
 
+int ret66()
+{
+return 66;
+}
+
+char str[] = "abc";
+
 int main(int argc, const char * argv[]) {
     check_same("Mov literal", 3,
         Asm<int>(
             MOV(eax, 3_d),
+            RET())()
+    );
+        
+    check_same("64 bit register MOV", 6,
+        Asm<int>(
+            MOV(rax, 6_q),
             RET())()
     );
     
@@ -108,22 +121,23 @@ int main(int argc, const char * argv[]) {
             MOV(eax, _[esp + 20_d][ecx * 4_b]),
             RET())(1, 2, 3)
     );
+    
+    check_same("", 6,
+        Asm<int>(
+            MOV(rax, 6_q),//_[rsp + 28_d][ecx]),
+        //    CALL(rax),
+            RET())()
+    );
 
 
        auto p = Asm<int>(
-            MOV(eax, _[ecx + 20_d][esp])//MOV(eax, eax),
+            MOV(rax, 6_q)//MOV(eax, eax),
             //RET()
         );
     
   //  Print<decltype(p)::program> {};
     
-   /*  auto p = Asm<int>(
-        MOV(ebx, 1_d),
-        MOV(eax, mem(esp)[ebp][ebp]),
-        RET());
 
-    std::cout << p(1, 2, 3) << std::endl;
-   */
     std::cout << "done" << std::endl;
     return 0;
 }

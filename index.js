@@ -19,24 +19,40 @@ const prefix =
 
 const flatten = Function.prototype.apply.bind(Array.prototype.concat, []);
 
-const getOperandTemplateArgs = function(operand) {
-    switch (operand.$.type) {
+const getOperandTemplateArgs = operand => {
+    const type = operand.$.type;
+
+    const r = type.match(/^r(\d+)$/)
+    if (r) {
+        if ([8, 16, 32, 64].indexOf(+r[1]) >= 0)
+            return [{
+                type: 'GeneralPurposeRegister',
+                args: [r[1] / 8],
+                needs: ['size_t']
+            }];
+        else
+            return null;
+    }
+
+    const m = type.match(/^m(\d+)$/)
+    if (m) {
+        if ([8, 16, 32, 64].indexOf(+m[1]) >= 0)
+            return [{
+                type: 'Memory',
+                args: [m[1] / 8],
+                needs: ['typename', 'typename', 'size_t', 'size_t']
+            }];
+        else
+            return null;
+    }
+
+    switch (type) {
     case 'imm8': return [{ type: 'byte', needs: ['int8_t'] }];
     case 'imm16': return [{ type: 'word', needs: ['int16_t'] }];
     case 'imm32': return [{ type: 'dword', needs: ['int32_t'] }];
+    case 'imm64': return [{ type: 'qword', needs: ['int64_t'] }];
 
     case 'rel8': return [{ type: 'Rel8', needs: ['typename'] }];
-
-    case 'r8': return [{ type: 'GeneralPurposeRegister', args: ['1'], needs: ['size_t'] }];
-    case 'r16': return [{ type: 'GeneralPurposeRegister', args: ['2'], needs: ['size_t'] }];
-    case 'r32': return [{ type: 'GeneralPurposeRegister', args: ['4'], needs: ['size_t'] }];
-
-    case 'm8':  return [{ type: 'Memory', args: ['1'], needs: ['typename', 'typename', 'size_t', 'size_t'] }];
-    case 'm16': return [{ type: 'Memory', args: ['2'], needs: ['typename', 'typename', 'size_t', 'size_t'] }];
-    case 'm32': return [{ type: 'Memory', args: ['4'], needs: ['typename', 'typename', 'size_t', 'size_t'] }];
-    case 'm64':
-    case 'm128':
-    case 'm256':
     
     case 'ymm':
     case 'xmm':
@@ -49,7 +65,7 @@ const toModRM = (data, operands) =>
     `typename modrm<${operands.map(argToName).join(', ')}>::type`;
 
 const toRex = (data, operands) => {
-    const wrxb = ['w', 'r', 'b', 'x'].map(key => {
+    const wrxb = ['W', 'R', 'B', 'X'].map(key => {
         let index = data[`${key}-operand-number`];
         if (index !== undefined) {
             let value = argToName(operands[index]);
@@ -137,8 +153,8 @@ const processForm = function(name, form) {
     if (!operands || operands.length === 0) {
         let encoding = getEncoding(form.Encoding[0], []);
         return `constexpr auto ${name}() {
-            return ${encoding};
-        };`;
+    return ${encoding};
+};`;
     };
      
     let aa = operands.map(getOperandTemplateArgs);
@@ -157,22 +173,22 @@ const processForm = function(name, form) {
     let encoding = getEncoding(form.Encoding[0], args);
 
     return `template <${parameters.join(', ')}>
-        constexpr auto ${name}(${special.join(', ')}) {
-            return ${encoding};
-        };`;
+constexpr auto ${name}(${special.join(', ')}) {
+    return ${encoding};
+};`;
 };
 
 const processInstruction = instruction => {
     const name = instruction.$.name;
     const forms = instruction.InstructionForm;
     return flatten(forms.map(
-        processForm.bind(null, name))).join('\n');
+        processForm.bind(null, name)));
 };
 
 const processInstructions = instructions =>
     flatten(instructions.map(processInstruction));
 
- 
+
 const writeResult = instructions => {
     const contents = prefix + instructions.join('\n');
     fs.writeFile(path.join(__dirname, OUT_FILE), contents, err => {
@@ -182,7 +198,7 @@ const writeResult = instructions => {
 };
  
  
- 
+
 const parser = new xml2js.Parser();
 
 fs.readFile(path.join(__dirname, IN_FILE), (err, data) => {

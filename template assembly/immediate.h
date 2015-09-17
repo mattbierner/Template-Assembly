@@ -131,6 +131,16 @@ constexpr auto operator ""_d() {
     return typename Details::ImmediateFromString<typename dword<0>::type, values...>::type{};
 }
 
+/**
+    Asm qword literal.
+*/
+template <int64_t x>
+using qword = Immediate<int64_t, x>;
+
+template <char... values>
+constexpr auto operator ""_q() {
+    return typename Details::ImmediateFromString<typename qword<0>::type, values...>::type{};
+}
 
 namespace {
 constexpr auto test_1_decimal = assert_is_same<byte<4>, decltype(4_b)>();

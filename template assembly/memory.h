@@ -101,3 +101,5 @@ template <size_t size, size_t index, typename T, T x>
 constexpr auto operator*(GeneralPurposeRegister<size, index> r, Immediate<T, x>) {
     return Scaling<decltype(r), x>{};
 }
+
+
