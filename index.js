@@ -149,9 +149,6 @@ const getEncoding = function(encoding, ops) {
 
 
 const processForm = function(name, form) {
-    if (form.ImplicitOperand)
-        return [];
-
     let operands = form.Operand;
     if (!operands || operands.length === 0) {
         let encoding = getEncoding(form.Encoding[0], []);
@@ -183,6 +180,10 @@ constexpr auto ${name}(${special.join(', ')}) {
 
 const processInstruction = instruction => {
     const name = instruction.$.name;
+    // Skip XLATB for now since its implicit operands generate duplicate symbols
+    if (name === 'XLATB')
+        return [];
+    
     const forms = instruction.InstructionForm;
     return flatten(forms.map(
         processForm.bind(null, name)));

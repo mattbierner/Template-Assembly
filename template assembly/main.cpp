@@ -152,7 +152,6 @@ int main(int argc, const char * argv[]) {
             RET())(&ret66)
     );
 
-
     auto p = Asm<int>(MOV(eax, _[ebp + 8_d]));
     
     //Print<decltype(p)::program> x{};

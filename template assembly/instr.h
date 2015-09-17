@@ -829,6 +829,15 @@ template <typename a, typename b, size_t c, Displacement d>
 constexpr auto CALL(Memory<8, a, b, c, d>) {
     return Instruction<make_rex<0,0,0,0>, Opcode<'\xFF'>, typename modrm<2, Memory<8, a, b, c, d>>::type>{};
 };
+constexpr auto CBW() {
+    return Instruction<Prefix<'\x66'>, Opcode<'\x98'>>{};
+};
+constexpr auto CDQ() {
+    return Instruction<Opcode<'\x99'>>{};
+};
+constexpr auto CDQE() {
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x98'>>{};
+};
 constexpr auto CLC() {
     return Instruction<Opcode<'\xF8'>>{};
 };
@@ -1694,6 +1703,16 @@ template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto CMPXCHG(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>) {
     return Instruction<make_rex<1,get_rex_r(GeneralPurposeRegister<8, e>{}),0,0>, Opcode<'\x0F'>, Opcode<'\xB1'>, typename modrm<-1, Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>>::type>{};
 };
+template <typename a, typename b, size_t c, Displacement d>
+constexpr auto CMPXCHG8B(Memory<8, a, b, c, d>) {
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x0F'>, Opcode<'\xC7'>, typename modrm<1, Memory<8, a, b, c, d>>::type>{};
+};
+constexpr auto CPUID() {
+    return Instruction<Opcode<'\x0F'>, Opcode<'\xA2'>>{};
+};
+constexpr auto CQO() {
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x99'>>{};
+};
 template <size_t a, size_t b>
 constexpr auto CRC32(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<1, b>) {
     return Instruction<Prefix<'\xF2'>, make_rex<0,get_rex_r(GeneralPurposeRegister<4, a>{}),get_rex_r(GeneralPurposeRegister<1, b>{}),0>, Opcode<'\x0F'>, Opcode<'\x38'>, Opcode<'\xF0'>, typename modrm<-1, GeneralPurposeRegister<4, a>, GeneralPurposeRegister<1, b>>::type>{};
@@ -1766,6 +1785,12 @@ template <size_t a, typename b, typename c, size_t d, Displacement e>
 constexpr auto CVTTSS2SI(GeneralPurposeRegister<8, a>, Memory<4, b, c, d, e>) {
     return Instruction<Prefix<'\xF3'>, make_rex<1,get_rex_r(GeneralPurposeRegister<8, a>{}),0,0>, Opcode<'\x0F'>, Opcode<'\x2C'>, typename modrm<-1, GeneralPurposeRegister<8, a>, Memory<4, b, c, d, e>>::type>{};
 };
+constexpr auto CWD() {
+    return Instruction<Prefix<'\x66'>, Opcode<'\x99'>>{};
+};
+constexpr auto CWDE() {
+    return Instruction<Opcode<'\x98'>>{};
+};
 template <size_t a>
 constexpr auto DEC(GeneralPurposeRegister<1, a>) {
     return Instruction<make_rex<0,0,get_rex_r(GeneralPurposeRegister<1, a>{}),0>, Opcode<'\xFE'>, typename modrm<1, GeneralPurposeRegister<1, a>>::type>{};
@@ -1798,11 +1823,107 @@ template <typename a, typename b, size_t c, Displacement d>
 constexpr auto DEC(Memory<8, a, b, c, d>) {
     return Instruction<make_rex<1,0,0,0>, Opcode<'\xFF'>, typename modrm<1, Memory<8, a, b, c, d>>::type>{};
 };
+template <size_t a>
+constexpr auto DIV(GeneralPurposeRegister<1, a>) {
+    return Instruction<make_rex<0,0,get_rex_r(GeneralPurposeRegister<1, a>{}),0>, Opcode<'\xF6'>, typename modrm<6, GeneralPurposeRegister<1, a>>::type>{};
+};
+template <size_t a>
+constexpr auto DIV(GeneralPurposeRegister<2, a>) {
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,get_rex_r(GeneralPurposeRegister<2, a>{}),0>, Opcode<'\xF7'>, typename modrm<6, GeneralPurposeRegister<2, a>>::type>{};
+};
+template <size_t a>
+constexpr auto DIV(GeneralPurposeRegister<4, a>) {
+    return Instruction<make_rex<0,0,get_rex_r(GeneralPurposeRegister<4, a>{}),0>, Opcode<'\xF7'>, typename modrm<6, GeneralPurposeRegister<4, a>>::type>{};
+};
+template <size_t a>
+constexpr auto DIV(GeneralPurposeRegister<8, a>) {
+    return Instruction<make_rex<1,0,get_rex_r(GeneralPurposeRegister<8, a>{}),0>, Opcode<'\xF7'>, typename modrm<6, GeneralPurposeRegister<8, a>>::type>{};
+};
+template <typename a, typename b, size_t c, Displacement d>
+constexpr auto DIV(Memory<1, a, b, c, d>) {
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xF6'>, typename modrm<6, Memory<1, a, b, c, d>>::type>{};
+};
+template <typename a, typename b, size_t c, Displacement d>
+constexpr auto DIV(Memory<2, a, b, c, d>) {
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xF7'>, typename modrm<6, Memory<2, a, b, c, d>>::type>{};
+};
+template <typename a, typename b, size_t c, Displacement d>
+constexpr auto DIV(Memory<4, a, b, c, d>) {
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xF7'>, typename modrm<6, Memory<4, a, b, c, d>>::type>{};
+};
+template <typename a, typename b, size_t c, Displacement d>
+constexpr auto DIV(Memory<8, a, b, c, d>) {
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\xF7'>, typename modrm<6, Memory<8, a, b, c, d>>::type>{};
+};
 constexpr auto EMMS() {
     return Instruction<Opcode<'\x0F'>, Opcode<'\x77'>>{};
 };
 constexpr auto FEMMS() {
     return Instruction<Opcode<'\x0F'>, Opcode<'\x0E'>>{};
+};
+template <size_t a>
+constexpr auto IDIV(GeneralPurposeRegister<1, a>) {
+    return Instruction<make_rex<0,0,get_rex_r(GeneralPurposeRegister<1, a>{}),0>, Opcode<'\xF6'>, typename modrm<7, GeneralPurposeRegister<1, a>>::type>{};
+};
+template <size_t a>
+constexpr auto IDIV(GeneralPurposeRegister<2, a>) {
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,get_rex_r(GeneralPurposeRegister<2, a>{}),0>, Opcode<'\xF7'>, typename modrm<7, GeneralPurposeRegister<2, a>>::type>{};
+};
+template <size_t a>
+constexpr auto IDIV(GeneralPurposeRegister<4, a>) {
+    return Instruction<make_rex<0,0,get_rex_r(GeneralPurposeRegister<4, a>{}),0>, Opcode<'\xF7'>, typename modrm<7, GeneralPurposeRegister<4, a>>::type>{};
+};
+template <size_t a>
+constexpr auto IDIV(GeneralPurposeRegister<8, a>) {
+    return Instruction<make_rex<1,0,get_rex_r(GeneralPurposeRegister<8, a>{}),0>, Opcode<'\xF7'>, typename modrm<7, GeneralPurposeRegister<8, a>>::type>{};
+};
+template <typename a, typename b, size_t c, Displacement d>
+constexpr auto IDIV(Memory<1, a, b, c, d>) {
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xF6'>, typename modrm<7, Memory<1, a, b, c, d>>::type>{};
+};
+template <typename a, typename b, size_t c, Displacement d>
+constexpr auto IDIV(Memory<2, a, b, c, d>) {
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xF7'>, typename modrm<7, Memory<2, a, b, c, d>>::type>{};
+};
+template <typename a, typename b, size_t c, Displacement d>
+constexpr auto IDIV(Memory<4, a, b, c, d>) {
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xF7'>, typename modrm<7, Memory<4, a, b, c, d>>::type>{};
+};
+template <typename a, typename b, size_t c, Displacement d>
+constexpr auto IDIV(Memory<8, a, b, c, d>) {
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\xF7'>, typename modrm<7, Memory<8, a, b, c, d>>::type>{};
+};
+template <size_t a>
+constexpr auto IMUL(GeneralPurposeRegister<1, a>) {
+    return Instruction<make_rex<0,0,get_rex_r(GeneralPurposeRegister<1, a>{}),0>, Opcode<'\xF6'>, typename modrm<5, GeneralPurposeRegister<1, a>>::type>{};
+};
+template <size_t a>
+constexpr auto IMUL(GeneralPurposeRegister<2, a>) {
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,get_rex_r(GeneralPurposeRegister<2, a>{}),0>, Opcode<'\xF7'>, typename modrm<5, GeneralPurposeRegister<2, a>>::type>{};
+};
+template <size_t a>
+constexpr auto IMUL(GeneralPurposeRegister<4, a>) {
+    return Instruction<make_rex<0,0,get_rex_r(GeneralPurposeRegister<4, a>{}),0>, Opcode<'\xF7'>, typename modrm<5, GeneralPurposeRegister<4, a>>::type>{};
+};
+template <size_t a>
+constexpr auto IMUL(GeneralPurposeRegister<8, a>) {
+    return Instruction<make_rex<1,0,get_rex_r(GeneralPurposeRegister<8, a>{}),0>, Opcode<'\xF7'>, typename modrm<5, GeneralPurposeRegister<8, a>>::type>{};
+};
+template <typename a, typename b, size_t c, Displacement d>
+constexpr auto IMUL(Memory<1, a, b, c, d>) {
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xF6'>, typename modrm<5, Memory<1, a, b, c, d>>::type>{};
+};
+template <typename a, typename b, size_t c, Displacement d>
+constexpr auto IMUL(Memory<2, a, b, c, d>) {
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xF7'>, typename modrm<5, Memory<2, a, b, c, d>>::type>{};
+};
+template <typename a, typename b, size_t c, Displacement d>
+constexpr auto IMUL(Memory<4, a, b, c, d>) {
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xF7'>, typename modrm<5, Memory<4, a, b, c, d>>::type>{};
+};
+template <typename a, typename b, size_t c, Displacement d>
+constexpr auto IMUL(Memory<8, a, b, c, d>) {
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\xF7'>, typename modrm<5, Memory<8, a, b, c, d>>::type>{};
 };
 template <size_t a, size_t b>
 constexpr auto IMUL(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>) {
@@ -1937,6 +2058,10 @@ constexpr auto JE(Rel8<a>) {
     return Instruction<Opcode<'\x74'>, Rel8<a>>{};
 };
 template <typename a>
+constexpr auto JECXZ(Rel8<a>) {
+    return Instruction<Opcode<'\xE3'>, Rel8<a>>{};
+};
+template <typename a>
 constexpr auto JG(Rel8<a>) {
     return Instruction<Opcode<'\x7F'>, Rel8<a>>{};
 };
@@ -2035,6 +2160,10 @@ constexpr auto JPE(Rel8<a>) {
 template <typename a>
 constexpr auto JPO(Rel8<a>) {
     return Instruction<Opcode<'\x7B'>, Rel8<a>>{};
+};
+template <typename a>
+constexpr auto JRCXZ(Rel8<a>) {
+    return Instruction<Opcode<'\xE3'>, Rel8<a>>{};
 };
 template <typename a>
 constexpr auto JS(Rel8<a>) {
@@ -2281,6 +2410,54 @@ constexpr auto MOVZX(GeneralPurposeRegister<8, a>, Memory<1, b, c, d, e>) {
 template <size_t a, typename b, typename c, size_t d, Displacement e>
 constexpr auto MOVZX(GeneralPurposeRegister<8, a>, Memory<2, b, c, d, e>) {
     return Instruction<make_rex<1,get_rex_r(GeneralPurposeRegister<8, a>{}),0,0>, Opcode<'\x0F'>, Opcode<'\xB7'>, typename modrm<-1, GeneralPurposeRegister<8, a>, Memory<2, b, c, d, e>>::type>{};
+};
+template <size_t a>
+constexpr auto MUL(GeneralPurposeRegister<1, a>) {
+    return Instruction<make_rex<0,0,get_rex_r(GeneralPurposeRegister<1, a>{}),0>, Opcode<'\xF6'>, typename modrm<4, GeneralPurposeRegister<1, a>>::type>{};
+};
+template <size_t a>
+constexpr auto MUL(GeneralPurposeRegister<2, a>) {
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,get_rex_r(GeneralPurposeRegister<2, a>{}),0>, Opcode<'\xF7'>, typename modrm<4, GeneralPurposeRegister<2, a>>::type>{};
+};
+template <size_t a>
+constexpr auto MUL(GeneralPurposeRegister<4, a>) {
+    return Instruction<make_rex<0,0,get_rex_r(GeneralPurposeRegister<4, a>{}),0>, Opcode<'\xF7'>, typename modrm<4, GeneralPurposeRegister<4, a>>::type>{};
+};
+template <size_t a>
+constexpr auto MUL(GeneralPurposeRegister<8, a>) {
+    return Instruction<make_rex<1,0,get_rex_r(GeneralPurposeRegister<8, a>{}),0>, Opcode<'\xF7'>, typename modrm<4, GeneralPurposeRegister<8, a>>::type>{};
+};
+template <typename a, typename b, size_t c, Displacement d>
+constexpr auto MUL(Memory<1, a, b, c, d>) {
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xF6'>, typename modrm<4, Memory<1, a, b, c, d>>::type>{};
+};
+template <typename a, typename b, size_t c, Displacement d>
+constexpr auto MUL(Memory<2, a, b, c, d>) {
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xF7'>, typename modrm<4, Memory<2, a, b, c, d>>::type>{};
+};
+template <typename a, typename b, size_t c, Displacement d>
+constexpr auto MUL(Memory<4, a, b, c, d>) {
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xF7'>, typename modrm<4, Memory<4, a, b, c, d>>::type>{};
+};
+template <typename a, typename b, size_t c, Displacement d>
+constexpr auto MUL(Memory<8, a, b, c, d>) {
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\xF7'>, typename modrm<4, Memory<8, a, b, c, d>>::type>{};
+};
+template <size_t a, size_t b, size_t c>
+constexpr auto MULX(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, GeneralPurposeRegister<4, c>) {
+    return Instruction<Opcode<'\xF6'>, typename modrm<-1, GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, GeneralPurposeRegister<4, c>>::type>{};
+};
+template <size_t a, size_t b, typename c, typename d, size_t e, Displacement f>
+constexpr auto MULX(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, Memory<4, c, d, e, f>) {
+    return Instruction<Opcode<'\xF6'>, typename modrm<-1, GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, Memory<4, c, d, e, f>>::type>{};
+};
+template <size_t a, size_t b, size_t c>
+constexpr auto MULX(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, GeneralPurposeRegister<8, c>) {
+    return Instruction<Opcode<'\xF6'>, typename modrm<-1, GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, GeneralPurposeRegister<8, c>>::type>{};
+};
+template <size_t a, size_t b, typename c, typename d, size_t e, Displacement f>
+constexpr auto MULX(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, Memory<8, c, d, e, f>) {
+    return Instruction<Opcode<'\xF6'>, typename modrm<-1, GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, Memory<8, c, d, e, f>>::type>{};
 };
 template <size_t a>
 constexpr auto NEG(GeneralPurposeRegister<1, a>) {
@@ -2663,6 +2840,12 @@ constexpr auto RDSEED(GeneralPurposeRegister<4, a>) {
 template <size_t a>
 constexpr auto RDSEED(GeneralPurposeRegister<8, a>) {
     return Instruction<make_rex<1,0,get_rex_r(GeneralPurposeRegister<8, a>{}),0>, Opcode<'\x0F'>, Opcode<'\xC7'>, typename modrm<7, GeneralPurposeRegister<8, a>>::type>{};
+};
+constexpr auto RDTSC() {
+    return Instruction<Opcode<'\x0F'>, Opcode<'\x31'>>{};
+};
+constexpr auto RDTSCP() {
+    return Instruction<Opcode<'\x0F'>, Opcode<'\x01'>, Opcode<'\xF9'>>{};
 };
 constexpr auto RET() {
     return Instruction<Opcode<'\xC3'>>{};
@@ -3684,6 +3867,9 @@ constexpr auto XCHG(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto XCHG(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>) {
     return Instruction<make_rex<1,get_rex_r(GeneralPurposeRegister<8, e>{}),0,0>, Opcode<'\x87'>, typename modrm<-1, Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>>::type>{};
+};
+constexpr auto XGETBV() {
+    return Instruction<Opcode<'\x0F'>, Opcode<'\x01'>, Opcode<'\xD0'>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto XOR(GeneralPurposeRegister<1, a>, byte<b>) {
