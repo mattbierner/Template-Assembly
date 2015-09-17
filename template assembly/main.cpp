@@ -9,6 +9,12 @@ void check_same(const char* msg, A x, B y) {
         std::cerr << msg << ": " << x << " != " << y  << std::endl;
 }
 
+template <typename A, typename B>
+void check_same(const char* msg, A* x, B* y) {
+    if (!(x == y))
+        printf("%s: %p != %p\n", msg, x, y);
+}
+
 template <typename Count, typename... Body>
 constexpr auto do_x_times(Count count, Body... body)
 {
@@ -23,10 +29,7 @@ constexpr auto do_x_times(Count count, Body... body)
     "done"_label);
 }
 
-int ret66()
-{
-return 66;
-}
+int ret66() { return 66; }
 
 char str[] = "abc";
 
@@ -94,6 +97,12 @@ int main(int argc, const char * argv[]) {
             RET())(1, 2, 3)
     );
     
+    check_same("Access arg with 64 bit reg", 2,
+        Asm<int>(
+            MOV(rax, _[rsp + 24_d]),
+            RET())(1, 2, 3)
+    );
+    
     check_same("Access second register zero", 1,
         Asm<int>(
             MOV(ecx, 0_d),
@@ -122,21 +131,21 @@ int main(int argc, const char * argv[]) {
             RET())(1, 2, 3)
     );
     
-    check_same("", 6,
+    check_same("Call c function from assembly", 66,
         Asm<int>(
-            MOV(rax, 6_q),//_[rsp + 28_d][ecx]),
-        //    CALL(rax),
-            RET())()
+            MOV(rax, _[rsp + 8_d]),
+            CALL(rax),
+            RET())(&ret66)
     );
 
+    check_same("Call c function from assembly memory directly", 66,
+        Asm<int>(
+            CALL(_[rsp + 8_d]),
+            RET())(&ret66)
+    );
 
-       auto p = Asm<int>(
-            MOV(rax, 6_q)//MOV(eax, eax),
-            //RET()
-        );
-    
-  //  Print<decltype(p)::program> {};
-    
+ //   auto p = Asm<int>(CALL(_[rsp + 8_d]));
+   // Print<decltype(p)::program> x{};
 
     std::cout << "done" << std::endl;
     return 0;

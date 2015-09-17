@@ -61,8 +61,11 @@ const getOperandTemplateArgs = operand => {
     return null;
 };
 
-const toModRM = (data, operands) =>
-    `typename modrm<${operands.map(argToName).join(', ')}>::type`;
+const toModRM = (data, operands) => {
+    const reg = data.reg === undefined ? -1 : data.reg;
+    const names = operands.map(argToName).join(', ');
+    return `typename modrm<${reg}, ${names}>::type`;
+};
 
 const toRex = (data, operands) => {
     const wrxb = ['W', 'R', 'B', 'X'].map(key => {

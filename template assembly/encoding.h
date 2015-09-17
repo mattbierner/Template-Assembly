@@ -61,13 +61,13 @@ using Opcode = ByteString<codes...>;
     Construct a modm byte.
 */
 template <unsigned mode, unsigned reg, unsigned rm>
-using make_modrm = typename IntToBytes<1, (mode << 6) + (reg << 3) + rm>::type;
+using make_modrm = typename IntToBytes<1, ((mode & 0b11) << 6) + ((reg & 0b111) << 3) + (rm & 0b111)>::type;
 
 /**
     Construct a sib byte.
 */
 template <unsigned scale, unsigned index, unsigned base>
-using make_sib = typename IntToBytes<1, (scale << 6) + (index << 3) + base>::type;
+using make_sib = typename IntToBytes<1, ((scale & 0b11) << 6) + ((index & 0b111) << 3) + (base & 0b111)>::type;
 
 /**
     Construct a rex byte.
@@ -75,29 +75,36 @@ using make_sib = typename IntToBytes<1, (scale << 6) + (index << 3) + base>::typ
 template <bool w, bool r, bool x, bool b>
 using make_rex = typename IntToBytes<1, (0b0100 << 4) + (w << 3) + (r << 2) + (x << 1) + b>::type;
 
-
-
 /**
     Build the modrm section of an instruction from the operands.
 */
-template <typename... operands>
+template <int code, typename... operands>
 struct modrm;
 
-template <size_t s, size_t i>
-struct modrm<GeneralPurposeRegister<s, i>> {
-    using type = make_modrm<0b11, 0b01, GeneralPurposeRegister<s, i>::index>;
+// Register only
+template <size_t code, size_t s, size_t i>
+struct modrm<code, GeneralPurposeRegister<s, i>> {
+    using type = make_modrm<0b11, code, GeneralPurposeRegister<s, i>::index>;
+};
+
+/// Memory only
+template <size_t code, size_t size, typename reg1, size_t mult, size_t disp>
+struct modrm<code, Memory<size, reg1, None, mult, disp>> {
+    using type = bytes_join<
+        make_modrm<Details::get_mode_for_disp(disp, true), code, reg1::index>,
+        make_sib<0, 4, 4>,
+        typename Details::get_disp<disp, true>::type>;
 };
 
 /// Register - Immediate
-template <size_t s, size_t i, typename T, T x>
-struct modrm<GeneralPurposeRegister<s, i>, Immediate<T, x>> {
-    using type = make_modrm<0b11, 0, GeneralPurposeRegister<s, i>::index>;
+template <int code, size_t s, size_t i, typename T, T x>
+struct modrm<code, GeneralPurposeRegister<s, i>, Immediate<T, x>> {
+    using type = make_modrm<0b11, code, GeneralPurposeRegister<s, i>::index>;
 };
 
 /// Register - Registers
 template <size_t s1, size_t i1, size_t s2, size_t i2>
-struct modrm<GeneralPurposeRegister<s1, i1>, GeneralPurposeRegister<s2, i2>> {
-
+struct modrm<-1, GeneralPurposeRegister<s1, i1>, GeneralPurposeRegister<s2, i2>> {
     using type = make_modrm<0b11,
         GeneralPurposeRegister<s2, i2>::index,
         GeneralPurposeRegister<s1, i1>::index>;
@@ -105,7 +112,7 @@ struct modrm<GeneralPurposeRegister<s1, i1>, GeneralPurposeRegister<s2, i2>> {
 
 /// Register - Memory displacement only
 template <size_t s, size_t i, size_t size, size_t mult, size_t disp>
-struct modrm<GeneralPurposeRegister<s, i>, Memory<size, None, None, mult, disp>> {
+struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, None, None, mult, disp>> {
     using type = bytes_join<
         make_modrm<0, GeneralPurposeRegister<s, i>::index, 4>,
         ByteString<'\x25'>,
@@ -114,7 +121,7 @@ struct modrm<GeneralPurposeRegister<s, i>, Memory<size, None, None, mult, disp>>
 
 /// Register - Memory reg1 only
 template <size_t s, size_t i, size_t size, typename reg, size_t mult, size_t disp>
-struct modrm<GeneralPurposeRegister<s, i>, Memory<size, reg, None, mult, disp>> {
+struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, reg, None, mult, disp>> {
     template <size_t reg1Size, size_t reg1Index>
     struct impl {
         using type = bytes_join<
@@ -136,7 +143,7 @@ struct modrm<GeneralPurposeRegister<s, i>, Memory<size, reg, None, mult, disp>> 
 
 /// Register - Memory reg1 and reg2
 template <size_t s, size_t i, size_t size, typename reg, typename reg2, size_t mult, size_t disp>
-struct modrm<GeneralPurposeRegister<s, i>, Memory<size, reg, reg2, mult, disp>> {
+struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, reg, reg2, mult, disp>> {
 
     template <size_t reg2Index, typename _>
     struct impl {
