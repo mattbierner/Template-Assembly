@@ -9,6 +9,8 @@
 template <typename base, size_t mult>
 struct Scaling { };
 
+using Displacement = int32_t;
+
 /**
     Asm memory address.
     
@@ -29,7 +31,7 @@ template <
     typename reg1,
     typename reg2,
     size_t mult,
-    size_t disp>
+    Displacement disp>
 struct Memory {
     static_assert(mult == 0 || mult == 1 || mult == 2 || mult == 4 || mult == 8, "Invalid scale.");
     
@@ -64,7 +66,7 @@ constexpr struct {
     /**
         Displayment only address.
     */
-    template <size_t size, typename T, T x>
+    template <Displacement size, typename T, T x>
     constexpr auto operator[](Immediate<T, x>) const {
         static_assert(x < 0xffff, "Displacement too large");
         return Memory<size, None, None, 0, x>{};
@@ -73,7 +75,7 @@ constexpr struct {
     /**
         Identity function to support syntax like `_[esp + 4_b]`
     */
-    template <size_t size, typename reg, typename reg2, size_t mult, size_t disp>
+    template <size_t size, typename reg, typename reg2, size_t mult, Displacement disp>
     constexpr auto operator[](Memory<size, reg, reg2, mult, disp> mem) const {
         return mem;
     }
@@ -82,7 +84,7 @@ constexpr struct {
 /**
     Add displayment to memory.
 */
-template <size_t size, typename reg1, typename reg2, size_t mult, size_t disp, typename T, T x>
+template <size_t size, typename reg1, typename reg2, size_t mult, Displacement disp, typename T, T x>
 constexpr auto operator+(Memory<size, reg1, reg2, mult, disp>, Immediate<T, x>) {
     return Memory<size, reg1, reg2, mult, disp + x>{};
 }
@@ -90,6 +92,19 @@ constexpr auto operator+(Memory<size, reg1, reg2, mult, disp>, Immediate<T, x>) 
 template <size_t size, size_t index, typename T, T x>
 constexpr auto operator+(GeneralPurposeRegister<size, index> r, Immediate<T, x> disp) {
     return _[r] + disp;
+}
+
+/**
+    Add negative displayment to memory.
+*/
+template <size_t size, typename reg1, typename reg2, size_t mult, Displacement disp, typename T, T x>
+constexpr auto operator-(Memory<size, reg1, reg2, mult, disp>, Immediate<T, x>) {
+    return Memory<size, reg1, reg2, mult, disp - x>{};
+}
+
+template <size_t size, size_t index, typename T, T x>
+constexpr auto operator-(GeneralPurposeRegister<size, index> r, Immediate<T, x> disp) {
+    return _[r] - disp;
 }
 
 /**

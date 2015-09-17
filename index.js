@@ -40,7 +40,7 @@ const getOperandTemplateArgs = operand => {
             return [{
                 type: 'Memory',
                 args: [m[1] / 8],
-                needs: ['typename', 'typename', 'size_t', 'size_t']
+                needs: ['typename', 'typename', 'size_t', 'Displacement']
             }];
         else
             return null;

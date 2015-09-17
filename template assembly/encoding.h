@@ -16,16 +16,16 @@ constexpr unsigned get_index(GeneralPurposeRegister<s, i>) {
     return GeneralPurposeRegister<s, i>::index;
 }
 
-constexpr unsigned get_mode_for_disp(unsigned disp, bool needsDisp) {
+constexpr unsigned get_mode_for_disp(Displacement disp, bool needsDisp) {
     if (disp == 0 && !needsDisp)
         return 0b00;
-    else if (disp > 0xff)
+    else if (disp > 0xff || disp < -0xff)
         return 0b10;
     else
         return 0b01;
 };
 
-template <size_t disp, bool needsDisp>
+template <Displacement disp, bool needsDisp>
 struct get_disp : IntToBytes< (disp > 0xff) ? 4 : 1, disp> {};
 
 template <>
@@ -88,7 +88,7 @@ struct modrm<code, GeneralPurposeRegister<s, i>> {
 };
 
 /// Memory only
-template <size_t code, size_t size, typename reg1, size_t mult, size_t disp>
+template <size_t code, size_t size, typename reg1, size_t mult, Displacement disp>
 struct modrm<code, Memory<size, reg1, None, mult, disp>> {
     using type = bytes_join<
         make_modrm<Details::get_mode_for_disp(disp, true), code, reg1::index>,
@@ -111,7 +111,7 @@ struct modrm<-1, GeneralPurposeRegister<s1, i1>, GeneralPurposeRegister<s2, i2>>
 };
 
 /// Register - Memory displacement only
-template <size_t s, size_t i, size_t size, size_t mult, size_t disp>
+template <size_t s, size_t i, size_t size, size_t mult, Displacement disp>
 struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, None, None, mult, disp>> {
     using type = bytes_join<
         make_modrm<0, GeneralPurposeRegister<s, i>::index, 4>,
@@ -120,7 +120,7 @@ struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, None, None, mult, di
 };
 
 /// Register - Memory reg1 only
-template <size_t s, size_t i, size_t size, typename reg, size_t mult, size_t disp>
+template <size_t s, size_t i, size_t size, typename reg, size_t mult, Displacement disp>
 struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, reg, None, mult, disp>> {
     template <size_t reg1Size, size_t reg1Index>
     struct impl {
@@ -138,11 +138,20 @@ struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, reg, None, mult, dis
             typename Details::get_disp<disp, true>::type>;
     };
     
+       
+    /// reg1 == ebp special case
+    template <size_t reg1Size>
+    struct impl<reg1Size, 5> {
+        using type = bytes_join<
+            make_modrm<Details::get_mode_for_disp(disp, true), GeneralPurposeRegister<s, i>::index, reg::index>,
+            typename Details::get_disp<disp, true>::type>;
+    };
+    
     using type = typename impl<reg::size, reg::index>::type;
 };
 
 /// Register - Memory reg1 and reg2
-template <size_t s, size_t i, size_t size, typename reg, typename reg2, size_t mult, size_t disp>
+template <size_t s, size_t i, size_t size, typename reg, typename reg2, size_t mult, Displacement disp>
 struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, reg, reg2, mult, disp>> {
 
     template <size_t reg2Index, typename _>
@@ -161,6 +170,7 @@ struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, reg, reg2, mult, dis
             make_sib<Details::to_sib_scale(mult), reg2::index, reg::index>,
             typename Details::get_disp<disp, true>::type>;
     };
+    
     
     using type = typename impl<reg::index, void>::type;
 };

@@ -97,6 +97,14 @@ int main(int argc, const char * argv[]) {
             RET())(1, 2, 3)
     );
     
+    check_same("Access arg using ebp", 6,
+        Asm<int>(
+            MOV(eax, _[ebp - 0xc_b]),
+            ADD(eax, _[ebp - 0x10_b]),
+            ADD(eax, _[ebp - 0x14_b]),
+            RET())(1, 2, 3)
+    );
+    
     check_same("Access arg with 64 bit reg", 2,
         Asm<int>(
             MOV(rax, _[rsp + 24_d]),
@@ -144,8 +152,10 @@ int main(int argc, const char * argv[]) {
             RET())(&ret66)
     );
 
- //   auto p = Asm<int>(CALL(_[rsp + 8_d]));
-   // Print<decltype(p)::program> x{};
+
+    auto p = Asm<int>(MOV(eax, _[ebp + 8_d]));
+    
+    //Print<decltype(p)::program> x{};
 
     std::cout << "done" << std::endl;
     return 0;

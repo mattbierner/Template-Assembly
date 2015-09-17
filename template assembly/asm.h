@@ -25,7 +25,7 @@ struct AsmProgram {
     
     template <typename... Args>
     R operator()(Args... args) {
-        return ((R(__cdecl*)(std::decay_t<Args>...))P::data)(args...);
+        return ((R(*)(std::decay_t<Args>...))P::data)(args...);
     }
 };
 
