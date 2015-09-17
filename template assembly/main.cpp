@@ -97,12 +97,15 @@ int main(int argc, const char * argv[]) {
             RET())(1, 2, 3)
     );
     
-    check_same("Access arg using ebp", 6,
+    check_same("Access arg using ebp", 5,
         Asm<int>(
+            MOV(edx, 0_d),
             MOV(eax, _[ebp - 0xc_b]),
-            ADD(eax, _[ebp - 0x10_b]),
-            ADD(eax, _[ebp - 0x14_b]),
-            RET())(1, 2, 3)
+            MOV(ecx, _[ebp - 0x10_b]),
+            DIV(ecx),
+            MOV(ecx, _[ebp - 0x14_b]),
+            DIV(ecx),
+            RET())(100, 5, 4)
     );
     
     check_same("Access arg with 64 bit reg", 2,
