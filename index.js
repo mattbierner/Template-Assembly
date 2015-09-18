@@ -68,14 +68,19 @@ const toModRM = (data, operands) => {
 };
 
 const toRex = (data, operands) => {
-    const wrxb = ['W', 'R', 'B', 'X'].map(key => {
-        let index = data[`${key}-operand-number`];
-        if (index !== undefined) {
-            let value = argToName(operands[index]);
-            return `get_rex_r(${value}{})`;
-        }
-        return parseInt(data[key]) || 0;
-    });
+    const getRegxValues = keys =>
+        keys.map(key => {
+            let index = data[`${key}-operand-number`];
+            if (index !== undefined) {
+                let value = argToName(operands[index]);
+                return `get_rex_${key.toLowerCase()}(${value}{})`;
+            }
+            return parseInt(data[key]) || 0;
+        });
+
+    //if (data['BX-operand-number']) { }
+
+    const wrxb = getRegxValues(['W', 'R', 'X', 'B']);
     return `make_rex<${wrxb.join(',')}>`
 };
 

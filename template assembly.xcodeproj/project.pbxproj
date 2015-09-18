@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		890A5F781BABEA4000CDA636 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 890A5F771BABEA4000CDA636 /* README.md */; };
 		89B88E331BA4A53D005FFC09 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 89B88E321BA4A53D005FFC09 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +24,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		890A5F771BABEA4000CDA636 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		895B23571BA4DCD200CB0CC2 /* symbol_table.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = symbol_table.h; sourceTree = "<group>"; };
 		895B235A1BA4F2F500CB0CC2 /* instruction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = instruction.h; sourceTree = "<group>"; };
 		895B235B1BA4F4B000CB0CC2 /* immediate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = immediate.h; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 		89B88E261BA4A53D005FFC09 = {
 			isa = PBXGroup;
 			children = (
+				890A5F771BABEA4000CDA636 /* README.md */,
 				89B88E311BA4A53D005FFC09 /* template assembly */,
 				89B88E301BA4A53D005FFC09 /* Products */,
 			);
@@ -152,6 +155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				890A5F781BABEA4000CDA636 /* README.md in Sources */,
 				89B88E331BA4A53D005FFC09 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

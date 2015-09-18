@@ -97,7 +97,20 @@ int main(int argc, const char * argv[]) {
             RET())(1, 2, 3)
     );
     
-    check_same("Access arg using ebp", 5,
+    check_same("Access arg using ebp", 1,
+        Asm<int>(
+            MOV(eax, _[ebp - 0xc_b]),
+            RET())(1, 2, 3)
+    );
+    
+    check_same("Index ebp", 1,
+        Asm<int>(
+            MOV(ecx, 2_d),
+            MOV(eax, _[ebp + ecx * 2_b - 0x10_d]),
+            RET())(1, 2, 3)
+    );
+    
+    check_same("Access args using ebp", 5,
         Asm<int>(
             MOV(edx, 0_d),
             MOV(eax, _[ebp - 0xc_b]),
@@ -117,28 +130,28 @@ int main(int argc, const char * argv[]) {
     check_same("Access second register zero", 1,
         Asm<int>(
             MOV(ecx, 0_d),
-            MOV(eax, _[esp + 28_d][ecx]),
+            MOV(eax, _[esp + 28_d + ecx]),
             RET())(1, 2, 3)
     );
     
     check_same("Access second register with offset", 1,
         Asm<int>(
             MOV(ecx, 8_d),
-            MOV(eax, _[esp + 20_d][ecx]),
+            MOV(eax, _[esp + 20_d + ecx]),
             RET())(1, 2, 3)
     );
     
     check_same("Access second register with offset and 1 scale", 1,
         Asm<int>(
             MOV(ecx, 8_d),
-            MOV(eax, _[esp + 20_d][ecx * 1_b]),
+            MOV(eax, _[esp + 20_d + ecx * 1_b]),
             RET())(1, 2, 3)
     );
 
     check_same("Access second register with offset and 4 scale", 1,
         Asm<int>(
             MOV(ecx, 2_d),
-            MOV(eax, _[esp + 20_d][ecx * 4_b]),
+            MOV(eax, _[esp + 20_d + ecx * 4_b]),
             RET())(1, 2, 3)
     );
     
@@ -155,9 +168,8 @@ int main(int argc, const char * argv[]) {
             RET())(&ret66)
     );
 
-    auto p = Asm<int>(MOV(eax, _[ebp + 8_d]));
-    
-    //Print<decltype(p)::program> x{};
+   // auto p = Asm<int>(MOV(eax, _[ebp + ecx * 2_b]));
+ //  Print<decltype(p)::program> x{};
 
     std::cout << "done" << std::endl;
     return 0;

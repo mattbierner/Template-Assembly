@@ -18,12 +18,18 @@ Asm<int>(
 ```
 
 ```cpp
-// Accessing c++ args. Note memory addressing syntax.
+// Accessing c++ args.
 Asm<int>(
-    MOV(ecx, 4_d),
-    MOV(eax, _[esp + 20_d][ecx * 2_b]),
+    MOV(eax, _[ebp - 0xc_b]),
     RET()
-)(1, 2, 3);
+)(1, 2, 3); // 2
+
+// Index memory addressing.
+Asm<int>(
+    MOV(ecx, 2_d),
+    MOV(eax, _[ebp + 0x14_b + ecx * 2]),
+    RET()
+)(1, 2, 3); // 2
 ```
 
 ## About
@@ -88,18 +94,18 @@ A few of the x86 addressing modes are supported in a syntax that emulates normal
 
 ```cpp
 C++                       ASSEMBLY
-_[ax]                     [eax]
+_[eax]                    [eax]
 _[4_b]                    [4]
 
-_[eax + 4_b]              4[eax]
+_[eax + 4_b]              [eax + 4]
 
-_[eax][ecx]               [eax][ecx]
-_[eax + 4_b][ecx]         4[eax][ecx]
-_[eax][ecx * 2_b]         [eax][ecx * 2]
-_[eax + 4_b][ecx * 2_b]   4[eax][ecx * 2]
+_[eax + ecx]              [eax + ecx]
+_[eax + 4_b + ecx]        [eax + 4 + ecx]
+_[eax + ecx * 2_b]        [eax + ecx * 2]
+_[eax + 4_b + ecx * 2_b]  [eax + 4 + ecx * 2]
 ```
 
-In general, `_` converts a register to a memory address with the `[]` operator. A second `[]` operator adds scaling. Memory addresses are overloaded to use the `+` operator for displacements. All displacements and scales must use user defined literals (`_b`, `_w`, `_d`) instead of raw literals. 
+In general, `_` converts a register to a memory address with the `[]` operator. Memory addresses are overloaded to use the `+` operator for displacements. Multiplication creates a scaled index. All displacements and scales must use user defined literals (`_b`, `_w`, `_d`) instead of raw literals. 
 
 ### Macro-ish
 Because the assembly is written directly in normal C++, you can use metaprogramming to construct simple assembly macros for instructions or groups of instructions:

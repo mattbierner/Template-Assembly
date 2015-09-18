@@ -19,12 +19,12 @@ using Displacement = int32_t;
         _[eax]    [eax]
         _[4_b]    [4]
  
-        _[eax + 4_b]        4[eax]
+        _[eax + 4_b]        [eax + 4]
  
-        _[eax][ecx]         [eax][ecx]
-        _[eax + 4_b][ecx]   4[eax][ecx]
-        _[eax][ecx * 2_b]        [eax][ecx * 2]
-        _[eax + 4_b][ecx * 2_b]     4[eax][ecx * 2]
+        _[eax + ecx]         [eax + ecx]
+        _[eax + 4_b + ecx]   [eax + 4 + ecx]
+        _[eax + ecx * 2_b]        [eax + ecx * 2]
+        _[eax + 4_b + ecx * 2_b]     [eax + 4 + ecx * 2]
 */
 template <
     size_t size,
@@ -34,21 +34,6 @@ template <
     Displacement disp>
 struct Memory {
     static_assert(mult == 0 || mult == 1 || mult == 2 || mult == 4 || mult == 8, "Invalid scale.");
-    
-    /**
-        Scale the memory adddress.
-    */
-    template <size_t rSize, size_t rIndex>
-    constexpr auto operator[](GeneralPurposeRegister<rSize, rIndex> r) {
-        return operator[](Scaling<decltype(r), 1>{});
-    }
-    
-    template <typename sBase, size_t sMult>
-    constexpr auto operator[](Scaling<sBase, sMult>) {
-        static_assert(!std::is_same<reg1, None>::value, "Scale requires register.");
-        static_assert(std::is_same<reg2, None>::value, "Only single scale allowed.");
-        return Memory<size, reg1, sBase, sMult, disp>{};
-    }
 };
 
 /**
@@ -109,12 +94,29 @@ constexpr auto operator-(GeneralPurposeRegister<size, index> r, Immediate<T, x> 
 
 /**
     Create a scaling factor.
-    
-    Should be used within a subscript operator to create a scaled memory address.
 */
 template <size_t size, size_t index, typename T, T x>
 constexpr auto operator*(GeneralPurposeRegister<size, index> r, Immediate<T, x>) {
     return Scaling<decltype(r), x>{};
 }
 
+/**
+    Offset with scaling.
+*/
+template <size_t size, typename reg1, Displacement disp, typename reg2, size_t scaling>
+constexpr auto operator+(Memory<size, reg1, None, 0, disp>, Scaling<reg2, scaling>) {
+    return Memory<size, reg1, reg2, scaling, disp>{};
+}
 
+template <size_t size, size_t index, typename base, size_t mult>
+constexpr auto operator+(GeneralPurposeRegister<size, index> r, Scaling<base, mult> scaling) {
+    return _[r] + scaling;
+}
+
+/**
+    Offset register.
+*/
+template <size_t size, typename reg1, Displacement disp, size_t reg2Size, size_t reg2Index>
+constexpr auto operator+(Memory<size, reg1, None, 0, disp> m, GeneralPurposeRegister<reg2Size, reg2Index> r) {
+    return m + r * 1_d;
+}
