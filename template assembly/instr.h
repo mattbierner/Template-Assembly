@@ -7,7 +7,7 @@
 #include "string.h"
 template <size_t a, int8_t b>
 constexpr auto ADC(GeneralPurposeRegister<1, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\x80'>, typename modrm<2, GeneralPurposeRegister<1, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\x80'>, typename modrm<2, GeneralPurposeRegister<1, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto ADC(GeneralPurposeRegister<1, a>, GeneralPurposeRegister<1, b>) {
@@ -19,11 +19,11 @@ constexpr auto ADC(GeneralPurposeRegister<1, a>, Memory<1, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto ADC(GeneralPurposeRegister<2, a>, byte<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x83'>, typename modrm<2, GeneralPurposeRegister<2, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x83'>, typename modrm<2, GeneralPurposeRegister<2, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int16_t b>
 constexpr auto ADC(GeneralPurposeRegister<2, a>, word<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x81'>, typename modrm<2, GeneralPurposeRegister<2, a>, word<b>>::type, to_string<2, word<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x81'>, typename modrm<2, GeneralPurposeRegister<2, a>, word<b>>::type, to_bytes<word<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto ADC(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>) {
@@ -35,11 +35,11 @@ constexpr auto ADC(GeneralPurposeRegister<2, a>, Memory<2, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto ADC(GeneralPurposeRegister<4, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x83'>, typename modrm<2, GeneralPurposeRegister<4, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x83'>, typename modrm<2, GeneralPurposeRegister<4, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int32_t b>
 constexpr auto ADC(GeneralPurposeRegister<4, a>, dword<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x81'>, typename modrm<2, GeneralPurposeRegister<4, a>, dword<b>>::type, to_string<4, dword<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x81'>, typename modrm<2, GeneralPurposeRegister<4, a>, dword<b>>::type, to_bytes<dword<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto ADC(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>) {
@@ -51,11 +51,11 @@ constexpr auto ADC(GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto ADC(GeneralPurposeRegister<8, a>, byte<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x83'>, typename modrm<2, GeneralPurposeRegister<8, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x83'>, typename modrm<2, GeneralPurposeRegister<8, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int32_t b>
 constexpr auto ADC(GeneralPurposeRegister<8, a>, dword<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x81'>, typename modrm<2, GeneralPurposeRegister<8, a>, dword<b>>::type, to_string<4, dword<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x81'>, typename modrm<2, GeneralPurposeRegister<8, a>, dword<b>>::type, to_bytes<dword<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto ADC(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -67,7 +67,7 @@ constexpr auto ADC(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto ADC(Memory<1, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x80'>, typename modrm<2, Memory<1, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x80'>, typename modrm<2, Memory<1, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto ADC(Memory<1, a, b, c, d>, GeneralPurposeRegister<1, e>) {
@@ -75,11 +75,11 @@ constexpr auto ADC(Memory<1, a, b, c, d>, GeneralPurposeRegister<1, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto ADC(Memory<2, a, b, c, d>, byte<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<2, Memory<2, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<2, Memory<2, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int16_t e>
 constexpr auto ADC(Memory<2, a, b, c, d>, word<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<2, Memory<2, a, b, c, d>, word<e>>::type, to_string<2, word<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<2, Memory<2, a, b, c, d>, word<e>>::type, to_bytes<word<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto ADC(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
@@ -87,11 +87,11 @@ constexpr auto ADC(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto ADC(Memory<4, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<2, Memory<4, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<2, Memory<4, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int32_t e>
 constexpr auto ADC(Memory<4, a, b, c, d>, dword<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<2, Memory<4, a, b, c, d>, dword<e>>::type, to_string<4, dword<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<2, Memory<4, a, b, c, d>, dword<e>>::type, to_bytes<dword<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto ADC(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
@@ -99,11 +99,11 @@ constexpr auto ADC(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto ADC(Memory<8, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\x83'>, typename modrm<2, Memory<8, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x83'>, typename modrm<2, Memory<8, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int32_t e>
 constexpr auto ADC(Memory<8, a, b, c, d>, dword<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\x81'>, typename modrm<2, Memory<8, a, b, c, d>, dword<e>>::type, to_string<4, dword<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x81'>, typename modrm<2, Memory<8, a, b, c, d>, dword<e>>::type, to_bytes<dword<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto ADC(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>) {
@@ -127,7 +127,7 @@ constexpr auto ADCX(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto ADD(GeneralPurposeRegister<1, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\x80'>, typename modrm<0, GeneralPurposeRegister<1, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\x80'>, typename modrm<0, GeneralPurposeRegister<1, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto ADD(GeneralPurposeRegister<1, a>, GeneralPurposeRegister<1, b>) {
@@ -139,11 +139,11 @@ constexpr auto ADD(GeneralPurposeRegister<1, a>, Memory<1, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto ADD(GeneralPurposeRegister<2, a>, byte<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x83'>, typename modrm<0, GeneralPurposeRegister<2, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x83'>, typename modrm<0, GeneralPurposeRegister<2, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int16_t b>
 constexpr auto ADD(GeneralPurposeRegister<2, a>, word<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x81'>, typename modrm<0, GeneralPurposeRegister<2, a>, word<b>>::type, to_string<2, word<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x81'>, typename modrm<0, GeneralPurposeRegister<2, a>, word<b>>::type, to_bytes<word<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto ADD(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>) {
@@ -155,11 +155,11 @@ constexpr auto ADD(GeneralPurposeRegister<2, a>, Memory<2, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto ADD(GeneralPurposeRegister<4, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x83'>, typename modrm<0, GeneralPurposeRegister<4, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x83'>, typename modrm<0, GeneralPurposeRegister<4, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int32_t b>
 constexpr auto ADD(GeneralPurposeRegister<4, a>, dword<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x81'>, typename modrm<0, GeneralPurposeRegister<4, a>, dword<b>>::type, to_string<4, dword<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x81'>, typename modrm<0, GeneralPurposeRegister<4, a>, dword<b>>::type, to_bytes<dword<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto ADD(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>) {
@@ -171,11 +171,11 @@ constexpr auto ADD(GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto ADD(GeneralPurposeRegister<8, a>, byte<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x83'>, typename modrm<0, GeneralPurposeRegister<8, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x83'>, typename modrm<0, GeneralPurposeRegister<8, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int32_t b>
 constexpr auto ADD(GeneralPurposeRegister<8, a>, dword<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x81'>, typename modrm<0, GeneralPurposeRegister<8, a>, dword<b>>::type, to_string<4, dword<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x81'>, typename modrm<0, GeneralPurposeRegister<8, a>, dword<b>>::type, to_bytes<dword<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto ADD(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -187,7 +187,7 @@ constexpr auto ADD(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto ADD(Memory<1, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x80'>, typename modrm<0, Memory<1, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x80'>, typename modrm<0, Memory<1, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto ADD(Memory<1, a, b, c, d>, GeneralPurposeRegister<1, e>) {
@@ -195,11 +195,11 @@ constexpr auto ADD(Memory<1, a, b, c, d>, GeneralPurposeRegister<1, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto ADD(Memory<2, a, b, c, d>, byte<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<0, Memory<2, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<0, Memory<2, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int16_t e>
 constexpr auto ADD(Memory<2, a, b, c, d>, word<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<0, Memory<2, a, b, c, d>, word<e>>::type, to_string<2, word<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<0, Memory<2, a, b, c, d>, word<e>>::type, to_bytes<word<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto ADD(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
@@ -207,11 +207,11 @@ constexpr auto ADD(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto ADD(Memory<4, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<0, Memory<4, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<0, Memory<4, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int32_t e>
 constexpr auto ADD(Memory<4, a, b, c, d>, dword<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<0, Memory<4, a, b, c, d>, dword<e>>::type, to_string<4, dword<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<0, Memory<4, a, b, c, d>, dword<e>>::type, to_bytes<dword<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto ADD(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
@@ -219,11 +219,11 @@ constexpr auto ADD(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto ADD(Memory<8, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\x83'>, typename modrm<0, Memory<8, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x83'>, typename modrm<0, Memory<8, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int32_t e>
 constexpr auto ADD(Memory<8, a, b, c, d>, dword<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\x81'>, typename modrm<0, Memory<8, a, b, c, d>, dword<e>>::type, to_string<4, dword<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x81'>, typename modrm<0, Memory<8, a, b, c, d>, dword<e>>::type, to_bytes<dword<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto ADD(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>) {
@@ -247,7 +247,7 @@ constexpr auto ADOX(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto AND(GeneralPurposeRegister<1, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\x80'>, typename modrm<4, GeneralPurposeRegister<1, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\x80'>, typename modrm<4, GeneralPurposeRegister<1, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto AND(GeneralPurposeRegister<1, a>, GeneralPurposeRegister<1, b>) {
@@ -259,11 +259,11 @@ constexpr auto AND(GeneralPurposeRegister<1, a>, Memory<1, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto AND(GeneralPurposeRegister<2, a>, byte<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x83'>, typename modrm<4, GeneralPurposeRegister<2, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x83'>, typename modrm<4, GeneralPurposeRegister<2, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int16_t b>
 constexpr auto AND(GeneralPurposeRegister<2, a>, word<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x81'>, typename modrm<4, GeneralPurposeRegister<2, a>, word<b>>::type, to_string<2, word<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x81'>, typename modrm<4, GeneralPurposeRegister<2, a>, word<b>>::type, to_bytes<word<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto AND(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>) {
@@ -275,11 +275,11 @@ constexpr auto AND(GeneralPurposeRegister<2, a>, Memory<2, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto AND(GeneralPurposeRegister<4, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x83'>, typename modrm<4, GeneralPurposeRegister<4, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x83'>, typename modrm<4, GeneralPurposeRegister<4, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int32_t b>
 constexpr auto AND(GeneralPurposeRegister<4, a>, dword<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x81'>, typename modrm<4, GeneralPurposeRegister<4, a>, dword<b>>::type, to_string<4, dword<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x81'>, typename modrm<4, GeneralPurposeRegister<4, a>, dword<b>>::type, to_bytes<dword<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto AND(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>) {
@@ -291,11 +291,11 @@ constexpr auto AND(GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto AND(GeneralPurposeRegister<8, a>, byte<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x83'>, typename modrm<4, GeneralPurposeRegister<8, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x83'>, typename modrm<4, GeneralPurposeRegister<8, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int32_t b>
 constexpr auto AND(GeneralPurposeRegister<8, a>, dword<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x81'>, typename modrm<4, GeneralPurposeRegister<8, a>, dword<b>>::type, to_string<4, dword<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x81'>, typename modrm<4, GeneralPurposeRegister<8, a>, dword<b>>::type, to_bytes<dword<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto AND(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -307,7 +307,7 @@ constexpr auto AND(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto AND(Memory<1, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x80'>, typename modrm<4, Memory<1, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x80'>, typename modrm<4, Memory<1, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto AND(Memory<1, a, b, c, d>, GeneralPurposeRegister<1, e>) {
@@ -315,11 +315,11 @@ constexpr auto AND(Memory<1, a, b, c, d>, GeneralPurposeRegister<1, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto AND(Memory<2, a, b, c, d>, byte<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<4, Memory<2, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<4, Memory<2, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int16_t e>
 constexpr auto AND(Memory<2, a, b, c, d>, word<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<4, Memory<2, a, b, c, d>, word<e>>::type, to_string<2, word<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<4, Memory<2, a, b, c, d>, word<e>>::type, to_bytes<word<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto AND(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
@@ -327,11 +327,11 @@ constexpr auto AND(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto AND(Memory<4, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<4, Memory<4, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<4, Memory<4, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int32_t e>
 constexpr auto AND(Memory<4, a, b, c, d>, dword<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<4, Memory<4, a, b, c, d>, dword<e>>::type, to_string<4, dword<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<4, Memory<4, a, b, c, d>, dword<e>>::type, to_bytes<dword<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto AND(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
@@ -339,11 +339,11 @@ constexpr auto AND(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto AND(Memory<8, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\x83'>, typename modrm<4, Memory<8, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x83'>, typename modrm<4, Memory<8, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int32_t e>
 constexpr auto AND(Memory<8, a, b, c, d>, dword<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\x81'>, typename modrm<4, Memory<8, a, b, c, d>, dword<e>>::type, to_string<4, dword<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x81'>, typename modrm<4, Memory<8, a, b, c, d>, dword<e>>::type, to_bytes<dword<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto AND(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>) {
@@ -367,7 +367,7 @@ constexpr auto ANDN(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, 
 };
 template <size_t a, size_t b, int32_t c>
 constexpr auto BEXTR(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, dword<c>) {
-    return Instruction<Opcode<'\x10'>, typename modrm<-1, GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, dword<c>>::type, to_string<4, dword<c>>>{};
+    return Instruction<Opcode<'\x10'>, typename modrm<-1, GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, dword<c>>::type, to_bytes<dword<c>>>{};
 };
 template <size_t a, size_t b, size_t c>
 constexpr auto BEXTR(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, GeneralPurposeRegister<4, c>) {
@@ -375,7 +375,7 @@ constexpr auto BEXTR(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>,
 };
 template <size_t a, typename b, typename c, size_t d, Displacement e, int32_t f>
 constexpr auto BEXTR(GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>, dword<f>) {
-    return Instruction<Opcode<'\x10'>, typename modrm<-1, GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>, dword<f>>::type, to_string<4, dword<f>>>{};
+    return Instruction<Opcode<'\x10'>, typename modrm<-1, GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>, dword<f>>::type, to_bytes<dword<f>>>{};
 };
 template <size_t a, typename b, typename c, size_t d, Displacement e, size_t f>
 constexpr auto BEXTR(GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>, GeneralPurposeRegister<4, f>) {
@@ -383,7 +383,7 @@ constexpr auto BEXTR(GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>, Genera
 };
 template <size_t a, size_t b, int32_t c>
 constexpr auto BEXTR(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, dword<c>) {
-    return Instruction<Opcode<'\x10'>, typename modrm<-1, GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, dword<c>>::type, to_string<4, dword<c>>>{};
+    return Instruction<Opcode<'\x10'>, typename modrm<-1, GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, dword<c>>::type, to_bytes<dword<c>>>{};
 };
 template <size_t a, size_t b, size_t c>
 constexpr auto BEXTR(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, GeneralPurposeRegister<8, c>) {
@@ -391,7 +391,7 @@ constexpr auto BEXTR(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>,
 };
 template <size_t a, typename b, typename c, size_t d, Displacement e, int32_t f>
 constexpr auto BEXTR(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>, dword<f>) {
-    return Instruction<Opcode<'\x10'>, typename modrm<-1, GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>, dword<f>>::type, to_string<4, dword<f>>>{};
+    return Instruction<Opcode<'\x10'>, typename modrm<-1, GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>, dword<f>>::type, to_bytes<dword<f>>>{};
 };
 template <size_t a, typename b, typename c, size_t d, Displacement e, size_t f>
 constexpr auto BEXTR(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>, GeneralPurposeRegister<8, f>) {
@@ -615,7 +615,7 @@ constexpr auto BSWAP(GeneralPurposeRegister<8, a>) {
 };
 template <size_t a, int8_t b>
 constexpr auto BT(GeneralPurposeRegister<2, a>, byte<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<4, GeneralPurposeRegister<2, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<4, GeneralPurposeRegister<2, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto BT(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>) {
@@ -623,7 +623,7 @@ constexpr auto BT(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>) {
 };
 template <size_t a, int8_t b>
 constexpr auto BT(GeneralPurposeRegister<4, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<4, GeneralPurposeRegister<4, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<4, GeneralPurposeRegister<4, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto BT(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>) {
@@ -631,7 +631,7 @@ constexpr auto BT(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>) {
 };
 template <size_t a, int8_t b>
 constexpr auto BT(GeneralPurposeRegister<8, a>, byte<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<4, GeneralPurposeRegister<8, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<4, GeneralPurposeRegister<8, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto BT(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -639,7 +639,7 @@ constexpr auto BT(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto BT(Memory<2, a, b, c, d>, byte<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<4, Memory<2, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<4, Memory<2, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto BT(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
@@ -647,7 +647,7 @@ constexpr auto BT(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto BT(Memory<4, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<4, Memory<4, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<4, Memory<4, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto BT(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
@@ -655,7 +655,7 @@ constexpr auto BT(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto BT(Memory<8, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<4, Memory<8, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<4, Memory<8, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto BT(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>) {
@@ -663,7 +663,7 @@ constexpr auto BT(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto BTC(GeneralPurposeRegister<2, a>, byte<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<7, GeneralPurposeRegister<2, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<7, GeneralPurposeRegister<2, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto BTC(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>) {
@@ -671,7 +671,7 @@ constexpr auto BTC(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>) {
 };
 template <size_t a, int8_t b>
 constexpr auto BTC(GeneralPurposeRegister<4, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<7, GeneralPurposeRegister<4, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<7, GeneralPurposeRegister<4, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto BTC(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>) {
@@ -679,7 +679,7 @@ constexpr auto BTC(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>) {
 };
 template <size_t a, int8_t b>
 constexpr auto BTC(GeneralPurposeRegister<8, a>, byte<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<7, GeneralPurposeRegister<8, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<7, GeneralPurposeRegister<8, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto BTC(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -687,7 +687,7 @@ constexpr auto BTC(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto BTC(Memory<2, a, b, c, d>, byte<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<7, Memory<2, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<7, Memory<2, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto BTC(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
@@ -695,7 +695,7 @@ constexpr auto BTC(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto BTC(Memory<4, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<7, Memory<4, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<7, Memory<4, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto BTC(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
@@ -703,7 +703,7 @@ constexpr auto BTC(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto BTC(Memory<8, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<7, Memory<8, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<7, Memory<8, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto BTC(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>) {
@@ -711,7 +711,7 @@ constexpr auto BTC(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto BTR(GeneralPurposeRegister<2, a>, byte<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<6, GeneralPurposeRegister<2, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<6, GeneralPurposeRegister<2, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto BTR(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>) {
@@ -719,7 +719,7 @@ constexpr auto BTR(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>) {
 };
 template <size_t a, int8_t b>
 constexpr auto BTR(GeneralPurposeRegister<4, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<6, GeneralPurposeRegister<4, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<6, GeneralPurposeRegister<4, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto BTR(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>) {
@@ -727,7 +727,7 @@ constexpr auto BTR(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>) {
 };
 template <size_t a, int8_t b>
 constexpr auto BTR(GeneralPurposeRegister<8, a>, byte<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<6, GeneralPurposeRegister<8, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<6, GeneralPurposeRegister<8, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto BTR(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -735,7 +735,7 @@ constexpr auto BTR(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto BTR(Memory<2, a, b, c, d>, byte<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<6, Memory<2, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<6, Memory<2, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto BTR(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
@@ -743,7 +743,7 @@ constexpr auto BTR(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto BTR(Memory<4, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<6, Memory<4, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<6, Memory<4, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto BTR(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
@@ -751,7 +751,7 @@ constexpr auto BTR(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto BTR(Memory<8, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<6, Memory<8, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<6, Memory<8, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto BTR(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>) {
@@ -759,7 +759,7 @@ constexpr auto BTR(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto BTS(GeneralPurposeRegister<2, a>, byte<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<5, GeneralPurposeRegister<2, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<5, GeneralPurposeRegister<2, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto BTS(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>) {
@@ -767,7 +767,7 @@ constexpr auto BTS(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>) {
 };
 template <size_t a, int8_t b>
 constexpr auto BTS(GeneralPurposeRegister<4, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<5, GeneralPurposeRegister<4, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<5, GeneralPurposeRegister<4, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto BTS(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>) {
@@ -775,7 +775,7 @@ constexpr auto BTS(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>) {
 };
 template <size_t a, int8_t b>
 constexpr auto BTS(GeneralPurposeRegister<8, a>, byte<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<5, GeneralPurposeRegister<8, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<5, GeneralPurposeRegister<8, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto BTS(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -783,7 +783,7 @@ constexpr auto BTS(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto BTS(Memory<2, a, b, c, d>, byte<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<5, Memory<2, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<5, Memory<2, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto BTS(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
@@ -791,7 +791,7 @@ constexpr auto BTS(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto BTS(Memory<4, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<5, Memory<4, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<5, Memory<4, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto BTS(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
@@ -799,7 +799,7 @@ constexpr auto BTS(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto BTS(Memory<8, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<5, Memory<8, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x0F'>, Opcode<'\xBA'>, typename modrm<5, Memory<8, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto BTS(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>) {
@@ -1569,7 +1569,7 @@ constexpr auto CMOVZ(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto CMP(GeneralPurposeRegister<1, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\x80'>, typename modrm<7, GeneralPurposeRegister<1, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\x80'>, typename modrm<7, GeneralPurposeRegister<1, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto CMP(GeneralPurposeRegister<1, a>, GeneralPurposeRegister<1, b>) {
@@ -1581,11 +1581,11 @@ constexpr auto CMP(GeneralPurposeRegister<1, a>, Memory<1, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto CMP(GeneralPurposeRegister<2, a>, byte<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x83'>, typename modrm<7, GeneralPurposeRegister<2, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x83'>, typename modrm<7, GeneralPurposeRegister<2, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int16_t b>
 constexpr auto CMP(GeneralPurposeRegister<2, a>, word<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x81'>, typename modrm<7, GeneralPurposeRegister<2, a>, word<b>>::type, to_string<2, word<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x81'>, typename modrm<7, GeneralPurposeRegister<2, a>, word<b>>::type, to_bytes<word<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto CMP(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>) {
@@ -1597,11 +1597,11 @@ constexpr auto CMP(GeneralPurposeRegister<2, a>, Memory<2, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto CMP(GeneralPurposeRegister<4, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x83'>, typename modrm<7, GeneralPurposeRegister<4, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x83'>, typename modrm<7, GeneralPurposeRegister<4, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int32_t b>
 constexpr auto CMP(GeneralPurposeRegister<4, a>, dword<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x81'>, typename modrm<7, GeneralPurposeRegister<4, a>, dword<b>>::type, to_string<4, dword<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x81'>, typename modrm<7, GeneralPurposeRegister<4, a>, dword<b>>::type, to_bytes<dword<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto CMP(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>) {
@@ -1613,11 +1613,11 @@ constexpr auto CMP(GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto CMP(GeneralPurposeRegister<8, a>, byte<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x83'>, typename modrm<7, GeneralPurposeRegister<8, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x83'>, typename modrm<7, GeneralPurposeRegister<8, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int32_t b>
 constexpr auto CMP(GeneralPurposeRegister<8, a>, dword<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x81'>, typename modrm<7, GeneralPurposeRegister<8, a>, dword<b>>::type, to_string<4, dword<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x81'>, typename modrm<7, GeneralPurposeRegister<8, a>, dword<b>>::type, to_bytes<dword<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto CMP(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -1629,7 +1629,7 @@ constexpr auto CMP(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto CMP(Memory<1, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x80'>, typename modrm<7, Memory<1, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x80'>, typename modrm<7, Memory<1, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto CMP(Memory<1, a, b, c, d>, GeneralPurposeRegister<1, e>) {
@@ -1637,11 +1637,11 @@ constexpr auto CMP(Memory<1, a, b, c, d>, GeneralPurposeRegister<1, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto CMP(Memory<2, a, b, c, d>, byte<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<7, Memory<2, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<7, Memory<2, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int16_t e>
 constexpr auto CMP(Memory<2, a, b, c, d>, word<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<7, Memory<2, a, b, c, d>, word<e>>::type, to_string<2, word<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<7, Memory<2, a, b, c, d>, word<e>>::type, to_bytes<word<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto CMP(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
@@ -1649,11 +1649,11 @@ constexpr auto CMP(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto CMP(Memory<4, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<7, Memory<4, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<7, Memory<4, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int32_t e>
 constexpr auto CMP(Memory<4, a, b, c, d>, dword<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<7, Memory<4, a, b, c, d>, dword<e>>::type, to_string<4, dword<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<7, Memory<4, a, b, c, d>, dword<e>>::type, to_bytes<dword<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto CMP(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
@@ -1661,11 +1661,11 @@ constexpr auto CMP(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto CMP(Memory<8, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\x83'>, typename modrm<7, Memory<8, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x83'>, typename modrm<7, Memory<8, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int32_t e>
 constexpr auto CMP(Memory<8, a, b, c, d>, dword<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\x81'>, typename modrm<7, Memory<8, a, b, c, d>, dword<e>>::type, to_string<4, dword<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x81'>, typename modrm<7, Memory<8, a, b, c, d>, dword<e>>::type, to_bytes<dword<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto CMP(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>) {
@@ -1951,51 +1951,51 @@ constexpr auto IMUL(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>) {
 };
 template <size_t a, size_t b, int8_t c>
 constexpr auto IMUL(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>, byte<c>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,get_rex_r(GeneralPurposeRegister<2, a>{}),0,get_rex_b(GeneralPurposeRegister<2, b>{})>, Opcode<'\x6B'>, typename modrm<-1, GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>, byte<c>>::type, to_string<1, byte<c>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,get_rex_r(GeneralPurposeRegister<2, a>{}),0,get_rex_b(GeneralPurposeRegister<2, b>{})>, Opcode<'\x6B'>, typename modrm<-1, GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>, byte<c>>::type, to_bytes<byte<c>>>{};
 };
 template <size_t a, size_t b, int16_t c>
 constexpr auto IMUL(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>, word<c>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,get_rex_r(GeneralPurposeRegister<2, a>{}),0,get_rex_b(GeneralPurposeRegister<2, b>{})>, Opcode<'\x69'>, typename modrm<-1, GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>, word<c>>::type, to_string<2, word<c>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,get_rex_r(GeneralPurposeRegister<2, a>{}),0,get_rex_b(GeneralPurposeRegister<2, b>{})>, Opcode<'\x69'>, typename modrm<-1, GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>, word<c>>::type, to_bytes<word<c>>>{};
 };
 template <size_t a, typename b, typename c, size_t d, Displacement e, int8_t f>
 constexpr auto IMUL(GeneralPurposeRegister<2, a>, Memory<2, b, c, d, e>, byte<f>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,get_rex_r(GeneralPurposeRegister<2, a>{}),0,0>, Opcode<'\x6B'>, typename modrm<-1, GeneralPurposeRegister<2, a>, Memory<2, b, c, d, e>, byte<f>>::type, to_string<1, byte<f>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,get_rex_r(GeneralPurposeRegister<2, a>{}),0,0>, Opcode<'\x6B'>, typename modrm<-1, GeneralPurposeRegister<2, a>, Memory<2, b, c, d, e>, byte<f>>::type, to_bytes<byte<f>>>{};
 };
 template <size_t a, typename b, typename c, size_t d, Displacement e, int16_t f>
 constexpr auto IMUL(GeneralPurposeRegister<2, a>, Memory<2, b, c, d, e>, word<f>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,get_rex_r(GeneralPurposeRegister<2, a>{}),0,0>, Opcode<'\x69'>, typename modrm<-1, GeneralPurposeRegister<2, a>, Memory<2, b, c, d, e>, word<f>>::type, to_string<2, word<f>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,get_rex_r(GeneralPurposeRegister<2, a>{}),0,0>, Opcode<'\x69'>, typename modrm<-1, GeneralPurposeRegister<2, a>, Memory<2, b, c, d, e>, word<f>>::type, to_bytes<word<f>>>{};
 };
 template <size_t a, size_t b, int8_t c>
 constexpr auto IMUL(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, byte<c>) {
-    return Instruction<make_rex<0,get_rex_r(GeneralPurposeRegister<4, a>{}),0,get_rex_b(GeneralPurposeRegister<4, b>{})>, Opcode<'\x6B'>, typename modrm<-1, GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, byte<c>>::type, to_string<1, byte<c>>>{};
+    return Instruction<make_rex<0,get_rex_r(GeneralPurposeRegister<4, a>{}),0,get_rex_b(GeneralPurposeRegister<4, b>{})>, Opcode<'\x6B'>, typename modrm<-1, GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, byte<c>>::type, to_bytes<byte<c>>>{};
 };
 template <size_t a, size_t b, int32_t c>
 constexpr auto IMUL(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, dword<c>) {
-    return Instruction<make_rex<0,get_rex_r(GeneralPurposeRegister<4, a>{}),0,get_rex_b(GeneralPurposeRegister<4, b>{})>, Opcode<'\x69'>, typename modrm<-1, GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, dword<c>>::type, to_string<4, dword<c>>>{};
+    return Instruction<make_rex<0,get_rex_r(GeneralPurposeRegister<4, a>{}),0,get_rex_b(GeneralPurposeRegister<4, b>{})>, Opcode<'\x69'>, typename modrm<-1, GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, dword<c>>::type, to_bytes<dword<c>>>{};
 };
 template <size_t a, typename b, typename c, size_t d, Displacement e, int8_t f>
 constexpr auto IMUL(GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>, byte<f>) {
-    return Instruction<make_rex<0,get_rex_r(GeneralPurposeRegister<4, a>{}),0,0>, Opcode<'\x6B'>, typename modrm<-1, GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>, byte<f>>::type, to_string<1, byte<f>>>{};
+    return Instruction<make_rex<0,get_rex_r(GeneralPurposeRegister<4, a>{}),0,0>, Opcode<'\x6B'>, typename modrm<-1, GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>, byte<f>>::type, to_bytes<byte<f>>>{};
 };
 template <size_t a, typename b, typename c, size_t d, Displacement e, int32_t f>
 constexpr auto IMUL(GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>, dword<f>) {
-    return Instruction<make_rex<0,get_rex_r(GeneralPurposeRegister<4, a>{}),0,0>, Opcode<'\x69'>, typename modrm<-1, GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>, dword<f>>::type, to_string<4, dword<f>>>{};
+    return Instruction<make_rex<0,get_rex_r(GeneralPurposeRegister<4, a>{}),0,0>, Opcode<'\x69'>, typename modrm<-1, GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>, dword<f>>::type, to_bytes<dword<f>>>{};
 };
 template <size_t a, size_t b, int8_t c>
 constexpr auto IMUL(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, byte<c>) {
-    return Instruction<make_rex<1,get_rex_r(GeneralPurposeRegister<8, a>{}),0,get_rex_b(GeneralPurposeRegister<8, b>{})>, Opcode<'\x6B'>, typename modrm<-1, GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, byte<c>>::type, to_string<1, byte<c>>>{};
+    return Instruction<make_rex<1,get_rex_r(GeneralPurposeRegister<8, a>{}),0,get_rex_b(GeneralPurposeRegister<8, b>{})>, Opcode<'\x6B'>, typename modrm<-1, GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, byte<c>>::type, to_bytes<byte<c>>>{};
 };
 template <size_t a, size_t b, int32_t c>
 constexpr auto IMUL(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, dword<c>) {
-    return Instruction<make_rex<1,get_rex_r(GeneralPurposeRegister<8, a>{}),0,get_rex_b(GeneralPurposeRegister<8, b>{})>, Opcode<'\x69'>, typename modrm<-1, GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, dword<c>>::type, to_string<4, dword<c>>>{};
+    return Instruction<make_rex<1,get_rex_r(GeneralPurposeRegister<8, a>{}),0,get_rex_b(GeneralPurposeRegister<8, b>{})>, Opcode<'\x69'>, typename modrm<-1, GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, dword<c>>::type, to_bytes<dword<c>>>{};
 };
 template <size_t a, typename b, typename c, size_t d, Displacement e, int8_t f>
 constexpr auto IMUL(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>, byte<f>) {
-    return Instruction<make_rex<1,get_rex_r(GeneralPurposeRegister<8, a>{}),0,0>, Opcode<'\x6B'>, typename modrm<-1, GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>, byte<f>>::type, to_string<1, byte<f>>>{};
+    return Instruction<make_rex<1,get_rex_r(GeneralPurposeRegister<8, a>{}),0,0>, Opcode<'\x6B'>, typename modrm<-1, GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>, byte<f>>::type, to_bytes<byte<f>>>{};
 };
 template <size_t a, typename b, typename c, size_t d, Displacement e, int32_t f>
 constexpr auto IMUL(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>, dword<f>) {
-    return Instruction<make_rex<1,get_rex_r(GeneralPurposeRegister<8, a>{}),0,0>, Opcode<'\x69'>, typename modrm<-1, GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>, dword<f>>::type, to_string<4, dword<f>>>{};
+    return Instruction<make_rex<1,get_rex_r(GeneralPurposeRegister<8, a>{}),0,0>, Opcode<'\x69'>, typename modrm<-1, GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>, dword<f>>::type, to_bytes<dword<f>>>{};
 };
 template <size_t a>
 constexpr auto INC(GeneralPurposeRegister<1, a>) {
@@ -2031,7 +2031,7 @@ constexpr auto INC(Memory<8, a, b, c, d>) {
 };
 template <int8_t a>
 constexpr auto INT(byte<a>) {
-    return Instruction<Opcode<'\xCD'>, to_string<1, byte<a>>>{};
+    return Instruction<Opcode<'\xCD'>, to_bytes<byte<a>>>{};
 };
 template <typename a>
 constexpr auto JA(Rel8<a>) {
@@ -2209,7 +2209,7 @@ constexpr auto MFENCE() {
 };
 template <size_t a, int8_t b>
 constexpr auto MOV(GeneralPurposeRegister<1, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\xC6'>, typename modrm<0, GeneralPurposeRegister<1, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\xC6'>, typename modrm<0, GeneralPurposeRegister<1, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto MOV(GeneralPurposeRegister<1, a>, GeneralPurposeRegister<1, b>) {
@@ -2221,7 +2221,7 @@ constexpr auto MOV(GeneralPurposeRegister<1, a>, Memory<1, b, c, d, e>) {
 };
 template <size_t a, int16_t b>
 constexpr auto MOV(GeneralPurposeRegister<2, a>, word<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\xC7'>, typename modrm<0, GeneralPurposeRegister<2, a>, word<b>>::type, to_string<2, word<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\xC7'>, typename modrm<0, GeneralPurposeRegister<2, a>, word<b>>::type, to_bytes<word<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto MOV(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>) {
@@ -2233,7 +2233,7 @@ constexpr auto MOV(GeneralPurposeRegister<2, a>, Memory<2, b, c, d, e>) {
 };
 template <size_t a, int32_t b>
 constexpr auto MOV(GeneralPurposeRegister<4, a>, dword<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\xC7'>, typename modrm<0, GeneralPurposeRegister<4, a>, dword<b>>::type, to_string<4, dword<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\xC7'>, typename modrm<0, GeneralPurposeRegister<4, a>, dword<b>>::type, to_bytes<dword<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto MOV(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>) {
@@ -2245,11 +2245,11 @@ constexpr auto MOV(GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>) {
 };
 template <size_t a, int32_t b>
 constexpr auto MOV(GeneralPurposeRegister<8, a>, dword<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\xC7'>, typename modrm<0, GeneralPurposeRegister<8, a>, dword<b>>::type, to_string<4, dword<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\xC7'>, typename modrm<0, GeneralPurposeRegister<8, a>, dword<b>>::type, to_bytes<dword<b>>>{};
 };
 template <size_t a, int64_t b>
 constexpr auto MOV(GeneralPurposeRegister<8, a>, qword<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, typename IntToBytes<1, 0xB8 + GeneralPurposeRegister<8, a>::index>::type, to_string<8, qword<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, typename IntToBytes<1, 0xB8 + GeneralPurposeRegister<8, a>::index>::type, to_bytes<qword<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto MOV(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -2261,7 +2261,7 @@ constexpr auto MOV(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto MOV(Memory<1, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC6'>, typename modrm<0, Memory<1, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC6'>, typename modrm<0, Memory<1, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto MOV(Memory<1, a, b, c, d>, GeneralPurposeRegister<1, e>) {
@@ -2269,7 +2269,7 @@ constexpr auto MOV(Memory<1, a, b, c, d>, GeneralPurposeRegister<1, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int16_t e>
 constexpr auto MOV(Memory<2, a, b, c, d>, word<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xC7'>, typename modrm<0, Memory<2, a, b, c, d>, word<e>>::type, to_string<2, word<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xC7'>, typename modrm<0, Memory<2, a, b, c, d>, word<e>>::type, to_bytes<word<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto MOV(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
@@ -2277,7 +2277,7 @@ constexpr auto MOV(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int32_t e>
 constexpr auto MOV(Memory<4, a, b, c, d>, dword<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC7'>, typename modrm<0, Memory<4, a, b, c, d>, dword<e>>::type, to_string<4, dword<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC7'>, typename modrm<0, Memory<4, a, b, c, d>, dword<e>>::type, to_bytes<dword<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto MOV(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
@@ -2285,7 +2285,7 @@ constexpr auto MOV(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int32_t e>
 constexpr auto MOV(Memory<8, a, b, c, d>, dword<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\xC7'>, typename modrm<0, Memory<8, a, b, c, d>, dword<e>>::type, to_string<4, dword<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\xC7'>, typename modrm<0, Memory<8, a, b, c, d>, dword<e>>::type, to_bytes<dword<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto MOV(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>) {
@@ -2528,7 +2528,7 @@ constexpr auto NOT(Memory<8, a, b, c, d>) {
 };
 template <size_t a, int8_t b>
 constexpr auto OR(GeneralPurposeRegister<1, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\x80'>, typename modrm<1, GeneralPurposeRegister<1, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\x80'>, typename modrm<1, GeneralPurposeRegister<1, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto OR(GeneralPurposeRegister<1, a>, GeneralPurposeRegister<1, b>) {
@@ -2540,11 +2540,11 @@ constexpr auto OR(GeneralPurposeRegister<1, a>, Memory<1, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto OR(GeneralPurposeRegister<2, a>, byte<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x83'>, typename modrm<1, GeneralPurposeRegister<2, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x83'>, typename modrm<1, GeneralPurposeRegister<2, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int16_t b>
 constexpr auto OR(GeneralPurposeRegister<2, a>, word<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x81'>, typename modrm<1, GeneralPurposeRegister<2, a>, word<b>>::type, to_string<2, word<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x81'>, typename modrm<1, GeneralPurposeRegister<2, a>, word<b>>::type, to_bytes<word<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto OR(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>) {
@@ -2556,11 +2556,11 @@ constexpr auto OR(GeneralPurposeRegister<2, a>, Memory<2, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto OR(GeneralPurposeRegister<4, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x83'>, typename modrm<1, GeneralPurposeRegister<4, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x83'>, typename modrm<1, GeneralPurposeRegister<4, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int32_t b>
 constexpr auto OR(GeneralPurposeRegister<4, a>, dword<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x81'>, typename modrm<1, GeneralPurposeRegister<4, a>, dword<b>>::type, to_string<4, dword<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x81'>, typename modrm<1, GeneralPurposeRegister<4, a>, dword<b>>::type, to_bytes<dword<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto OR(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>) {
@@ -2572,11 +2572,11 @@ constexpr auto OR(GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto OR(GeneralPurposeRegister<8, a>, byte<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x83'>, typename modrm<1, GeneralPurposeRegister<8, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x83'>, typename modrm<1, GeneralPurposeRegister<8, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int32_t b>
 constexpr auto OR(GeneralPurposeRegister<8, a>, dword<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x81'>, typename modrm<1, GeneralPurposeRegister<8, a>, dword<b>>::type, to_string<4, dword<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x81'>, typename modrm<1, GeneralPurposeRegister<8, a>, dword<b>>::type, to_bytes<dword<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto OR(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -2588,7 +2588,7 @@ constexpr auto OR(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto OR(Memory<1, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x80'>, typename modrm<1, Memory<1, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x80'>, typename modrm<1, Memory<1, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto OR(Memory<1, a, b, c, d>, GeneralPurposeRegister<1, e>) {
@@ -2596,11 +2596,11 @@ constexpr auto OR(Memory<1, a, b, c, d>, GeneralPurposeRegister<1, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto OR(Memory<2, a, b, c, d>, byte<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<1, Memory<2, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<1, Memory<2, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int16_t e>
 constexpr auto OR(Memory<2, a, b, c, d>, word<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<1, Memory<2, a, b, c, d>, word<e>>::type, to_string<2, word<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<1, Memory<2, a, b, c, d>, word<e>>::type, to_bytes<word<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto OR(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
@@ -2608,11 +2608,11 @@ constexpr auto OR(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto OR(Memory<4, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<1, Memory<4, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<1, Memory<4, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int32_t e>
 constexpr auto OR(Memory<4, a, b, c, d>, dword<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<1, Memory<4, a, b, c, d>, dword<e>>::type, to_string<4, dword<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<1, Memory<4, a, b, c, d>, dword<e>>::type, to_bytes<dword<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto OR(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
@@ -2620,11 +2620,11 @@ constexpr auto OR(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto OR(Memory<8, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\x83'>, typename modrm<1, Memory<8, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x83'>, typename modrm<1, Memory<8, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int32_t e>
 constexpr auto OR(Memory<8, a, b, c, d>, dword<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\x81'>, typename modrm<1, Memory<8, a, b, c, d>, dword<e>>::type, to_string<4, dword<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x81'>, typename modrm<1, Memory<8, a, b, c, d>, dword<e>>::type, to_bytes<dword<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto OR(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>) {
@@ -2731,11 +2731,11 @@ constexpr auto PREFETCHWT1(Memory<1, a, b, c, d>) {
 };
 template <int8_t a>
 constexpr auto PUSH(byte<a>) {
-    return Instruction<Opcode<'\x6A'>, to_string<1, byte<a>>>{};
+    return Instruction<Opcode<'\x6A'>, to_bytes<byte<a>>>{};
 };
 template <int32_t a>
 constexpr auto PUSH(dword<a>) {
-    return Instruction<Opcode<'\x68'>, to_string<4, dword<a>>>{};
+    return Instruction<Opcode<'\x68'>, to_bytes<dword<a>>>{};
 };
 template <size_t a>
 constexpr auto PUSH(GeneralPurposeRegister<2, a>) {
@@ -2755,67 +2755,67 @@ constexpr auto PUSH(Memory<8, a, b, c, d>) {
 };
 template <size_t a, int8_t b>
 constexpr auto RCL(GeneralPurposeRegister<1, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\xC0'>, typename modrm<2, GeneralPurposeRegister<1, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\xC0'>, typename modrm<2, GeneralPurposeRegister<1, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto RCL(GeneralPurposeRegister<2, a>, byte<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\xC1'>, typename modrm<2, GeneralPurposeRegister<2, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\xC1'>, typename modrm<2, GeneralPurposeRegister<2, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto RCL(GeneralPurposeRegister<4, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\xC1'>, typename modrm<2, GeneralPurposeRegister<4, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\xC1'>, typename modrm<2, GeneralPurposeRegister<4, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto RCL(GeneralPurposeRegister<8, a>, byte<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\xC1'>, typename modrm<2, GeneralPurposeRegister<8, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\xC1'>, typename modrm<2, GeneralPurposeRegister<8, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto RCL(Memory<1, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC0'>, typename modrm<2, Memory<1, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC0'>, typename modrm<2, Memory<1, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto RCL(Memory<2, a, b, c, d>, byte<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<2, Memory<2, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<2, Memory<2, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto RCL(Memory<4, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<2, Memory<4, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<2, Memory<4, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto RCL(Memory<8, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\xC1'>, typename modrm<2, Memory<8, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\xC1'>, typename modrm<2, Memory<8, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto RCR(GeneralPurposeRegister<1, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\xC0'>, typename modrm<3, GeneralPurposeRegister<1, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\xC0'>, typename modrm<3, GeneralPurposeRegister<1, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto RCR(GeneralPurposeRegister<2, a>, byte<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\xC1'>, typename modrm<3, GeneralPurposeRegister<2, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\xC1'>, typename modrm<3, GeneralPurposeRegister<2, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto RCR(GeneralPurposeRegister<4, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\xC1'>, typename modrm<3, GeneralPurposeRegister<4, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\xC1'>, typename modrm<3, GeneralPurposeRegister<4, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto RCR(GeneralPurposeRegister<8, a>, byte<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\xC1'>, typename modrm<3, GeneralPurposeRegister<8, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\xC1'>, typename modrm<3, GeneralPurposeRegister<8, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto RCR(Memory<1, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC0'>, typename modrm<3, Memory<1, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC0'>, typename modrm<3, Memory<1, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto RCR(Memory<2, a, b, c, d>, byte<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<3, Memory<2, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<3, Memory<2, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto RCR(Memory<4, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<3, Memory<4, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<3, Memory<4, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto RCR(Memory<8, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\xC1'>, typename modrm<3, Memory<8, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\xC1'>, typename modrm<3, Memory<8, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <size_t a>
 constexpr auto RDRAND(GeneralPurposeRegister<2, a>) {
@@ -2852,151 +2852,151 @@ constexpr auto RET() {
 };
 template <int16_t a>
 constexpr auto RET(word<a>) {
-    return Instruction<Opcode<'\xC2'>, to_string<2, word<a>>>{};
+    return Instruction<Opcode<'\xC2'>, to_bytes<word<a>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto ROL(GeneralPurposeRegister<1, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\xC0'>, typename modrm<0, GeneralPurposeRegister<1, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\xC0'>, typename modrm<0, GeneralPurposeRegister<1, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto ROL(GeneralPurposeRegister<2, a>, byte<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\xC1'>, typename modrm<0, GeneralPurposeRegister<2, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\xC1'>, typename modrm<0, GeneralPurposeRegister<2, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto ROL(GeneralPurposeRegister<4, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\xC1'>, typename modrm<0, GeneralPurposeRegister<4, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\xC1'>, typename modrm<0, GeneralPurposeRegister<4, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto ROL(GeneralPurposeRegister<8, a>, byte<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\xC1'>, typename modrm<0, GeneralPurposeRegister<8, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\xC1'>, typename modrm<0, GeneralPurposeRegister<8, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto ROL(Memory<1, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC0'>, typename modrm<0, Memory<1, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC0'>, typename modrm<0, Memory<1, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto ROL(Memory<2, a, b, c, d>, byte<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<0, Memory<2, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<0, Memory<2, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto ROL(Memory<4, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<0, Memory<4, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<0, Memory<4, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto ROL(Memory<8, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\xC1'>, typename modrm<0, Memory<8, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\xC1'>, typename modrm<0, Memory<8, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto ROR(GeneralPurposeRegister<1, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\xC0'>, typename modrm<1, GeneralPurposeRegister<1, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\xC0'>, typename modrm<1, GeneralPurposeRegister<1, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto ROR(GeneralPurposeRegister<2, a>, byte<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\xC1'>, typename modrm<1, GeneralPurposeRegister<2, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\xC1'>, typename modrm<1, GeneralPurposeRegister<2, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto ROR(GeneralPurposeRegister<4, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\xC1'>, typename modrm<1, GeneralPurposeRegister<4, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\xC1'>, typename modrm<1, GeneralPurposeRegister<4, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto ROR(GeneralPurposeRegister<8, a>, byte<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\xC1'>, typename modrm<1, GeneralPurposeRegister<8, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\xC1'>, typename modrm<1, GeneralPurposeRegister<8, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto ROR(Memory<1, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC0'>, typename modrm<1, Memory<1, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC0'>, typename modrm<1, Memory<1, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto ROR(Memory<2, a, b, c, d>, byte<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<1, Memory<2, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<1, Memory<2, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto ROR(Memory<4, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<1, Memory<4, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<1, Memory<4, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto ROR(Memory<8, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\xC1'>, typename modrm<1, Memory<8, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\xC1'>, typename modrm<1, Memory<8, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <size_t a, size_t b, int8_t c>
 constexpr auto RORX(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, byte<c>) {
-    return Instruction<Opcode<'\xF0'>, typename modrm<-1, GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, byte<c>>::type, to_string<1, byte<c>>>{};
+    return Instruction<Opcode<'\xF0'>, typename modrm<-1, GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, byte<c>>::type, to_bytes<byte<c>>>{};
 };
 template <size_t a, typename b, typename c, size_t d, Displacement e, int8_t f>
 constexpr auto RORX(GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>, byte<f>) {
-    return Instruction<Opcode<'\xF0'>, typename modrm<-1, GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>, byte<f>>::type, to_string<1, byte<f>>>{};
+    return Instruction<Opcode<'\xF0'>, typename modrm<-1, GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>, byte<f>>::type, to_bytes<byte<f>>>{};
 };
 template <size_t a, size_t b, int8_t c>
 constexpr auto RORX(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, byte<c>) {
-    return Instruction<Opcode<'\xF0'>, typename modrm<-1, GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, byte<c>>::type, to_string<1, byte<c>>>{};
+    return Instruction<Opcode<'\xF0'>, typename modrm<-1, GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, byte<c>>::type, to_bytes<byte<c>>>{};
 };
 template <size_t a, typename b, typename c, size_t d, Displacement e, int8_t f>
 constexpr auto RORX(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>, byte<f>) {
-    return Instruction<Opcode<'\xF0'>, typename modrm<-1, GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>, byte<f>>::type, to_string<1, byte<f>>>{};
+    return Instruction<Opcode<'\xF0'>, typename modrm<-1, GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>, byte<f>>::type, to_bytes<byte<f>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto SAL(GeneralPurposeRegister<1, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\xC0'>, typename modrm<4, GeneralPurposeRegister<1, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\xC0'>, typename modrm<4, GeneralPurposeRegister<1, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto SAL(GeneralPurposeRegister<2, a>, byte<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\xC1'>, typename modrm<4, GeneralPurposeRegister<2, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\xC1'>, typename modrm<4, GeneralPurposeRegister<2, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto SAL(GeneralPurposeRegister<4, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\xC1'>, typename modrm<4, GeneralPurposeRegister<4, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\xC1'>, typename modrm<4, GeneralPurposeRegister<4, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto SAL(GeneralPurposeRegister<8, a>, byte<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\xC1'>, typename modrm<4, GeneralPurposeRegister<8, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\xC1'>, typename modrm<4, GeneralPurposeRegister<8, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SAL(Memory<1, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC0'>, typename modrm<4, Memory<1, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC0'>, typename modrm<4, Memory<1, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SAL(Memory<2, a, b, c, d>, byte<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<4, Memory<2, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<4, Memory<2, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SAL(Memory<4, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<4, Memory<4, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<4, Memory<4, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SAL(Memory<8, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\xC1'>, typename modrm<4, Memory<8, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\xC1'>, typename modrm<4, Memory<8, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto SAR(GeneralPurposeRegister<1, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\xC0'>, typename modrm<7, GeneralPurposeRegister<1, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\xC0'>, typename modrm<7, GeneralPurposeRegister<1, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto SAR(GeneralPurposeRegister<2, a>, byte<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\xC1'>, typename modrm<7, GeneralPurposeRegister<2, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\xC1'>, typename modrm<7, GeneralPurposeRegister<2, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto SAR(GeneralPurposeRegister<4, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\xC1'>, typename modrm<7, GeneralPurposeRegister<4, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\xC1'>, typename modrm<7, GeneralPurposeRegister<4, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto SAR(GeneralPurposeRegister<8, a>, byte<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\xC1'>, typename modrm<7, GeneralPurposeRegister<8, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\xC1'>, typename modrm<7, GeneralPurposeRegister<8, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SAR(Memory<1, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC0'>, typename modrm<7, Memory<1, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC0'>, typename modrm<7, Memory<1, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SAR(Memory<2, a, b, c, d>, byte<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<7, Memory<2, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<7, Memory<2, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SAR(Memory<4, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<7, Memory<4, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<7, Memory<4, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SAR(Memory<8, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\xC1'>, typename modrm<7, Memory<8, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\xC1'>, typename modrm<7, Memory<8, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <size_t a, size_t b, size_t c>
 constexpr auto SARX(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, GeneralPurposeRegister<4, c>) {
@@ -3016,7 +3016,7 @@ constexpr auto SARX(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>, General
 };
 template <size_t a, int8_t b>
 constexpr auto SBB(GeneralPurposeRegister<1, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\x80'>, typename modrm<3, GeneralPurposeRegister<1, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\x80'>, typename modrm<3, GeneralPurposeRegister<1, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto SBB(GeneralPurposeRegister<1, a>, GeneralPurposeRegister<1, b>) {
@@ -3028,11 +3028,11 @@ constexpr auto SBB(GeneralPurposeRegister<1, a>, Memory<1, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto SBB(GeneralPurposeRegister<2, a>, byte<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x83'>, typename modrm<3, GeneralPurposeRegister<2, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x83'>, typename modrm<3, GeneralPurposeRegister<2, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int16_t b>
 constexpr auto SBB(GeneralPurposeRegister<2, a>, word<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x81'>, typename modrm<3, GeneralPurposeRegister<2, a>, word<b>>::type, to_string<2, word<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x81'>, typename modrm<3, GeneralPurposeRegister<2, a>, word<b>>::type, to_bytes<word<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto SBB(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>) {
@@ -3044,11 +3044,11 @@ constexpr auto SBB(GeneralPurposeRegister<2, a>, Memory<2, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto SBB(GeneralPurposeRegister<4, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x83'>, typename modrm<3, GeneralPurposeRegister<4, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x83'>, typename modrm<3, GeneralPurposeRegister<4, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int32_t b>
 constexpr auto SBB(GeneralPurposeRegister<4, a>, dword<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x81'>, typename modrm<3, GeneralPurposeRegister<4, a>, dword<b>>::type, to_string<4, dword<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x81'>, typename modrm<3, GeneralPurposeRegister<4, a>, dword<b>>::type, to_bytes<dword<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto SBB(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>) {
@@ -3060,11 +3060,11 @@ constexpr auto SBB(GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto SBB(GeneralPurposeRegister<8, a>, byte<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x83'>, typename modrm<3, GeneralPurposeRegister<8, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x83'>, typename modrm<3, GeneralPurposeRegister<8, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int32_t b>
 constexpr auto SBB(GeneralPurposeRegister<8, a>, dword<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x81'>, typename modrm<3, GeneralPurposeRegister<8, a>, dword<b>>::type, to_string<4, dword<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x81'>, typename modrm<3, GeneralPurposeRegister<8, a>, dword<b>>::type, to_bytes<dword<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto SBB(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -3076,7 +3076,7 @@ constexpr auto SBB(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SBB(Memory<1, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x80'>, typename modrm<3, Memory<1, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x80'>, typename modrm<3, Memory<1, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto SBB(Memory<1, a, b, c, d>, GeneralPurposeRegister<1, e>) {
@@ -3084,11 +3084,11 @@ constexpr auto SBB(Memory<1, a, b, c, d>, GeneralPurposeRegister<1, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SBB(Memory<2, a, b, c, d>, byte<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<3, Memory<2, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<3, Memory<2, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int16_t e>
 constexpr auto SBB(Memory<2, a, b, c, d>, word<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<3, Memory<2, a, b, c, d>, word<e>>::type, to_string<2, word<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<3, Memory<2, a, b, c, d>, word<e>>::type, to_bytes<word<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto SBB(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
@@ -3096,11 +3096,11 @@ constexpr auto SBB(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SBB(Memory<4, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<3, Memory<4, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<3, Memory<4, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int32_t e>
 constexpr auto SBB(Memory<4, a, b, c, d>, dword<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<3, Memory<4, a, b, c, d>, dword<e>>::type, to_string<4, dword<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<3, Memory<4, a, b, c, d>, dword<e>>::type, to_bytes<dword<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto SBB(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
@@ -3108,11 +3108,11 @@ constexpr auto SBB(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SBB(Memory<8, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\x83'>, typename modrm<3, Memory<8, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x83'>, typename modrm<3, Memory<8, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int32_t e>
 constexpr auto SBB(Memory<8, a, b, c, d>, dword<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\x81'>, typename modrm<3, Memory<8, a, b, c, d>, dword<e>>::type, to_string<4, dword<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x81'>, typename modrm<3, Memory<8, a, b, c, d>, dword<e>>::type, to_bytes<dword<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto SBB(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>) {
@@ -3363,59 +3363,59 @@ constexpr auto SFENCE() {
 };
 template <size_t a, int8_t b>
 constexpr auto SHL(GeneralPurposeRegister<1, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\xC0'>, typename modrm<4, GeneralPurposeRegister<1, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\xC0'>, typename modrm<4, GeneralPurposeRegister<1, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto SHL(GeneralPurposeRegister<2, a>, byte<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\xC1'>, typename modrm<4, GeneralPurposeRegister<2, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\xC1'>, typename modrm<4, GeneralPurposeRegister<2, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto SHL(GeneralPurposeRegister<4, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\xC1'>, typename modrm<4, GeneralPurposeRegister<4, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\xC1'>, typename modrm<4, GeneralPurposeRegister<4, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto SHL(GeneralPurposeRegister<8, a>, byte<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\xC1'>, typename modrm<4, GeneralPurposeRegister<8, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\xC1'>, typename modrm<4, GeneralPurposeRegister<8, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SHL(Memory<1, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC0'>, typename modrm<4, Memory<1, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC0'>, typename modrm<4, Memory<1, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SHL(Memory<2, a, b, c, d>, byte<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<4, Memory<2, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<4, Memory<2, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SHL(Memory<4, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<4, Memory<4, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<4, Memory<4, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SHL(Memory<8, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\xC1'>, typename modrm<4, Memory<8, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\xC1'>, typename modrm<4, Memory<8, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <size_t a, size_t b, int8_t c>
 constexpr auto SHLD(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>, byte<c>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,get_rex_r(GeneralPurposeRegister<2, b>{}),0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x0F'>, Opcode<'\xA4'>, typename modrm<-1, GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>, byte<c>>::type, to_string<1, byte<c>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,get_rex_r(GeneralPurposeRegister<2, b>{}),0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x0F'>, Opcode<'\xA4'>, typename modrm<-1, GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>, byte<c>>::type, to_bytes<byte<c>>>{};
 };
 template <size_t a, size_t b, int8_t c>
 constexpr auto SHLD(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, byte<c>) {
-    return Instruction<make_rex<0,get_rex_r(GeneralPurposeRegister<4, b>{}),0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x0F'>, Opcode<'\xA4'>, typename modrm<-1, GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, byte<c>>::type, to_string<1, byte<c>>>{};
+    return Instruction<make_rex<0,get_rex_r(GeneralPurposeRegister<4, b>{}),0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x0F'>, Opcode<'\xA4'>, typename modrm<-1, GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, byte<c>>::type, to_bytes<byte<c>>>{};
 };
 template <size_t a, size_t b, int8_t c>
 constexpr auto SHLD(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, byte<c>) {
-    return Instruction<make_rex<1,get_rex_r(GeneralPurposeRegister<8, b>{}),0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x0F'>, Opcode<'\xA4'>, typename modrm<-1, GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, byte<c>>::type, to_string<1, byte<c>>>{};
+    return Instruction<make_rex<1,get_rex_r(GeneralPurposeRegister<8, b>{}),0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x0F'>, Opcode<'\xA4'>, typename modrm<-1, GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, byte<c>>::type, to_bytes<byte<c>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e, int8_t f>
 constexpr auto SHLD(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>, byte<f>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,get_rex_r(GeneralPurposeRegister<2, e>{}),0,0>, Opcode<'\x0F'>, Opcode<'\xA4'>, typename modrm<-1, Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>, byte<f>>::type, to_string<1, byte<f>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,get_rex_r(GeneralPurposeRegister<2, e>{}),0,0>, Opcode<'\x0F'>, Opcode<'\xA4'>, typename modrm<-1, Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>, byte<f>>::type, to_bytes<byte<f>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e, int8_t f>
 constexpr auto SHLD(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>, byte<f>) {
-    return Instruction<make_rex<0,get_rex_r(GeneralPurposeRegister<4, e>{}),0,0>, Opcode<'\x0F'>, Opcode<'\xA4'>, typename modrm<-1, Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>, byte<f>>::type, to_string<1, byte<f>>>{};
+    return Instruction<make_rex<0,get_rex_r(GeneralPurposeRegister<4, e>{}),0,0>, Opcode<'\x0F'>, Opcode<'\xA4'>, typename modrm<-1, Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>, byte<f>>::type, to_bytes<byte<f>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e, int8_t f>
 constexpr auto SHLD(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>, byte<f>) {
-    return Instruction<make_rex<1,get_rex_r(GeneralPurposeRegister<8, e>{}),0,0>, Opcode<'\x0F'>, Opcode<'\xA4'>, typename modrm<-1, Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>, byte<f>>::type, to_string<1, byte<f>>>{};
+    return Instruction<make_rex<1,get_rex_r(GeneralPurposeRegister<8, e>{}),0,0>, Opcode<'\x0F'>, Opcode<'\xA4'>, typename modrm<-1, Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>, byte<f>>::type, to_bytes<byte<f>>>{};
 };
 template <size_t a, size_t b, size_t c>
 constexpr auto SHLX(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, GeneralPurposeRegister<4, c>) {
@@ -3435,59 +3435,59 @@ constexpr auto SHLX(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>, General
 };
 template <size_t a, int8_t b>
 constexpr auto SHR(GeneralPurposeRegister<1, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\xC0'>, typename modrm<5, GeneralPurposeRegister<1, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\xC0'>, typename modrm<5, GeneralPurposeRegister<1, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto SHR(GeneralPurposeRegister<2, a>, byte<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\xC1'>, typename modrm<5, GeneralPurposeRegister<2, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\xC1'>, typename modrm<5, GeneralPurposeRegister<2, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto SHR(GeneralPurposeRegister<4, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\xC1'>, typename modrm<5, GeneralPurposeRegister<4, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\xC1'>, typename modrm<5, GeneralPurposeRegister<4, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int8_t b>
 constexpr auto SHR(GeneralPurposeRegister<8, a>, byte<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\xC1'>, typename modrm<5, GeneralPurposeRegister<8, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\xC1'>, typename modrm<5, GeneralPurposeRegister<8, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SHR(Memory<1, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC0'>, typename modrm<5, Memory<1, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC0'>, typename modrm<5, Memory<1, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SHR(Memory<2, a, b, c, d>, byte<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<5, Memory<2, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<5, Memory<2, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SHR(Memory<4, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<5, Memory<4, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xC1'>, typename modrm<5, Memory<4, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SHR(Memory<8, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\xC1'>, typename modrm<5, Memory<8, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\xC1'>, typename modrm<5, Memory<8, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <size_t a, size_t b, int8_t c>
 constexpr auto SHRD(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>, byte<c>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,get_rex_r(GeneralPurposeRegister<2, b>{}),0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x0F'>, Opcode<'\xAC'>, typename modrm<-1, GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>, byte<c>>::type, to_string<1, byte<c>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,get_rex_r(GeneralPurposeRegister<2, b>{}),0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x0F'>, Opcode<'\xAC'>, typename modrm<-1, GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>, byte<c>>::type, to_bytes<byte<c>>>{};
 };
 template <size_t a, size_t b, int8_t c>
 constexpr auto SHRD(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, byte<c>) {
-    return Instruction<make_rex<0,get_rex_r(GeneralPurposeRegister<4, b>{}),0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x0F'>, Opcode<'\xAC'>, typename modrm<-1, GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, byte<c>>::type, to_string<1, byte<c>>>{};
+    return Instruction<make_rex<0,get_rex_r(GeneralPurposeRegister<4, b>{}),0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x0F'>, Opcode<'\xAC'>, typename modrm<-1, GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, byte<c>>::type, to_bytes<byte<c>>>{};
 };
 template <size_t a, size_t b, int8_t c>
 constexpr auto SHRD(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, byte<c>) {
-    return Instruction<make_rex<1,get_rex_r(GeneralPurposeRegister<8, b>{}),0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x0F'>, Opcode<'\xAC'>, typename modrm<-1, GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, byte<c>>::type, to_string<1, byte<c>>>{};
+    return Instruction<make_rex<1,get_rex_r(GeneralPurposeRegister<8, b>{}),0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x0F'>, Opcode<'\xAC'>, typename modrm<-1, GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>, byte<c>>::type, to_bytes<byte<c>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e, int8_t f>
 constexpr auto SHRD(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>, byte<f>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,get_rex_r(GeneralPurposeRegister<2, e>{}),0,0>, Opcode<'\x0F'>, Opcode<'\xAC'>, typename modrm<-1, Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>, byte<f>>::type, to_string<1, byte<f>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,get_rex_r(GeneralPurposeRegister<2, e>{}),0,0>, Opcode<'\x0F'>, Opcode<'\xAC'>, typename modrm<-1, Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>, byte<f>>::type, to_bytes<byte<f>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e, int8_t f>
 constexpr auto SHRD(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>, byte<f>) {
-    return Instruction<make_rex<0,get_rex_r(GeneralPurposeRegister<4, e>{}),0,0>, Opcode<'\x0F'>, Opcode<'\xAC'>, typename modrm<-1, Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>, byte<f>>::type, to_string<1, byte<f>>>{};
+    return Instruction<make_rex<0,get_rex_r(GeneralPurposeRegister<4, e>{}),0,0>, Opcode<'\x0F'>, Opcode<'\xAC'>, typename modrm<-1, Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>, byte<f>>::type, to_bytes<byte<f>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e, int8_t f>
 constexpr auto SHRD(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>, byte<f>) {
-    return Instruction<make_rex<1,get_rex_r(GeneralPurposeRegister<8, e>{}),0,0>, Opcode<'\x0F'>, Opcode<'\xAC'>, typename modrm<-1, Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>, byte<f>>::type, to_string<1, byte<f>>>{};
+    return Instruction<make_rex<1,get_rex_r(GeneralPurposeRegister<8, e>{}),0,0>, Opcode<'\x0F'>, Opcode<'\xAC'>, typename modrm<-1, Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>, byte<f>>::type, to_bytes<byte<f>>>{};
 };
 template <size_t a, size_t b, size_t c>
 constexpr auto SHRX(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>, GeneralPurposeRegister<4, c>) {
@@ -3517,7 +3517,7 @@ constexpr auto STMXCSR(Memory<4, a, b, c, d>) {
 };
 template <size_t a, int8_t b>
 constexpr auto SUB(GeneralPurposeRegister<1, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\x80'>, typename modrm<5, GeneralPurposeRegister<1, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\x80'>, typename modrm<5, GeneralPurposeRegister<1, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto SUB(GeneralPurposeRegister<1, a>, GeneralPurposeRegister<1, b>) {
@@ -3529,11 +3529,11 @@ constexpr auto SUB(GeneralPurposeRegister<1, a>, Memory<1, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto SUB(GeneralPurposeRegister<2, a>, byte<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x83'>, typename modrm<5, GeneralPurposeRegister<2, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x83'>, typename modrm<5, GeneralPurposeRegister<2, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int16_t b>
 constexpr auto SUB(GeneralPurposeRegister<2, a>, word<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x81'>, typename modrm<5, GeneralPurposeRegister<2, a>, word<b>>::type, to_string<2, word<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x81'>, typename modrm<5, GeneralPurposeRegister<2, a>, word<b>>::type, to_bytes<word<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto SUB(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>) {
@@ -3545,11 +3545,11 @@ constexpr auto SUB(GeneralPurposeRegister<2, a>, Memory<2, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto SUB(GeneralPurposeRegister<4, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x83'>, typename modrm<5, GeneralPurposeRegister<4, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x83'>, typename modrm<5, GeneralPurposeRegister<4, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int32_t b>
 constexpr auto SUB(GeneralPurposeRegister<4, a>, dword<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x81'>, typename modrm<5, GeneralPurposeRegister<4, a>, dword<b>>::type, to_string<4, dword<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x81'>, typename modrm<5, GeneralPurposeRegister<4, a>, dword<b>>::type, to_bytes<dword<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto SUB(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>) {
@@ -3561,11 +3561,11 @@ constexpr auto SUB(GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto SUB(GeneralPurposeRegister<8, a>, byte<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x83'>, typename modrm<5, GeneralPurposeRegister<8, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x83'>, typename modrm<5, GeneralPurposeRegister<8, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int32_t b>
 constexpr auto SUB(GeneralPurposeRegister<8, a>, dword<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x81'>, typename modrm<5, GeneralPurposeRegister<8, a>, dword<b>>::type, to_string<4, dword<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x81'>, typename modrm<5, GeneralPurposeRegister<8, a>, dword<b>>::type, to_bytes<dword<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto SUB(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -3577,7 +3577,7 @@ constexpr auto SUB(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SUB(Memory<1, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x80'>, typename modrm<5, Memory<1, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x80'>, typename modrm<5, Memory<1, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto SUB(Memory<1, a, b, c, d>, GeneralPurposeRegister<1, e>) {
@@ -3585,11 +3585,11 @@ constexpr auto SUB(Memory<1, a, b, c, d>, GeneralPurposeRegister<1, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SUB(Memory<2, a, b, c, d>, byte<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<5, Memory<2, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<5, Memory<2, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int16_t e>
 constexpr auto SUB(Memory<2, a, b, c, d>, word<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<5, Memory<2, a, b, c, d>, word<e>>::type, to_string<2, word<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<5, Memory<2, a, b, c, d>, word<e>>::type, to_bytes<word<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto SUB(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
@@ -3597,11 +3597,11 @@ constexpr auto SUB(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SUB(Memory<4, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<5, Memory<4, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<5, Memory<4, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int32_t e>
 constexpr auto SUB(Memory<4, a, b, c, d>, dword<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<5, Memory<4, a, b, c, d>, dword<e>>::type, to_string<4, dword<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<5, Memory<4, a, b, c, d>, dword<e>>::type, to_bytes<dword<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto SUB(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
@@ -3609,11 +3609,11 @@ constexpr auto SUB(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto SUB(Memory<8, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\x83'>, typename modrm<5, Memory<8, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x83'>, typename modrm<5, Memory<8, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int32_t e>
 constexpr auto SUB(Memory<8, a, b, c, d>, dword<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\x81'>, typename modrm<5, Memory<8, a, b, c, d>, dword<e>>::type, to_string<4, dword<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x81'>, typename modrm<5, Memory<8, a, b, c, d>, dword<e>>::type, to_bytes<dword<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto SUB(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>) {
@@ -3637,7 +3637,7 @@ constexpr auto T1MSKC(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto TEST(GeneralPurposeRegister<1, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\xF6'>, typename modrm<0, GeneralPurposeRegister<1, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\xF6'>, typename modrm<0, GeneralPurposeRegister<1, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto TEST(GeneralPurposeRegister<1, a>, GeneralPurposeRegister<1, b>) {
@@ -3645,7 +3645,7 @@ constexpr auto TEST(GeneralPurposeRegister<1, a>, GeneralPurposeRegister<1, b>) 
 };
 template <size_t a, int16_t b>
 constexpr auto TEST(GeneralPurposeRegister<2, a>, word<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\xF7'>, typename modrm<0, GeneralPurposeRegister<2, a>, word<b>>::type, to_string<2, word<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\xF7'>, typename modrm<0, GeneralPurposeRegister<2, a>, word<b>>::type, to_bytes<word<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto TEST(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>) {
@@ -3653,7 +3653,7 @@ constexpr auto TEST(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>) 
 };
 template <size_t a, int32_t b>
 constexpr auto TEST(GeneralPurposeRegister<4, a>, dword<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\xF7'>, typename modrm<0, GeneralPurposeRegister<4, a>, dword<b>>::type, to_string<4, dword<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\xF7'>, typename modrm<0, GeneralPurposeRegister<4, a>, dword<b>>::type, to_bytes<dword<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto TEST(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>) {
@@ -3661,7 +3661,7 @@ constexpr auto TEST(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>) 
 };
 template <size_t a, int32_t b>
 constexpr auto TEST(GeneralPurposeRegister<8, a>, dword<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\xF7'>, typename modrm<0, GeneralPurposeRegister<8, a>, dword<b>>::type, to_string<4, dword<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\xF7'>, typename modrm<0, GeneralPurposeRegister<8, a>, dword<b>>::type, to_bytes<dword<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto TEST(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -3669,7 +3669,7 @@ constexpr auto TEST(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) 
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto TEST(Memory<1, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\xF6'>, typename modrm<0, Memory<1, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xF6'>, typename modrm<0, Memory<1, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto TEST(Memory<1, a, b, c, d>, GeneralPurposeRegister<1, e>) {
@@ -3677,7 +3677,7 @@ constexpr auto TEST(Memory<1, a, b, c, d>, GeneralPurposeRegister<1, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int16_t e>
 constexpr auto TEST(Memory<2, a, b, c, d>, word<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xF7'>, typename modrm<0, Memory<2, a, b, c, d>, word<e>>::type, to_string<2, word<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\xF7'>, typename modrm<0, Memory<2, a, b, c, d>, word<e>>::type, to_bytes<word<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto TEST(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
@@ -3685,7 +3685,7 @@ constexpr auto TEST(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int32_t e>
 constexpr auto TEST(Memory<4, a, b, c, d>, dword<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\xF7'>, typename modrm<0, Memory<4, a, b, c, d>, dword<e>>::type, to_string<4, dword<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\xF7'>, typename modrm<0, Memory<4, a, b, c, d>, dword<e>>::type, to_bytes<dword<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto TEST(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
@@ -3693,7 +3693,7 @@ constexpr auto TEST(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int32_t e>
 constexpr auto TEST(Memory<8, a, b, c, d>, dword<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\xF7'>, typename modrm<0, Memory<8, a, b, c, d>, dword<e>>::type, to_string<4, dword<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\xF7'>, typename modrm<0, Memory<8, a, b, c, d>, dword<e>>::type, to_bytes<dword<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto TEST(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>) {
@@ -3873,7 +3873,7 @@ constexpr auto XGETBV() {
 };
 template <size_t a, int8_t b>
 constexpr auto XOR(GeneralPurposeRegister<1, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\x80'>, typename modrm<6, GeneralPurposeRegister<1, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<1, a>{})>, Opcode<'\x80'>, typename modrm<6, GeneralPurposeRegister<1, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto XOR(GeneralPurposeRegister<1, a>, GeneralPurposeRegister<1, b>) {
@@ -3885,11 +3885,11 @@ constexpr auto XOR(GeneralPurposeRegister<1, a>, Memory<1, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto XOR(GeneralPurposeRegister<2, a>, byte<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x83'>, typename modrm<6, GeneralPurposeRegister<2, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x83'>, typename modrm<6, GeneralPurposeRegister<2, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int16_t b>
 constexpr auto XOR(GeneralPurposeRegister<2, a>, word<b>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x81'>, typename modrm<6, GeneralPurposeRegister<2, a>, word<b>>::type, to_string<2, word<b>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<2, a>{})>, Opcode<'\x81'>, typename modrm<6, GeneralPurposeRegister<2, a>, word<b>>::type, to_bytes<word<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto XOR(GeneralPurposeRegister<2, a>, GeneralPurposeRegister<2, b>) {
@@ -3901,11 +3901,11 @@ constexpr auto XOR(GeneralPurposeRegister<2, a>, Memory<2, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto XOR(GeneralPurposeRegister<4, a>, byte<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x83'>, typename modrm<6, GeneralPurposeRegister<4, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x83'>, typename modrm<6, GeneralPurposeRegister<4, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int32_t b>
 constexpr auto XOR(GeneralPurposeRegister<4, a>, dword<b>) {
-    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x81'>, typename modrm<6, GeneralPurposeRegister<4, a>, dword<b>>::type, to_string<4, dword<b>>>{};
+    return Instruction<make_rex<0,0,0,get_rex_b(GeneralPurposeRegister<4, a>{})>, Opcode<'\x81'>, typename modrm<6, GeneralPurposeRegister<4, a>, dword<b>>::type, to_bytes<dword<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto XOR(GeneralPurposeRegister<4, a>, GeneralPurposeRegister<4, b>) {
@@ -3917,11 +3917,11 @@ constexpr auto XOR(GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>) {
 };
 template <size_t a, int8_t b>
 constexpr auto XOR(GeneralPurposeRegister<8, a>, byte<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x83'>, typename modrm<6, GeneralPurposeRegister<8, a>, byte<b>>::type, to_string<1, byte<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x83'>, typename modrm<6, GeneralPurposeRegister<8, a>, byte<b>>::type, to_bytes<byte<b>>>{};
 };
 template <size_t a, int32_t b>
 constexpr auto XOR(GeneralPurposeRegister<8, a>, dword<b>) {
-    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x81'>, typename modrm<6, GeneralPurposeRegister<8, a>, dword<b>>::type, to_string<4, dword<b>>>{};
+    return Instruction<make_rex<1,0,0,get_rex_b(GeneralPurposeRegister<8, a>{})>, Opcode<'\x81'>, typename modrm<6, GeneralPurposeRegister<8, a>, dword<b>>::type, to_bytes<dword<b>>>{};
 };
 template <size_t a, size_t b>
 constexpr auto XOR(GeneralPurposeRegister<8, a>, GeneralPurposeRegister<8, b>) {
@@ -3933,7 +3933,7 @@ constexpr auto XOR(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto XOR(Memory<1, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x80'>, typename modrm<6, Memory<1, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x80'>, typename modrm<6, Memory<1, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto XOR(Memory<1, a, b, c, d>, GeneralPurposeRegister<1, e>) {
@@ -3941,11 +3941,11 @@ constexpr auto XOR(Memory<1, a, b, c, d>, GeneralPurposeRegister<1, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto XOR(Memory<2, a, b, c, d>, byte<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<6, Memory<2, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<6, Memory<2, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int16_t e>
 constexpr auto XOR(Memory<2, a, b, c, d>, word<e>) {
-    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<6, Memory<2, a, b, c, d>, word<e>>::type, to_string<2, word<e>>>{};
+    return Instruction<Prefix<'\x66'>, make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<6, Memory<2, a, b, c, d>, word<e>>::type, to_bytes<word<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto XOR(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
@@ -3953,11 +3953,11 @@ constexpr auto XOR(Memory<2, a, b, c, d>, GeneralPurposeRegister<2, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto XOR(Memory<4, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<6, Memory<4, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x83'>, typename modrm<6, Memory<4, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int32_t e>
 constexpr auto XOR(Memory<4, a, b, c, d>, dword<e>) {
-    return Instruction<make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<6, Memory<4, a, b, c, d>, dword<e>>::type, to_string<4, dword<e>>>{};
+    return Instruction<make_rex<0,0,0,0>, Opcode<'\x81'>, typename modrm<6, Memory<4, a, b, c, d>, dword<e>>::type, to_bytes<dword<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto XOR(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
@@ -3965,11 +3965,11 @@ constexpr auto XOR(Memory<4, a, b, c, d>, GeneralPurposeRegister<4, e>) {
 };
 template <typename a, typename b, size_t c, Displacement d, int8_t e>
 constexpr auto XOR(Memory<8, a, b, c, d>, byte<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\x83'>, typename modrm<6, Memory<8, a, b, c, d>, byte<e>>::type, to_string<1, byte<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x83'>, typename modrm<6, Memory<8, a, b, c, d>, byte<e>>::type, to_bytes<byte<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, int32_t e>
 constexpr auto XOR(Memory<8, a, b, c, d>, dword<e>) {
-    return Instruction<make_rex<1,0,0,0>, Opcode<'\x81'>, typename modrm<6, Memory<8, a, b, c, d>, dword<e>>::type, to_string<4, dword<e>>>{};
+    return Instruction<make_rex<1,0,0,0>, Opcode<'\x81'>, typename modrm<6, Memory<8, a, b, c, d>, dword<e>>::type, to_bytes<dword<e>>>{};
 };
 template <typename a, typename b, size_t c, Displacement d, size_t e>
 constexpr auto XOR(Memory<8, a, b, c, d>, GeneralPurposeRegister<8, e>) {

@@ -58,30 +58,6 @@ template <typename... args>
 using bytes_join = typename BytesJoin<args...>::type;
 
 /**
-    Generate a byte string of `c` repeated `s` times.
-*/
-template <size_t s, char c>
-struct BytesGen {
-    using type = bytes_add<ByteString<c>, typename BytesGen<s - 1, c>::type>;
-};
-
-template <char c>
-struct BytesGen<0, c> {
-    using type = ByteString<>;
-};
-
-template <size_t s, char c>
-using bytes_gen = typename BytesGen<s, c>::type;
-
-/**
-    Left pad a byte string with zeros.
-*/
-template <size_t size, typename s>
-using bytes_pack = bytes_add<bytes_gen<size - s::size, '\0'>, s>;
-
-
-
-/**
     Convert a number to a byte string of `size` bytes.
 */
 template <size_t count, long long x>
@@ -95,9 +71,3 @@ template <long long x>
 struct IntToBytes<0, x> {
     using type = ByteString<>;
 };
-
-
-
-template <size_t count, typename x>
-using to_string = typename IntToBytes<count, x::value>::type;
-
