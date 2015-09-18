@@ -125,8 +125,8 @@ struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, reg, None, mult, dis
     template <size_t reg1Size, size_t reg1Index>
     struct impl {
         using type = bytes_join<
-            make_modrm<Details::get_mode_for_disp(disp, false), GeneralPurposeRegister<s, i>::index, reg::index>,
-            typename Details::get_disp<disp, false>::type>;
+            make_modrm<Details::get_mode_for_disp(disp, (reg1Index == 5)), GeneralPurposeRegister<s, i>::index, reg::index>,
+            typename Details::get_disp<disp, (reg1Index == 5)>::type>;
     };
     
     /// reg1 == esp special case
@@ -135,15 +135,6 @@ struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, reg, None, mult, dis
         using type = bytes_join<
             make_modrm<Details::get_mode_for_disp(disp, true), GeneralPurposeRegister<s, i>::index, 4>,
             make_sib<0, 4, 4>,
-            typename Details::get_disp<disp, true>::type>;
-    };
-    
-       
-    /// reg1 == ebp special case
-    template <size_t reg1Size>
-    struct impl<reg1Size, 5> {
-        using type = bytes_join<
-            make_modrm<Details::get_mode_for_disp(disp, true), GeneralPurposeRegister<s, i>::index, reg::index>,
             typename Details::get_disp<disp, true>::type>;
     };
     
@@ -157,9 +148,9 @@ struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, reg, reg2, mult, dis
     template <size_t reg2Index, typename _>
     struct impl {
         using type = bytes_join<
-            make_modrm<Details::get_mode_for_disp(disp, false), GeneralPurposeRegister<s, i>::index, 4>,
+            make_modrm<Details::get_mode_for_disp(disp, (reg2Index == 5)), GeneralPurposeRegister<s, i>::index, 4>,
             make_sib<Details::to_sib_scale(mult), reg2::index, reg::index>,
-            typename Details::get_disp<disp, false>::type>;
+            typename Details::get_disp<disp, (reg2Index == 5)>::type>;
     };
     
     /// reg1 == esp special case
@@ -170,16 +161,6 @@ struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, reg, reg2, mult, dis
             make_sib<Details::to_sib_scale(mult), reg2::index, reg::index>,
             typename Details::get_disp<disp, true>::type>;
     };
-    
-     /// reg1 == ebp special case
-    template <typename _>
-    struct impl<5, _> {
-        using type = bytes_join<
-            make_modrm<Details::get_mode_for_disp(disp, true), GeneralPurposeRegister<s, i>::index, 4>,
-            make_sib<Details::to_sib_scale(mult), reg2::index, reg::index>,
-            typename Details::get_disp<disp, true>::type>;
-    };
-
     
     using type = typename impl<reg::index, void>::type;
 };
