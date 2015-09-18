@@ -35,33 +35,27 @@ struct ToBytes<Immediate<T, x>> :
     IntToBytes<sizeof(T), x> { };
 
 
-
 namespace Details {
-
-template <class T>
-inline constexpr T pow(T base, unsigned exponent) {
-    return exponent == 0 ? 1 : base * pow(base, exponent - 1);
-}
 
 /**
     Get the base of the number system from a number literal plus the digits of
     that literal.
 */
-template <char... values>
+template <char... digits>
 struct GetBase : // decimal
-    Pair<std::integral_constant<unsigned, 10>, std::integer_sequence<char, values...>> { };
+    Pair<std::integral_constant<unsigned, 10>, List<std::integral_constant<char, digits>...>> { };
 
-template <char... values>
-struct GetBase<'0', 'x', values...> : // hex
-    Pair<std::integral_constant<unsigned, 16>, std::integer_sequence<char, values...>> { };
+template <char... digits>
+struct GetBase<'0', 'x', digits...> : // hex
+    Pair<std::integral_constant<unsigned, 16>, List<std::integral_constant<char, digits>...>> { };
 
-template <char... values>
-struct GetBase<'0', 'X', values...> : // hex
-    Pair<std::integral_constant<unsigned, 16>, std::integer_sequence<char, values...>> { };
+template <char... digits>
+struct GetBase<'0', 'X', digits...> : // hex
+    Pair<std::integral_constant<unsigned, 16>, List<std::integral_constant<char, digits>...>> { };
 
-template <char... values>
-struct GetBase<'0', values...> : // octal
-    Pair<std::integral_constant<unsigned, 8>, std::integer_sequence<char, values...>> { };
+template <char... digits>
+struct GetBase<'0', digits...> : // octal
+    Pair<std::integral_constant<unsigned, 8>, List<std::integral_constant<char, digits>...>> { };
 
 /**
     Get the numeric value of a digit.
@@ -70,21 +64,10 @@ template <char x, typename enable = void>
 struct DigitToValue : std::integral_constant<unsigned, x - '0'> {};
 
 template <char x>
-struct DigitToValue<x, std::enable_if_t<x >= 'a' && x <= 'f'>> : std::integral_constant<unsigned, x - 'a' + 10> {};
+struct DigitToValue<x, std::enable_if_t<(x >= 'a' && x <= 'f')>> : std::integral_constant<unsigned, x - 'a' + 10> {};
 
 template <char x>
-struct DigitToValue<x, std::enable_if_t<x >= 'A' && x <= 'F'>> : std::integral_constant<unsigned, x - 'A' + 10> {};
-
-/**
-    Convert a character string to a integer value.
-*/
-template <size_t base, typename>
-struct IntegerFromString : std::integral_constant<unsigned long long, 0> {};
-
-template <size_t base, char x, char... xs>
-struct IntegerFromString<base, std::integer_sequence<char, x, xs...>> :
-    std::integral_constant<unsigned long long,
-        DigitToValue<x>::value * pow(base, sizeof...(xs)) + IntegerFromString<base,  std::integer_sequence<char, xs...>>::value> {};
+struct DigitToValue<x, std::enable_if_t<(x >= 'A' && x <= 'F')>> : std::integral_constant<unsigned, x - 'A' + 10> {};
 
 /**
     Construct an immediate of `T` from a string of digits.
@@ -93,7 +76,14 @@ template <typename T, char... values>
 struct ImmediateFromString {
     using base = Details::GetBase<values...>;
     
-    using type = Immediate<T, static_cast<T>(Details::IntegerFromString<base::first::value, typename base::second>::value)>;
+    struct reducer {
+        template <typename p, typename c>
+        struct apply :
+            std::integral_constant<unsigned long long, p::value * base::first::value + DigitToValue<c::value>::value> { };
+    };
+    
+    using type = Immediate<T,
+         static_cast<T>(fold<reducer, std::integral_constant<int, 0>, typename base::second>::value)>;
 };
 
 } // Details
