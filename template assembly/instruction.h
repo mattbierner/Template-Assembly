@@ -10,7 +10,7 @@ namespace Details {
     Get the offset of a label.
 */
 template <size_t size, typename state, typename labelOffset>
-struct GetOffset : IntToBytes<size, static_cast<uint8_t>(labelOffset::value - state::index)> { };
+struct GetOffset : IntToBytes<size, static_cast<long long>(labelOffset::value - state::index)> { };
 
 template <size_t size, typename state>
 struct GetOffset<size, state, None> : IntToBytes<size, 0> { };
@@ -25,9 +25,9 @@ struct Rewrite {
         using type = x;
     };
     
-    template <typename x>
-    struct apply<Rel8<x>> :
-        GetOffset<1, state, typename state::template lookup_label<x>> {};
+    template <size_t s, typename x>
+    struct apply<Rel<s, x>> :
+        GetOffset<s, state, typename state::template lookup_label<x>> {};
 };
 
 } // Details

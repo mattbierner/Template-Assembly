@@ -14,9 +14,7 @@ struct Label {
 };
 
 template <typename T, T... chars>
-constexpr auto operator""_label() {
-    return Label<chars...>{};
-};
+constexpr auto operator""_label() { return Label<chars...>{}; };
 
 /**
     Relative offset of a label in a program.
@@ -26,10 +24,13 @@ using LabelOffset = std::integral_constant<size_t, x>;
 
 
 /**
+    Relative label.
 */
+template <size_t s, typename name>
+struct Rel { static constexpr size_t size = s; };
+
 template <typename name>
-struct Rel8 { static constexpr size_t size = 1; };
+using Rel8 = Rel<1, name>;
 
 template <typename T, T... chars>
 constexpr auto operator""_rel8() { return Rel8<Label<chars...>>{}; };
-

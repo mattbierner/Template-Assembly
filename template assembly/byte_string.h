@@ -42,7 +42,7 @@ template <typename l, typename r>
 using bytes_add = typename BytesAdd<to_bytes<l>, to_bytes<r>>::type;
 
 /**
-    Combine 1 ore more byte strings.
+    Combine one or more byte strings.
 */
 template <typename...>
 struct BytesJoin {
