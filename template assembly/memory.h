@@ -149,12 +149,3 @@ template <size_t size, typename reg1, Displacement disp, size_t reg2Size, size_t
 constexpr auto operator+(GeneralPurposeRegister<reg2Size, reg2Index> r, Memory<size, reg1, None, 0, disp> m) {
     return m + r;
 }
-
-template <size_t size, typename reg1, Displacement disp, size_t reg2Size, size_t reg2Index>
-constexpr auto operator-(Memory<size, reg1, None, 0, disp> m, GeneralPurposeRegister<reg2Size, reg2Index> r) {
-    return m - r * 1_d;
-}
-template <size_t size, typename reg1, Displacement disp, size_t reg2Size, size_t reg2Index>
-constexpr auto operator-(GeneralPurposeRegister<reg2Size, reg2Index> r, Memory<size, reg1, None, 0, disp> m) {
-    return m - r;
-}
