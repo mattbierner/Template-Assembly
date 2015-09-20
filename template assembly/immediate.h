@@ -37,53 +37,68 @@ struct ToBytes<Immediate<T, x>> :
 
 namespace Details {
 
-/**
-    Get the base of the number system from a number literal plus the digits of
-    that literal.
-*/
-template <char... digits>
-struct GetBase : // decimal
-    Pair<std::integral_constant<unsigned, 10>, List<std::integral_constant<char, digits>...>> { };
+constexpr unsigned digit_to_value(char c) {
+    if      (c >= 'a' && c <= 'f') return c - 'a' + 10;
+    else if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+    else if (c >= '0' && c <= '9') return c - '0';
+    else                           throw std::invalid_argument("c");
+}
+
+template <typename sum, char... digits>
+struct GetDigits {
+    using type = sum;
+};
+
+template <unsigned... existing, char... xs>
+struct GetDigits<std::integer_sequence<unsigned, existing...>, '\'', xs...> :
+    GetDigits<
+        std::integer_sequence<unsigned, existing...>,
+        xs...> { };
+
+template <unsigned... existing, char x, char... xs>
+struct GetDigits<std::integer_sequence<unsigned, existing...>, x, xs...> :
+    GetDigits<
+        std::integer_sequence<unsigned, existing..., digit_to_value(x)>,
+        xs...> { };
+
+template <unsigned b, char... d>
+struct BaseAndDigits {
+    static constexpr unsigned base = b;
+    using digits = typename GetDigits<std::integer_sequence<unsigned>, d...>::type;
+};
 
 template <char... digits>
-struct GetBase<'0', 'x', digits...> : // hex
-    Pair<std::integral_constant<unsigned, 16>, List<std::integral_constant<char, digits>...>> { };
+struct ParseNumber : BaseAndDigits<10, digits...> { };
 
 template <char... digits>
-struct GetBase<'0', 'X', digits...> : // hex
-    Pair<std::integral_constant<unsigned, 16>, List<std::integral_constant<char, digits>...>> { };
+struct ParseNumber<'0', 'X', digits...> : BaseAndDigits<16, digits...> { };
 
 template <char... digits>
-struct GetBase<'0', digits...> : // octal
-    Pair<std::integral_constant<unsigned, 8>, List<std::integral_constant<char, digits>...>> { };
+struct ParseNumber<'0', 'x', digits...> : BaseAndDigits<16, digits...> { };
 
-/**
-    Get the numeric value of a digit.
-*/
-template <char x, typename enable = void>
-struct DigitToValue : std::integral_constant<unsigned, x - '0'> {};
+template <char... digits>
+struct ParseNumber<'0', digits...> : BaseAndDigits<8, digits...> { };
 
-template <char x>
-struct DigitToValue<x, std::enable_if_t<(x >= 'a' && x <= 'f')>> : std::integral_constant<unsigned, x - 'a' + 10> {};
+template <char... digits>
+struct ParseNumber<'0', 'b', digits...> : BaseAndDigits<2, digits...> { };
 
-template <char x>
-struct DigitToValue<x, std::enable_if_t<(x >= 'A' && x <= 'F')>> : std::integral_constant<unsigned, x - 'A' + 10> {};
+template <char... digits>
+struct ParseNumber<'0', 'B', digits...> : BaseAndDigits<2, digits...> { };
 
-/**
-    Construct an immediate of `T` from a string of digits.
-*/
 template <typename T, char... values>
 struct ImmediateFromString {
-    using base = Details::GetBase<values...>;
+    using number = ParseNumber<values...>;
     
-    struct reducer {
-        template <typename p, typename c>
-        struct apply :
-            std::integral_constant<unsigned long long, p::value * base::first::value + DigitToValue<c::value>::value> { };
-    };
+    template <unsigned x, unsigned... xs>
+    static constexpr unsigned long long fold(unsigned long sum, std::integer_sequence<unsigned, x, xs...>) {
+        return fold(x + number::base * sum, std::integer_sequence<unsigned, xs...>{});
+    }
     
-    using type = Immediate<T,
-         static_cast<T>(fold<reducer, std::integral_constant<int, 0>, typename base::second>::value)>;
+    static constexpr unsigned long long fold(unsigned long sum, std::integer_sequence<unsigned>) {
+        return sum;
+    }
+    
+    using type = Immediate<T, static_cast<T>(fold(0, typename number::digits{}))>;
 };
 
 } // Details
@@ -145,4 +160,7 @@ constexpr auto test_multi_hex_digit = assert_is_same<byte<95>, decltype(0x5f_b)>
 
 constexpr auto test_octal_single = assert_is_same<byte<4>, decltype(04_b)>();
 constexpr auto test_octal_multi = assert_is_same<byte<39>, decltype(047_b)>();
+
+constexpr auto fdas = assert_is_same<byte<12>, decltype(1'2_b)>();
+
 }
