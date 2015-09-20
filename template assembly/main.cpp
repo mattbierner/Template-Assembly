@@ -157,19 +157,25 @@ int main(int argc, const char * argv[]) {
     
     check_same("Call c function from assembly", 66,
         Asm<int>(
-            MOV(rax, _[rsp + 8_d]),
-            CALL(rax),
+            MOV(rbx, _[rsp + 8_d]),
+            CALL(rbx),
             RET())(&ret66)
     );
 
-    check_same("Call c function from assembly memory directly", 66,
+    check_same("Call c function from esp directly", 66,
         Asm<int>(
             CALL(_[rsp + 8_d]),
             RET())(&ret66)
     );
+    
+     check_same("Call c function from ebp directly", 66,
+        Asm<int>(
+            CALL(_[rbp - 0x10_d]),
+            RET())(&ret66)
+    );
 
-   // auto p = Asm<int>(MOV(eax, _[ebp + ecx * 2_b]));
- //  Print<decltype(p)::program> x{};
+  //  auto p = Asm<int>(CALL(_[rbp - 0xc_d]));
+  // Print<decltype(p)::program> x{};
 
     std::cout << "done" << std::endl;
     return 0;
