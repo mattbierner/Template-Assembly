@@ -15,26 +15,6 @@ struct identity {
 };
 
 /**
-*/
-template <typename x>
-struct Constant {
-    template <typename _>
-    struct apply {
-        using type = x;
-    };
-};
-
-/**
-*/
-template <typename f>
-struct flip {
-    template <typename a, typename b>
-    struct apply {
-        using type = call<f, b, a>;
-    };
-};
-
-/**
     Transform a template into a metafunction.
 */
 template <template<typename...> class f>
