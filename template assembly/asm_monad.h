@@ -1,5 +1,6 @@
 #pragma once
 
+#include "byte_string.h"
 #include "foldable.h"
 #include "list.h"
 #include "utility.h"
@@ -15,7 +16,7 @@ struct next {
         using right = call<c, typename left::first>;
         using type = Pair<
             typename right::first,
-            append<typename left::second, typename right::second>>;
+            bytes_add<typename left::second, typename right::second>>;
     };
 };
 

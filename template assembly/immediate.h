@@ -12,7 +12,7 @@ struct Immediate {
     static constexpr T value = x;
     static constexpr size_t size = sizeof(T);
         
-    auto operator-() const {
+    constexpr auto operator-() const {
         return Immediate<T, static_cast<T>(-x)>{};
     }
 };

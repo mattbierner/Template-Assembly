@@ -69,6 +69,15 @@ int main(int argc, const char * argv[]) {
             RET())()
     );
     
+    check_same("Simple jmp", 3,
+        Asm<int>(
+            MOV(eax, 3_d),
+            JMP("a"_rel8),
+            ADD(eax, 2_d),
+        "a"_label,
+            RET())()
+    );
+    
     check_same("Simple loop", 30,
         Asm<int>(
             MOV(ecx, 5_d),

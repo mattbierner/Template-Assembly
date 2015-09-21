@@ -11,12 +11,9 @@
     Convert an Asm program into machine code.
 */
 template <typename program>
-using compile = fold<
-    mfunc<bytes_join>,
-    ByteString<>,
-    typename call<
-        program,
-        pass2state<typename call<program, pass1state>::first>>::second>;
+using compile = typename call<
+    program,
+    pass2state<typename call<program, pass1state>::first>>::second;
 
 /**
     Assembly function wrapper.

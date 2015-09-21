@@ -9,7 +9,7 @@ template <char... chars>
 struct Label {
     template <typename s>
     struct apply {
-        using type = Pair<typename s::template add_label<Label<chars...>>, List<>>;
+        using type = Pair<typename s::template add_label<Label<chars...>>, ByteString<>>;
     };
 };
 

@@ -42,6 +42,9 @@ struct Instruction  {
     template <typename state>
     struct apply {
         using next_state = typename state::template inc<size>;
-        using type = Pair<next_state, fmap<typename Details::Rewrite<next_state>, List<components...>>>;
+        using type = Pair<next_state, fold<
+            mfunc<bytes_join>,
+            ByteString<>,
+            fmap<typename Details::Rewrite<next_state>, List<components...>>>>;
     };
 };
