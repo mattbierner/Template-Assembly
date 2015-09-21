@@ -18,6 +18,7 @@ using compile =
         typename call<program, pass2state<typename call<program, pass1state>::first>>::second>;
 
 /**
+    Assembly function wrapper.
 */
 template <typename R, typename P>
 struct AsmProgram {
@@ -31,6 +32,7 @@ struct AsmProgram {
 
 
 /**
+    Block of assembly code.
 */
 template <typename x, typename... xs>
 constexpr auto block(x, xs...) {
@@ -38,6 +40,7 @@ constexpr auto block(x, xs...) {
 }
 
 /**
+    Create a top level assembly function.
 */
 template <typename R, typename x, typename... xs>
 constexpr auto Asm(x, xs...) {

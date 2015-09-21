@@ -12,7 +12,9 @@ struct Immediate {
     static constexpr T value = x;
     static constexpr size_t size = sizeof(T);
         
-    auto operator-() const { return Immediate<T, static_cast<T>(-x)>{}; }
+    auto operator-() const {
+        return Immediate<T, static_cast<T>(-x)>{};
+    }
 };
 
 template <typename L, L lx, typename R, R rx>
@@ -21,18 +23,18 @@ constexpr auto operator+(Immediate<L, lx>, Immediate<R, rx>) {
 }
 
 template <typename L, L lx, typename R, R rx>
-constexpr auto operator*(Immediate<L, lx>, Immediate<R, rx>) {
-    return Immediate<L, static_cast<L>(lx * rx)>{};
-}
-
-template <typename L, L lx, typename R, R rx>
 constexpr auto operator-(Immediate<L, lx>, Immediate<R, rx>) {
     return Immediate<L, static_cast<R>(lx - rx)>{};
 }
 
+template <typename L, L lx, typename R, R rx>
+constexpr auto operator*(Immediate<L, lx>, Immediate<R, rx>) {
+    return Immediate<L, static_cast<L>(lx * rx)>{};
+}
+
 template <typename T, T x>
 struct ToBytes<Immediate<T, x>> :
-    IntToBytes<sizeof(T), x> { };
+    IntToBytes<Immediate<T, x>::size, x> { };
 
 
 namespace Details {
