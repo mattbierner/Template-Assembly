@@ -39,3 +39,17 @@ struct SymbolTableLookup<def, key, empty_symbol_table> {
 
 template <typename def, typename key, typename map>
 using symbol_table_lookup = typename SymbolTableLookup<def, key, map>::type;
+
+template <typename name>
+struct duplicate_symbols_not_allowed;
+
+/**
+    Add an entry to the symbol table.
+*/
+template <typename key, typename value, typename table>
+using symbol_table_add = typename std::conditional_t<
+    std::is_same<
+        None,
+        symbol_table_lookup<None, key, table>>::value,
+    identity<cons<SymbolTableEntry<key, value>, table>>,
+    duplicate_symbols_not_allowed<key>>::type;

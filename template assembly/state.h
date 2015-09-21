@@ -23,14 +23,6 @@ struct BaseState {
     */
     template <size_t x>
     using inc = self<index + x, labels>;
-    
-    /**
-        Register a new label at the current index
-    */
-    template <typename newLabel>
-    using add_label = self<index, cons<
-        SymbolTableEntry<newLabel, LabelOffset<index>>,
-        labels>>;
 };
 
 /**
@@ -42,6 +34,12 @@ template <size_t lc, typename _labels>
 struct Pass1State : BaseState<Pass1State, lc, _labels> {
     template <typename name>
     using lookup_label = symbol_table_lookup<None, name, _labels>;
+    
+    /**
+        Register a new label at the current index
+    */
+    template <typename newLabel>
+    using add_label = Pass1State<lc, symbol_table_add<newLabel, LabelOffset<lc>, _labels>>;
 };
 
 /**
@@ -66,6 +64,12 @@ template <size_t lc, typename _labels>
 struct Pass2State : BaseState<Pass2State, lc, _labels> {
     template <typename name>
     using lookup_label = symbol_table_lookup<no_such_label<name>, name, _labels>;
+    
+    /**
+        Register a new label at the current index. Noop in pass 2.
+    */
+    template <typename newLabel>
+    using add_label = Pass2State<lc, _labels>;
 };
 
 /**
