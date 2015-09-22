@@ -11,7 +11,7 @@
     Convert an Asm program into machine code.
 */
 template <typename program>
-using compile = typename call<
+using assemble = typename call<
     program,
     pass2state<typename call<program, pass1state>::first>>::second;
 
@@ -42,5 +42,5 @@ constexpr auto block(x, xs...) {
 */
 template <typename R, typename x, typename... xs>
 constexpr auto Asm(x, xs...) {
-    return AsmProgram<R, compile<seq<x, xs...>>>();
+    return AsmProgram<R, assemble<seq<x, xs...>>>();
 }

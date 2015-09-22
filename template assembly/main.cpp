@@ -164,10 +164,11 @@ int main(int argc, const char * argv[]) {
             RET())(1, 2, 3)
     );
     
-    check_same("Call c function from assembly", 66,
+    check_same("Call c function from assembly", 68,
         Asm<int>(
             MOV(rbx, _[rsp + 8_d]),
             CALL(rbx),
+            ADD(eax, 2_d),
             RET())(&ret66)
     );
 
