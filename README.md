@@ -153,3 +153,6 @@ $ node index.js
 ```
 
 If you want to support a new instruction, take a look at modifying `index.js` to generate it in `instr.h`.
+
+# Acknowledgments
+x86 / x86_64 instruction xml specification is copied from [Opcodes](https://github.com/Maratyszcza/Opcodes).
