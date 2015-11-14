@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const xml2js = require('xml2js');
- 
+
 const IN_FILE = 'x86_64.xml'
 const OUT_FILE = 'template assembly/instr.h'
 
@@ -53,10 +53,10 @@ const getOperandTemplateArgs = operand => {
     case 'imm64': return [{ type: 'qword', needs: ['int64_t'] }];
 
     case 'rel8': return [{ type: 'Rel8', needs: ['typename'] }];
-    
+
     case 'ymm':
     case 'xmm':
-        
+
     }
     return null;
 };
@@ -111,17 +111,17 @@ const getEncoding = function(encoding, ops) {
         let data = encoding.Prefix[0]['$']['byte'];
         prefix = `Prefix<'\\x${data}'>`;
     }
-    
+
     let modrm = [];
     if (encoding.ModRM) {
         modrm = toModRM(encoding.ModRM[0].$, ops);
     }
-    
+
     let rex = [];
     if (encoding.REX) {
         rex = toRex(encoding.REX[0].$, ops);
     }
-    
+
     let opcode = [];
     if (encoding.Opcode) {
         opcode = encoding.Opcode.map(x => {
@@ -134,7 +134,7 @@ const getEncoding = function(encoding, ops) {
             }
         });
     }
-    
+
     let codeOffset = [];
     if (encoding.CodeOffset) {
         let index = encoding.CodeOffset[0].$['operand-number'];
@@ -161,20 +161,20 @@ const processForm = function(name, form) {
     return ${encoding};
 };`;
     };
-     
+
     let aa = operands.map(getOperandTemplateArgs);
     if (aa.some(x => x === null)) // check for unmapped args
         return [];
     aa = flatten(aa);
-    
+
     const args = createNames(aa);
     const parameters = flatten(args.map(arg =>
         arg.needs.map(need =>
             need.type + ' ' + need.name)));
-            
+
     const special = args.map(arg =>
         `${arg.type}<${(arg.args || []).concat(arg.needs.map(need => need.name)).join(', ')}>`);
-    
+
     let encoding = getEncoding(form.Encoding[0], args);
 
     return `template <${parameters.join(', ')}>
@@ -188,7 +188,7 @@ const processInstruction = instruction => {
     // Skip XLATB for now since its implicit operands generate duplicate symbols
     if (name === 'XLATB')
         return [];
-    
+
     const forms = instruction.InstructionForm;
     return flatten(forms.map(
         processForm.bind(null, name)));
@@ -203,10 +203,10 @@ const writeResult = instructions => {
     fs.writeFile(path.join(__dirname, OUT_FILE), contents, err => {
         if(err)
             return console.log(err);
-    }); 
+    });
 };
- 
- 
+
+
 
 const parser = new xml2js.Parser();
 
@@ -216,7 +216,7 @@ fs.readFile(path.join(__dirname, IN_FILE), (err, data) => {
             console.error(err);
             return;
         }
-        
+
         const instructions = processInstructions(result.InstructionSet.Instruction);
         writeResult(instructions);
     });
