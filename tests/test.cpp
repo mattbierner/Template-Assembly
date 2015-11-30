@@ -18,8 +18,6 @@ constexpr auto do_x_times(Count count, Body... body)
 
 int ret66() { return 66; }
 
-char str[] = "abc";
-
 TEST_CASE("Features Test", "[asm]") {
 
   SECTION("Mov literal") {
