@@ -14,7 +14,7 @@ struct Immediate {
     using type = T;
     static constexpr T value = x;
     static constexpr size_t size = sizeof(T);
-        
+
     constexpr auto operator-() const {
         return Immediate<T, static_cast<T>(-x)>{};
     }
@@ -96,16 +96,16 @@ struct ParseNumber<'0', 'B', digits...> : BaseAndDigits<2, digits...> { };
 template <typename T, char... values>
 struct ImmediateFromString {
     using number = ParseNumber<values...>;
-    
+
     template <unsigned x, unsigned... xs>
     static constexpr unsigned long long fold(unsigned long sum, std::integer_sequence<unsigned, x, xs...>) {
         return fold(x + number::base * sum, std::integer_sequence<unsigned, xs...>{});
     }
-    
+
     static constexpr unsigned long long fold(unsigned long sum, std::integer_sequence<unsigned>) {
         return sum;
     }
-    
+
     using type = Immediate<T, static_cast<T>(fold(0, typename number::digits{}))>;
 };
 
@@ -153,22 +153,4 @@ using qword = Immediate<int64_t, x>;
 template <char... values>
 constexpr auto operator ""_q() {
     return typename Details::ImmediateFromString<typename qword<0>::type, values...>::type{};
-}
-
-namespace {
-constexpr auto test_1_decimal = assert_is_same<byte<4>, decltype(4_b)>();
-constexpr auto test_2_decimal = assert_is_same<byte<42>, decltype(42_b)>();
-constexpr auto test_neg1_decimal = assert_is_same<byte<-4>, decltype(-4_b)>();
-constexpr auto test_clamp = assert_is_same<byte<-127>, decltype(129_b)>();
-
-constexpr auto test_hex = assert_is_same<byte<4>, decltype(0x4_b)>();
-constexpr auto test_hex_digit = assert_is_same<byte<10>, decltype(0xa_b)>();
-constexpr auto test_hex_digit_uppser = assert_is_same<byte<10>, decltype(0xA_b)>();
-constexpr auto test_multi_hex_digit = assert_is_same<byte<95>, decltype(0x5f_b)>();
-
-constexpr auto test_octal_single = assert_is_same<byte<4>, decltype(04_b)>();
-constexpr auto test_octal_multi = assert_is_same<byte<39>, decltype(047_b)>();
-
-constexpr auto fdas = assert_is_same<byte<12>, decltype(1'2_b)>();
-
 }
