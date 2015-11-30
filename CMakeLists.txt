@@ -69,7 +69,7 @@ COMPILER_FLAGS(FLAGS "-std=c++14"
 
 message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 
-include_directories     ("${INCLUDE_DIR}")
+include_directories("${INCLUDE_DIR}")
 
 file(GLOB TEST_FILES "${TEST_DIR}/*.cpp")
 
