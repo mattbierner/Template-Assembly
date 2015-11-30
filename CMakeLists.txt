@@ -38,16 +38,15 @@ else()
 endif()
 
 COMPILER_FLAGS(FLAGS "-std=c++14"
-                     "-Wall" "-pedantic" "-Wextra"
-                     "-pedantic-errors" "-Wcast-align"
-                     "-Wcast-qual" "-Wconversion"
+                     "-Wall" "-Wextra"
+                     "-pedantic"
+                     "-Wcast-align" "-Wcast-qual" "-Wconversion"
                      "-Wdisabled-optimization"
                      "-Wdocumentation"
                      "-Wformat=2"
                      "-Wformat-nonliteral" "-Wformat-security"
                      "-Wformat-y2k"
                      "-Wimplicit" "-Wimport" "-Winit-self" "-Winline"
-                     "-Wlong-long"
                      "-Wmissing-field-initializers" "-Wmissing-format-attribute"
                      "-Wmissing-include-dirs" "-Wmissing-noreturn"
                      "-Wpacked" "-Wpointer-arith"
@@ -64,7 +63,7 @@ COMPILER_FLAGS(FLAGS "-std=c++14"
                      "-Wno-suggest-attribute=noreturn"
                      "-fsanitize=address"
                      "-pipe"
-               FLAGS_RELEASE  "-march=native" "-Wno-inline"
+               FLAGS_RELEASE "-march=native" "-Wno-inline"
 )
 
 message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
