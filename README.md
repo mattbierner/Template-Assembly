@@ -137,6 +137,16 @@ Asm<int>(
 Any C++ syntax can be used to extend the embedded language.
 
 
+## Build tests
+A cmake script is included to build tests
+Just do:
+```
+mkdir build; cd build
+cmake ..
+make
+./tester
+```
+
 ## Development
 
 ### Contribute
