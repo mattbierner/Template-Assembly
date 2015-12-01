@@ -22,46 +22,46 @@ constexpr auto test_octal_multi = std::is_same<byte<39>, decltype(047_b)>();
 constexpr auto test_fdas = std::is_same<byte<12>, decltype(1'2_b)>();
 
   SECTION("1 decimal") {
-    REQUIRE(test_1_decimal);
+    CHECK(test_1_decimal);
   }
 
   SECTION("2 decimal") {
-    REQUIRE(test_2_decimal);
+    CHECK(test_2_decimal);
   }
 
   SECTION("neg1 decimal") {
-    REQUIRE(test_neg1_decimal);
+    CHECK(test_neg1_decimal);
   }
 
   SECTION("clamp") {
-    REQUIRE(test_clamp);
+    CHECK(test_clamp);
   }
 
   SECTION("hexadecimal") {
-    REQUIRE(test_hex);
+    CHECK(test_hex);
   }
 
   SECTION("hexadecimal digit") {
-    REQUIRE(test_hex_digit);
+    CHECK(test_hex_digit);
   }
 
   SECTION("hexadecimal upper digit") {
-    REQUIRE(test_hex_digit_uppser);
+    CHECK(test_hex_digit_uppser);
   }
 
   SECTION("hexadecimal multi digit") {
-    REQUIRE(test_multi_hex_digit);
+    CHECK(test_multi_hex_digit);
   }
 
   SECTION("1 octal") {
-    REQUIRE(test_octal_single);
+    CHECK(test_octal_single);
   }
 
   SECTION("2 octal") {
-    REQUIRE(test_octal_multi);
+    CHECK(test_octal_multi);
   }
 
   SECTION("fdas") {
-    REQUIRE(test_fdas);
+    CHECK(test_fdas);
   }
 }

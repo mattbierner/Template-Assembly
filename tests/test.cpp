@@ -21,21 +21,21 @@ int ret66() { return 66; }
 TEST_CASE("Features Test", "[asm]") {
 
   SECTION("Mov literal") {
-    REQUIRE(Asm<int>(
+    CHECK(Asm<int>(
             MOV(eax, 3_d),
             RET())()
             == 3);
   }
 
   SECTION("64 bit register MOV") {
-    REQUIRE(Asm<int>(
+    CHECK(Asm<int>(
             MOV(rax, 6_q),
             RET())()
             == 6);
   }
 
   SECTION("Negative literal") {
-    REQUIRE(Asm<int>(
+    CHECK(Asm<int>(
             MOV(eax, -3_d),
             ADD(eax, - - -100_d),
             RET())()
@@ -43,7 +43,7 @@ TEST_CASE("Features Test", "[asm]") {
   }
 
   SECTION("Move reg to reg") {
-    REQUIRE(Asm<int>(
+    CHECK(Asm<int>(
             MOV(ecx, 4_d),
             MOV(eax, ecx),
             RET())()
@@ -51,7 +51,7 @@ TEST_CASE("Features Test", "[asm]") {
   }
 
   SECTION("Simple jmp") {
-    REQUIRE(Asm<int>(
+    CHECK(Asm<int>(
             MOV(eax, 3_d),
             JMP("a"_rel8),
             ADD(eax, 2_d),
@@ -61,7 +61,7 @@ TEST_CASE("Features Test", "[asm]") {
   }
 
   SECTION("Simple loop") {
-    REQUIRE(Asm<int>(
+    CHECK(Asm<int>(
             MOV(ecx, 5_d),
             MOV(eax, 0_d),
             "start"_label,
@@ -76,7 +76,7 @@ TEST_CASE("Features Test", "[asm]") {
   }
 
   SECTION("Macro simple loop") {
-    REQUIRE(Asm<int>(
+    CHECK(Asm<int>(
             MOV(eax, 0_d),
             do_x_times(5_d,
                 ADD(eax, 6_d)),
@@ -85,21 +85,21 @@ TEST_CASE("Features Test", "[asm]") {
   }
 
   SECTION("Access arg using esp") {
-    REQUIRE(Asm<int>(
+    CHECK(Asm<int>(
             MOV(eax, _[esp + 28_d]),
             RET())(1, 2, 3)
             == 1);
   }
 
   SECTION("Access arg using ebp") {
-    REQUIRE(Asm<int>(
+    CHECK(Asm<int>(
             MOV(eax, _[ebp - 0xc_b]),
             RET())(1, 2, 3)
             == 1);
   }
 
   SECTION("Index ebp") {
-    REQUIRE(Asm<int>(
+    CHECK(Asm<int>(
             MOV(ecx, 2_d),
             MOV(eax, _[ebp + ecx * 2_b - 0x10_d]),
             RET())(1, 2, 3)
@@ -107,7 +107,7 @@ TEST_CASE("Features Test", "[asm]") {
   }
 
   SECTION("Access args using ebp and division") {
-    REQUIRE(Asm<int>(
+    CHECK(Asm<int>(
             MOV(edx, 0_d),
             MOV(eax, _[ebp - 0xc_b]),
             MOV(ecx, _[ebp - 0x10_b]),
@@ -119,14 +119,14 @@ TEST_CASE("Features Test", "[asm]") {
   }
 
   SECTION("Access arg with 64 bit reg") {
-    REQUIRE(Asm<int>(
+    CHECK(Asm<int>(
             MOV(rax, _[rsp + 24_d]),
             RET())(1, 2, 3)
             == 2);
   }
 
   SECTION("Access second register zero") {
-    REQUIRE(Asm<int>(
+    CHECK(Asm<int>(
             MOV(ecx, 0_d),
             MOV(eax, _[esp + 28_d + ecx]),
             RET())(1, 2, 3)
@@ -134,7 +134,7 @@ TEST_CASE("Features Test", "[asm]") {
   }
 
   SECTION("Access second register with offset") {
-    REQUIRE(Asm<int>(
+    CHECK(Asm<int>(
             MOV(ecx, 8_d),
             MOV(eax, _[esp + 20_d + ecx]),
             RET())(1, 2, 3)
@@ -142,7 +142,7 @@ TEST_CASE("Features Test", "[asm]") {
   }
 
   SECTION("Access second register with offset and 1 scale") {
-    REQUIRE(Asm<int>(
+    CHECK(Asm<int>(
             MOV(ecx, 8_d),
             MOV(eax, _[esp + 20_d + ecx * 1_b]),
             RET())(1, 2, 3)
@@ -150,7 +150,7 @@ TEST_CASE("Features Test", "[asm]") {
   }
 
   SECTION("Access second register with offset and 4 scale") {
-    REQUIRE(Asm<int>(
+    CHECK(Asm<int>(
             MOV(ecx, 2_d),
             MOV(eax, _[esp + 20_d + ecx * 4_b]),
             RET())(1, 2, 3)
@@ -158,7 +158,7 @@ TEST_CASE("Features Test", "[asm]") {
   }
 
   SECTION("Call c function from assembly") {
-    REQUIRE(Asm<int>(
+    CHECK(Asm<int>(
             MOV(rbx, _[rsp + 8_d]),
             CALL(rbx),
             ADD(eax, 2_d),
@@ -167,21 +167,21 @@ TEST_CASE("Features Test", "[asm]") {
   }
 
   SECTION("Call c function from esp directly") {
-    REQUIRE(Asm<int>(
+    CHECK(Asm<int>(
             CALL(_[rsp + 8_d]),
             RET())(&ret66)
             == 66);
   }
 
   SECTION("Call c function from ebp directly") {
-    REQUIRE(Asm<int>(
+    CHECK(Asm<int>(
             CALL(_[rbp - 0x10_d]),
             RET())(&ret66)
             == 66);
   }
 
   SECTION("Call c function from rdi directly") {
-    REQUIRE(Asm<int>(
+    CHECK(Asm<int>(
             CALL(rdi),
             RET())(&ret66)
             == 66);
