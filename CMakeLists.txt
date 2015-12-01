@@ -25,6 +25,7 @@ message(STATUS "Building ${BUILD_TYPE} ${PROJECT_NAME}\n------------------------
 
 include(CheckCompilerFlags)
 include(CMakeDependentOption)
+include(EnableTests)
 
 OPTION(BUILD_TESTS "Decide if the test suite shall be built." ON)
 CMAKE_DEPENDENT_OPTION(BUILD_TESTS_COVERAGE "Decide if a coverage report should be generated." OFF "BUILD_TESTS" OFF)
@@ -72,4 +73,9 @@ include_directories("${INCLUDE_DIR}")
 
 file(GLOB TEST_FILES "${TEST_DIR}/*.cpp")
 
-include(EnableTests)
+# Add test target
+# --- enable unit tests if desired ---
+if(BUILD_TESTS)
+  GENERATE_TEST_TARGET(COVERAGE ${BUILD_TESTS_COVERAGE} VALGRIND ${VALGRIND_CHECK}
+                       TARGET_NAME ${BIN_TEST} FILES ${TEST_FILES})
+endif()
