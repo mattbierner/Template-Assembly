@@ -13,11 +13,20 @@ FUNCTION(GENERATE_TEST_TARGET)
 
   set(BIN_TEST ${ARG_TARGET_NAME})
   set(TEST_FILES ${ARG_FILES})
+  set(CATCH_MAIN_FILE "${CMAKE_BINARY_DIR}/catch-main-test.cpp")
+
+  # Create Catch main
+  if(NOT EXISTS ${CATCH_MAIN_FILE})
+    file(WRITE ${CATCH_MAIN_FILE} "#define CATCH_CONFIG_MAIN\n#include \"catch.hpp\"\n")
+  endif()
+
+  set_source_files_properties(${CATCH_MAIN_FILE} PROPERTIES GENERATED TRUE)
 
   add_executable(
     # executable name
     ${BIN_TEST}
     # source files
+    ${CATCH_MAIN_FILE}
     ${TEST_FILES}
   )
 
