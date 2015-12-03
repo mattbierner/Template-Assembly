@@ -5,10 +5,8 @@ sudo: required
 addons:
     apt:
         sources:
-            - llvm-toolchain-precise
             - ubuntu-toolchain-r-test
         packages:
-            - clang
             - g++-5
             - gcc-5
 
@@ -16,7 +14,6 @@ os:
   - linux           
 
 compiler:
-  - clang
   - gcc
 
 install:
