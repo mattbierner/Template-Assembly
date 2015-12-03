@@ -38,6 +38,9 @@ else()
   message(STATUS "Setting Clang/LLVM flags\n---------------------------")
 endif()
 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED on)
+
 COMPILER_FLAGS(FLAGS "-std=c++14"
                      "-Wall" "-Wextra"
                      "-pedantic"
