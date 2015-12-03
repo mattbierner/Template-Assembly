@@ -18,6 +18,7 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
 set(TEST_DIR "${PROJECT_SOURCE_DIR}/tests")
+set(INSTRUCTION_SETS "${PROJECT_SOURCE_DIR}/generate_instructions")
 
 set(BIN_TEST "tester")
 
@@ -73,6 +74,7 @@ COMPILER_FLAGS(FLAGS "-std=c++14"
 message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 
 include_directories("${INCLUDE_DIR}")
+include_directories("${INSTRUCTION_SETS}")
 
 file(GLOB TEST_FILES "${TEST_DIR}/*.cpp")
 
