@@ -5,7 +5,7 @@ const path = require('path');
 const xml2js = require('xml2js');
 
 const IN_FILE = 'x86_64.xml'
-const OUT_FILE = 'template assembly/instr.h'
+const OUT_FILE = 'instr.h'
 
 const prefix =
 `#pragma once
@@ -159,7 +159,7 @@ const processForm = function(name, form) {
         let encoding = getEncoding(form.Encoding[0], []);
         return `constexpr auto ${name}() {
     return ${encoding};
-};`;
+}`;
     };
 
     let aa = operands.map(getOperandTemplateArgs);
@@ -180,7 +180,7 @@ const processForm = function(name, form) {
     return `template <${parameters.join(', ')}>
 constexpr auto ${name}(${special.join(', ')}) {
     return ${encoding};
-};`;
+}`;
 };
 
 const processInstruction = instruction => {

@@ -14,7 +14,7 @@ struct Label {
 };
 
 template <typename T, T... chars>
-constexpr auto operator""_label() { return Label<chars...>{}; };
+constexpr auto operator""_label() { return Label<chars...>{}; }
 
 /**
     Relative offset of a label in a program.
@@ -33,4 +33,4 @@ template <typename name>
 using Rel8 = Rel<1, name>;
 
 template <typename T, T... chars>
-constexpr auto operator""_rel8() { return Rel8<Label<chars...>>{}; };
+constexpr auto operator""_rel8() { return Rel8<Label<chars...>>{}; }
