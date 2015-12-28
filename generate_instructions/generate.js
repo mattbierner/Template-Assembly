@@ -223,12 +223,13 @@ const writeResult = instructions => {
     });
 };
 
-// function uniqSymbols(a) {
-//     var seen = {};
-//     return a.filter(function(item) {
-//         return seen.hasOwnProperty(item) ? false : (seen[item] = true);
-//     });
-// }
+function uniqSymbols(a) {
+    var seen = {};
+    return a.filter(function(item) {
+     var symbols = item.substring(0, item.indexOf(") {\n"));
+     return seen.hasOwnProperty(symbols) ? false : (seen[symbols] = true);
+    });
+}
 
 const parser = new xml2js.Parser();
 
@@ -240,6 +241,6 @@ fs.readFile(path.join(__dirname, IN_FILE), (err, data) => {
         }
 
         const instructions = processInstructions(result.InstructionSet.Instruction);
-        writeResult(instructions);
+        writeResult(uniqSymbols(instructions));
     });
 });
