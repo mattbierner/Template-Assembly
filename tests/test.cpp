@@ -186,4 +186,10 @@ TEST_CASE("Features Test", "[asm]") {
             RET())(&ret66)
             == 66);
   }
+
+  SECTION("Raw put 36 in rax") {
+    CHECK(Asm<int>( // This put 36 into rax
+            "\xb8\x24\x00\x00\x00\xc3"_raw
+              )() == 36);
+  };
 }

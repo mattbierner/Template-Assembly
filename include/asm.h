@@ -1,9 +1,10 @@
- #pragma once
+#pragma once
 
 #include "asm_monad.h"
 #include "byte_string.h"
 #include "foldable.h"
 #include "label.h"
+#include "bytes.h"
 #include "instr.h"
 #include "state.h"
 
@@ -21,7 +22,7 @@ using assemble = typename call<
 template <typename R, typename P>
 struct AsmProgram {
     using program = P;
-    
+
     template <typename... Args>
     R operator()(Args... args) {
         return ((R(*)(std::decay_t<Args>...))P::data)(args...);
