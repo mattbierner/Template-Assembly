@@ -61,8 +61,18 @@ const getOperandTemplateArgs = operand => {
     return null;
 };
 
+const hasOperand = function(value) {
+  return (value !== undefined && value[0] === '#');
+}
+
+const rmOperandSign = function(value) {
+  if (hasOperand(value))
+    return +value[1];
+  return value;
+}
+
 const toModRM = (data, operands) => {
-    const reg = data.reg === undefined ? -1 : data.reg;
+    const reg = hasOperand(data.reg) ? -1 : data.reg;
     const names = operands.map(argToName).join(', ');
     return `typename modrm<${reg}, ${names}>::type`;
 };
@@ -70,17 +80,25 @@ const toModRM = (data, operands) => {
 const toRex = (data, operands) => {
     const getRegxValues = keys =>
         keys.map(key => {
-            let index = data[`${key}-operand-number`];
-            if (index !== undefined) {
+            let index = rmOperandSign(data[key]);
+            if (hasOperand(data[key])
+              && index !== undefined && operands[index] !== undefined) {
                 let value = argToName(operands[index]);
                 return `get_rex_${key.toLowerCase()}(${value}{})`;
             }
-            return parseInt(data[key]) || 0;
+            else if (data[key] !== undefined)
+              return parseInt(data[key]);
+            return 0;
         });
 
-    //if (data['BX-operand-number']) { }
+    var wrxb;
 
-    const wrxb = getRegxValues(['W', 'R', 'X', 'B']);
+    if (data['B'] !== undefined && data['X'] !== undefined
+      && data['B'] == data['X']) {
+      wrxb = getRegxValues(['W', 'R', 0, 0]);
+    } else {
+      wrxb = getRegxValues(['W', 'R', 'X', 'B']);
+    }
     return `make_rex<${wrxb.join(',')}>`
 };
 
@@ -126,8 +144,10 @@ const getEncoding = function(encoding, ops) {
     if (encoding.Opcode) {
         opcode = encoding.Opcode.map(x => {
             let b = x.$['byte'];
-            if (x.$['addend-operand-number']) {
-                let reg = argToName(ops[x.$['addend-operand-number']]);
+            let addendnofilter = x.$['addend'];
+            let addend = rmOperandSign(addendnofilter);
+            if (hasOperand(addendnofilter)) {
+                let reg = argToName(ops[addend]);
                 return `typename IntToBytes<1, 0x${b} + ${reg}::index>::type`
             } else {
                 return `Opcode<'\\x${b}'>`;
@@ -137,13 +157,13 @@ const getEncoding = function(encoding, ops) {
 
     let codeOffset = [];
     if (encoding.CodeOffset) {
-        let index = encoding.CodeOffset[0].$['operand-number'];
+        let index = rmOperandSign(encoding.CodeOffset[0].$['value']);
         codeOffset = argToName(ops[index])
     }
-    let immediate = [];
+    let immediate = []; // Immediate values needed
     if (encoding.Immediate) {
         let size = encoding.Immediate[0].$.size;
-        let index = encoding.Immediate[0].$['operand-number'];
+        let index = rmOperandSign(encoding.Immediate[0].$['value']);
         let data = argToName(ops[index])
         immediate = `to_bytes<${data}>`;
     }
@@ -185,9 +205,6 @@ constexpr auto ${name}(${special.join(', ')}) {
 
 const processInstruction = instruction => {
     const name = instruction.$.name;
-    // Skip XLATB for now since its implicit operands generate duplicate symbols
-    if (name === 'XLATB')
-        return [];
 
     const forms = instruction.InstructionForm;
     return flatten(forms.map(
@@ -206,7 +223,12 @@ const writeResult = instructions => {
     });
 };
 
-
+// function uniqSymbols(a) {
+//     var seen = {};
+//     return a.filter(function(item) {
+//         return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+//     });
+// }
 
 const parser = new xml2js.Parser();
 

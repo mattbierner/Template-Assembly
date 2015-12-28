@@ -3743,20 +3743,16 @@ constexpr auto UD2() {
     return Instruction<Opcode<'\x0F'>, Opcode<'\x0B'>>{};
 }
 template <size_t a, typename b, typename c, size_t d, Displacement e>
-constexpr auto VCVTSD2SI(GeneralPurposeRegister<4, a>, Memory<8, b, c, d, e>) {
-    return Instruction<Opcode<'\x2D'>, typename modrm<-1, GeneralPurposeRegister<4, a>, Memory<8, b, c, d, e>>::type>{};
+constexpr auto VCVTSS2USI(GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>) {
+    return Instruction<Opcode<'\x79'>, typename modrm<-1, GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>>::type>{};
 }
 template <size_t a, typename b, typename c, size_t d, Displacement e>
-constexpr auto VCVTSD2SI(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>) {
-    return Instruction<Opcode<'\x2D'>, typename modrm<-1, GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>>::type>{};
+constexpr auto VCVTSS2USI(GeneralPurposeRegister<8, a>, Memory<4, b, c, d, e>) {
+    return Instruction<Opcode<'\x79'>, typename modrm<-1, GeneralPurposeRegister<8, a>, Memory<4, b, c, d, e>>::type>{};
 }
 template <size_t a, typename b, typename c, size_t d, Displacement e>
-constexpr auto VCVTSS2SI(GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>) {
-    return Instruction<Opcode<'\x2D'>, typename modrm<-1, GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>>::type>{};
-}
-template <size_t a, typename b, typename c, size_t d, Displacement e>
-constexpr auto VCVTSS2SI(GeneralPurposeRegister<8, a>, Memory<4, b, c, d, e>) {
-    return Instruction<Opcode<'\x2D'>, typename modrm<-1, GeneralPurposeRegister<8, a>, Memory<4, b, c, d, e>>::type>{};
+constexpr auto VCVTTSD2SI(GeneralPurposeRegister<4, a>, Memory<8, b, c, d, e>) {
+    return Instruction<Opcode<'\x2C'>, typename modrm<-1, GeneralPurposeRegister<4, a>, Memory<8, b, c, d, e>>::type>{};
 }
 template <size_t a, typename b, typename c, size_t d, Displacement e>
 constexpr auto VCVTTSD2SI(GeneralPurposeRegister<4, a>, Memory<8, b, c, d, e>) {
@@ -3767,12 +3763,40 @@ constexpr auto VCVTTSD2SI(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>) {
     return Instruction<Opcode<'\x2C'>, typename modrm<-1, GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>>::type>{};
 }
 template <size_t a, typename b, typename c, size_t d, Displacement e>
+constexpr auto VCVTTSD2SI(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>) {
+    return Instruction<Opcode<'\x2C'>, typename modrm<-1, GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>>::type>{};
+}
+template <size_t a, typename b, typename c, size_t d, Displacement e>
+constexpr auto VCVTTSD2USI(GeneralPurposeRegister<4, a>, Memory<8, b, c, d, e>) {
+    return Instruction<Opcode<'\x78'>, typename modrm<-1, GeneralPurposeRegister<4, a>, Memory<8, b, c, d, e>>::type>{};
+}
+template <size_t a, typename b, typename c, size_t d, Displacement e>
+constexpr auto VCVTTSD2USI(GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>) {
+    return Instruction<Opcode<'\x78'>, typename modrm<-1, GeneralPurposeRegister<8, a>, Memory<8, b, c, d, e>>::type>{};
+}
+template <size_t a, typename b, typename c, size_t d, Displacement e>
+constexpr auto VCVTTSS2SI(GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>) {
+    return Instruction<Opcode<'\x2C'>, typename modrm<-1, GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>>::type>{};
+}
+template <size_t a, typename b, typename c, size_t d, Displacement e>
 constexpr auto VCVTTSS2SI(GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>) {
     return Instruction<Opcode<'\x2C'>, typename modrm<-1, GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>>::type>{};
 }
 template <size_t a, typename b, typename c, size_t d, Displacement e>
 constexpr auto VCVTTSS2SI(GeneralPurposeRegister<8, a>, Memory<4, b, c, d, e>) {
     return Instruction<Opcode<'\x2C'>, typename modrm<-1, GeneralPurposeRegister<8, a>, Memory<4, b, c, d, e>>::type>{};
+}
+template <size_t a, typename b, typename c, size_t d, Displacement e>
+constexpr auto VCVTTSS2SI(GeneralPurposeRegister<8, a>, Memory<4, b, c, d, e>) {
+    return Instruction<Opcode<'\x2C'>, typename modrm<-1, GeneralPurposeRegister<8, a>, Memory<4, b, c, d, e>>::type>{};
+}
+template <size_t a, typename b, typename c, size_t d, Displacement e>
+constexpr auto VCVTTSS2USI(GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>) {
+    return Instruction<Opcode<'\x78'>, typename modrm<-1, GeneralPurposeRegister<4, a>, Memory<4, b, c, d, e>>::type>{};
+}
+template <size_t a, typename b, typename c, size_t d, Displacement e>
+constexpr auto VCVTTSS2USI(GeneralPurposeRegister<8, a>, Memory<4, b, c, d, e>) {
+    return Instruction<Opcode<'\x78'>, typename modrm<-1, GeneralPurposeRegister<8, a>, Memory<4, b, c, d, e>>::type>{};
 }
 template <typename a, typename b, size_t c, Displacement d>
 constexpr auto VLDMXCSR(Memory<4, a, b, c, d>) {
