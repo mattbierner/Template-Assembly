@@ -70804,4 +70804,28 @@
       </Encoding>
     </InstructionForm>
   </Instruction>
+    <Instruction name="SYSCALL" summary="Call a kernel provided function">
+    <InstructionForm gas-name="syscall" go-name="SYSCALL">
+      <Encoding>
+        <Opcode byte="0F"/>
+        <Opcode byte="05"/>
+      </Encoding>
+    </InstructionForm>
+  </Instruction>
+  <Instruction name="SYSENTER" summary="Call a kernel provided function">
+    <InstructionForm gas-name="sysenter" go-name="SYSENTER">
+      <Encoding>
+        <Opcode byte="0F"/>
+        <Opcode byte="34"/>
+      </Encoding>
+    </InstructionForm>
+  </Instruction>
+  <Instruction name="INT80" summary="Call a kernel provided function">
+    <InstructionForm gas-name="int80" go-name="INT80">
+      <Encoding>
+        <Opcode byte="cd"/>
+        <Opcode byte="80"/>
+      </Encoding>
+    </InstructionForm>
+  </Instruction>
 </InstructionSet>

@@ -15,6 +15,7 @@ const prefix =
 #include "memory.h"
 #include "register.h"
 #include "string.h"
+
 `;
 
 const flatten = Function.prototype.apply.bind(Array.prototype.concat, []);
@@ -99,7 +100,7 @@ const toRex = (data, operands) => {
     } else {
       wrxb = getRegxValues(['W', 'R', 'X', 'B']);
     }
-    return `make_rex<${wrxb.join(',')}>`
+    return `make_rex<${wrxb.join(', ')}>`
 };
 
 
