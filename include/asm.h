@@ -1,4 +1,5 @@
 #pragma once
+#include <stddef.h> // size_t definition
 
 #include "asm_monad.h"
 #include "byte_string.h"
