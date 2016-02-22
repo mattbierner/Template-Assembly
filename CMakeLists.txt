@@ -18,7 +18,7 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 set(INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include")
 set(TEST_DIR "${PROJECT_SOURCE_DIR}/tests")
-set(INSTRUCTION_SETS "${PROJECT_SOURCE_DIR}/generate_instructions")
+set(INSTRUCTION_SETS "${PROJECT_SOURCE_DIR}/instructions-set")
 
 set(BIN_TEST "tester")
 
