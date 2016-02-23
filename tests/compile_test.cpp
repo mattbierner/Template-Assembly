@@ -1,7 +1,9 @@
 #include "catch.hpp"
 
 #include <type_traits>
+
 #include <tasm/asm.h>
+#include <tasm/isa/x86.h>
 
 using namespace tasm;
 

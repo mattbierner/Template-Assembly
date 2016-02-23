@@ -6,6 +6,7 @@ Uses C++ templates to embed x86 assembly code directly in normal C++ at compile-
 
 ```cpp
 #include <tasm/asm.h>
+#include <tasm/isa/x86.h>
 
 using namespace tasm;
 
@@ -48,10 +49,12 @@ This project is for demonstration purposes and only supports a super limited sub
 
 
 ## Usage
-`asm.h` includes all the files needed to write a basic program.
+`asm.h` the core logic, while `isa/x86.h` includes instructions for x86 assembly.
 
 ```cpp
 #include <tasm/asm.h>
+#include <tasm/isa/x86.h>
+
 using namespace tasm;
 ```
 

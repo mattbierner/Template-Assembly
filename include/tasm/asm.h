@@ -8,8 +8,6 @@
 #include <tasm/private/label.h>
 #include <tasm/private/state.h>
 
-#include "instr.h"
-
 namespace tasm {
 
 /**
