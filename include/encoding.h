@@ -17,13 +17,16 @@ constexpr unsigned get_index(GeneralPurposeRegister<s, i>) {
 }
 
 constexpr unsigned get_mode_for_disp(Displacement disp, bool needsDisp) {
-    if (disp == 0 && !needsDisp)
+  return 0b01
+  + ((disp == 0 && !needsDisp) * (- 0b01))
+  + ((disp > 0xff || disp < -0xff) * 0b01);
+  /*  if (disp == 0 && !needsDisp)
         return 0b00;
     else if (disp > 0xff || disp < -0xff)
         return 0b10;
     else
-        return 0b01;
-};
+        return 0b01;*/
+}
 
 template <Displacement disp, bool needsDisp>
 struct get_disp : IntToBytes<(disp > 0xff || disp < -0xff) ? 4 : 1, disp> {};
@@ -34,13 +37,16 @@ struct get_disp<0, false> {
 };
 
 constexpr unsigned to_sib_scale(unsigned x) {
-    switch (x) {
+  return ((x == 2) * 0b01)
+  + ((x == 4) * 0b10)
+  + ((x == 8) * 0b11);
+/*    switch (x) {
     case 1:  return 0b00;
     case 2:  return 0b01;
     case 4:  return 0b10;
     case 8:  return 0b11;
     default: return 0b00;
-    }
+    }*/
 }
 
 } // Details
@@ -96,7 +102,7 @@ struct modrm<code, Memory<size, reg1, None, mult, disp>> {
             make_modrm<Details::get_mode_for_disp(disp, (reg1::index == 5)), code, reg1::index>,
             typename Details::get_disp<disp, (reg1::index == 5)>::type>;
     };
-    
+
     // reg1 == esp special case.
     template <typename _>
     struct impl<4, _> {
@@ -145,7 +151,7 @@ struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, reg, None, mult, dis
                 reg::index>,
             typename Details::get_disp<disp, (reg1Index == 5)>::type>;
     };
-    
+
     /// reg1 == esp special case
     template <size_t reg1Size>
     struct impl<reg1Size, 4> {
@@ -157,7 +163,7 @@ struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, reg, None, mult, dis
             make_sib<0, 4, 4>,
             typename Details::get_disp<disp, true>::type>;
     };
-    
+
     using type = typename impl<reg::size, reg::index>::type;
 };
 
@@ -172,7 +178,7 @@ struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, reg, reg2, mult, dis
             make_sib<Details::to_sib_scale(mult), reg2::index, reg::index>,
             typename Details::get_disp<disp, (reg2Index == 5)>::type>;
     };
-    
+
     /// reg1 == esp special case
     template <typename _>
     struct impl<4, _> {
@@ -181,7 +187,7 @@ struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, reg, reg2, mult, dis
             make_sib<Details::to_sib_scale(mult), reg2::index, reg::index>,
             typename Details::get_disp<disp, true>::type>;
     };
-    
+
     using type = typename impl<reg::index, void>::type;
 };
 
@@ -191,7 +197,7 @@ struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, reg, reg2, mult, dis
 template <size_t s, size_t i>
 constexpr bool get_rex_r(GeneralPurposeRegister<s, i>) {
     return GeneralPurposeRegister<s, i>::index > 7;
-};
+}
 
 /**
     Get the b bit of the REX byte.
@@ -199,4 +205,4 @@ constexpr bool get_rex_r(GeneralPurposeRegister<s, i>) {
 template <size_t s, size_t i>
 constexpr bool get_rex_b(GeneralPurposeRegister<s, i>) {
     return GeneralPurposeRegister<s, i>::index > 7;
-};
+}

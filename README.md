@@ -1,5 +1,7 @@
 ### Stupid Template Tricks: Template Assembly
 
+[![Build Status](https://travis-ci.org/izissise/Template-Assembly.svg?branch=master)](https://travis-ci.org/izissise/Template-Assembly)
+
 Uses C++ templates to embed x86 assembly code directly in normal C++ at compile-time using a domain specific language.
 
 ```cpp
@@ -49,13 +51,13 @@ This project is for demonstration purposes and only supports a super limited sub
 ```
 
 ### Basics
-`Asm` is the top level function that creates assembly code. This code acts like a functor with its implementation written in assembly language. `Asm` takes a single parmeter specifying the expected result type of the assembly code. 
+`Asm` is the top level function that creates assembly code. This code acts like a functor with its implementation written in assembly language. `Asm` takes a single parmeter specifying the expected result type of the assembly code.
 
 ```cpp
 auto assembly_program = Asm<int>(
     MOV(eax, 4_d),
     RET());
-    
+
 assembly_program() == 4
 ```
 
@@ -81,7 +83,7 @@ auto jump_program = Asm<int>(
     JMP("a"_rel8),
     ADD(eax, 2_d),
 "a"_label,
-    RET()); 
+    RET());
 
 jump_program() == 4
 ```
@@ -105,7 +107,7 @@ _[eax + ecx * 2_b]        [eax + ecx * 2]
 _[eax + 4_b + ecx * 2_b]  [eax + 4 + ecx * 2]
 ```
 
-In general, `_` converts a register to a memory address with the `[]` operator. Memory addresses are overloaded to use the `+` operator for displacements. Multiplication creates a scaled index. All displacements and scales must use user defined literals (`_b`, `_w`, `_d`) instead of raw literals. 
+In general, `_` converts a register to a memory address with the `[]` operator. Memory addresses are overloaded to use the `+` operator for displacements. Multiplication creates a scaled index. All displacements and scales must use user defined literals (`_b`, `_w`, `_d`) instead of raw literals.
 
 ### Macro-ish
 Because the assembly is written directly in normal C++, you can use metaprogramming to construct simple assembly macros for instructions or groups of instructions:
@@ -136,6 +138,16 @@ Asm<int>(
 
 Any C++ syntax can be used to extend the embedded language.
 
+
+## Build tests
+A cmake script is included to build tests
+Just do:
+```
+mkdir build; cd build
+cmake ..
+make
+./tester
+```
 
 ## Development
 

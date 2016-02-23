@@ -1,5 +1,8 @@
 #pragma once
 
+#include <stdexcept>
+#include <utility>
+
 #include "assert.h"
 #include "byte_string.h"
 
@@ -11,7 +14,7 @@ struct Immediate {
     using type = T;
     static constexpr T value = x;
     static constexpr size_t size = sizeof(T);
-        
+
     constexpr auto operator-() const {
         return Immediate<T, static_cast<T>(-x)>{};
     }
@@ -40,10 +43,13 @@ struct ToBytes<Immediate<T, x>> :
 namespace Details {
 
 constexpr unsigned digit_to_value(char c) {
-    if      (c >= 'a' && c <= 'f') return c - 'a' + 10;
+    return ((c >= 'a' && c <= 'f') * (c - 'a' + 10))
+    + ((c >= 'A' && c <= 'F') * (c - 'A' + 10))
+    + ((c >= '0' && c <= '9') * (c - '0'));
+ /*   if      (c >= 'a' && c <= 'f') return c - 'a' + 10;
     else if (c >= 'A' && c <= 'F') return c - 'A' + 10;
     else if (c >= '0' && c <= '9') return c - '0';
-    else                           throw std::invalid_argument("c");
+    else                           throw std::invalid_argument("c");*/
 }
 
 template <typename sum, char... digits>
@@ -90,16 +96,16 @@ struct ParseNumber<'0', 'B', digits...> : BaseAndDigits<2, digits...> { };
 template <typename T, char... values>
 struct ImmediateFromString {
     using number = ParseNumber<values...>;
-    
+
     template <unsigned x, unsigned... xs>
     static constexpr unsigned long long fold(unsigned long sum, std::integer_sequence<unsigned, x, xs...>) {
         return fold(x + number::base * sum, std::integer_sequence<unsigned, xs...>{});
     }
-    
+
     static constexpr unsigned long long fold(unsigned long sum, std::integer_sequence<unsigned>) {
         return sum;
     }
-    
+
     using type = Immediate<T, static_cast<T>(fold(0, typename number::digits{}))>;
 };
 
@@ -147,22 +153,4 @@ using qword = Immediate<int64_t, x>;
 template <char... values>
 constexpr auto operator ""_q() {
     return typename Details::ImmediateFromString<typename qword<0>::type, values...>::type{};
-}
-
-namespace {
-constexpr auto test_1_decimal = assert_is_same<byte<4>, decltype(4_b)>();
-constexpr auto test_2_decimal = assert_is_same<byte<42>, decltype(42_b)>();
-constexpr auto test_neg1_decimal = assert_is_same<byte<-4>, decltype(-4_b)>();
-constexpr auto test_clamp = assert_is_same<byte<-127>, decltype(129_b)>();
-
-constexpr auto test_hex = assert_is_same<byte<4>, decltype(0x4_b)>();
-constexpr auto test_hex_digit = assert_is_same<byte<10>, decltype(0xa_b)>();
-constexpr auto test_hex_digit_uppser = assert_is_same<byte<10>, decltype(0xA_b)>();
-constexpr auto test_multi_hex_digit = assert_is_same<byte<95>, decltype(0x5f_b)>();
-
-constexpr auto test_octal_single = assert_is_same<byte<4>, decltype(04_b)>();
-constexpr auto test_octal_multi = assert_is_same<byte<39>, decltype(047_b)>();
-
-constexpr auto fdas = assert_is_same<byte<12>, decltype(1'2_b)>();
-
 }

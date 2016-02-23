@@ -3,9 +3,9 @@
 const fs = require('fs');
 const path = require('path');
 const xml2js = require('xml2js');
- 
+
 const IN_FILE = 'x86_64.xml'
-const OUT_FILE = 'template assembly/instr.h'
+const OUT_FILE = 'instr.h'
 
 const prefix =
 `#pragma once
@@ -15,6 +15,7 @@ const prefix =
 #include "memory.h"
 #include "register.h"
 #include "string.h"
+
 `;
 
 const flatten = Function.prototype.apply.bind(Array.prototype.concat, []);
@@ -53,16 +54,26 @@ const getOperandTemplateArgs = operand => {
     case 'imm64': return [{ type: 'qword', needs: ['int64_t'] }];
 
     case 'rel8': return [{ type: 'Rel8', needs: ['typename'] }];
-    
+
     case 'ymm':
     case 'xmm':
-        
+
     }
     return null;
 };
 
+const hasOperand = function(value) {
+  return (value !== undefined && value[0] === '#');
+}
+
+const rmOperandSign = function(value) {
+  if (hasOperand(value))
+    return +value[1];
+  return value;
+}
+
 const toModRM = (data, operands) => {
-    const reg = data.reg === undefined ? -1 : data.reg;
+    const reg = hasOperand(data.reg) ? -1 : data.reg;
     const names = operands.map(argToName).join(', ');
     return `typename modrm<${reg}, ${names}>::type`;
 };
@@ -70,18 +81,26 @@ const toModRM = (data, operands) => {
 const toRex = (data, operands) => {
     const getRegxValues = keys =>
         keys.map(key => {
-            let index = data[`${key}-operand-number`];
-            if (index !== undefined) {
+            let index = rmOperandSign(data[key]);
+            if (hasOperand(data[key])
+              && index !== undefined && operands[index] !== undefined) {
                 let value = argToName(operands[index]);
                 return `get_rex_${key.toLowerCase()}(${value}{})`;
             }
-            return parseInt(data[key]) || 0;
+            else if (data[key] !== undefined)
+              return parseInt(data[key]);
+            return 0;
         });
 
-    //if (data['BX-operand-number']) { }
+    var wrxb;
 
-    const wrxb = getRegxValues(['W', 'R', 'X', 'B']);
-    return `make_rex<${wrxb.join(',')}>`
+    if (data['B'] !== undefined && data['X'] !== undefined
+      && data['B'] == data['X']) {
+      wrxb = getRegxValues(['W', 'R', 0, 0]);
+    } else {
+      wrxb = getRegxValues(['W', 'R', 'X', 'B']);
+    }
+    return `make_rex<${wrxb.join(', ')}>`
 };
 
 
@@ -111,39 +130,41 @@ const getEncoding = function(encoding, ops) {
         let data = encoding.Prefix[0]['$']['byte'];
         prefix = `Prefix<'\\x${data}'>`;
     }
-    
+
     let modrm = [];
     if (encoding.ModRM) {
         modrm = toModRM(encoding.ModRM[0].$, ops);
     }
-    
+
     let rex = [];
     if (encoding.REX) {
         rex = toRex(encoding.REX[0].$, ops);
     }
-    
+
     let opcode = [];
     if (encoding.Opcode) {
         opcode = encoding.Opcode.map(x => {
             let b = x.$['byte'];
-            if (x.$['addend-operand-number']) {
-                let reg = argToName(ops[x.$['addend-operand-number']]);
+            let addendnofilter = x.$['addend'];
+            let addend = rmOperandSign(addendnofilter);
+            if (hasOperand(addendnofilter)) {
+                let reg = argToName(ops[addend]);
                 return `typename IntToBytes<1, 0x${b} + ${reg}::index>::type`
             } else {
                 return `Opcode<'\\x${b}'>`;
             }
         });
     }
-    
+
     let codeOffset = [];
     if (encoding.CodeOffset) {
-        let index = encoding.CodeOffset[0].$['operand-number'];
+        let index = rmOperandSign(encoding.CodeOffset[0].$['value']);
         codeOffset = argToName(ops[index])
     }
-    let immediate = [];
+    let immediate = []; // Immediate values needed
     if (encoding.Immediate) {
         let size = encoding.Immediate[0].$.size;
-        let index = encoding.Immediate[0].$['operand-number'];
+        let index = rmOperandSign(encoding.Immediate[0].$['value']);
         let data = argToName(ops[index])
         immediate = `to_bytes<${data}>`;
     }
@@ -159,36 +180,33 @@ const processForm = function(name, form) {
         let encoding = getEncoding(form.Encoding[0], []);
         return `constexpr auto ${name}() {
     return ${encoding};
-};`;
+}`;
     };
-     
+
     let aa = operands.map(getOperandTemplateArgs);
     if (aa.some(x => x === null)) // check for unmapped args
         return [];
     aa = flatten(aa);
-    
+
     const args = createNames(aa);
     const parameters = flatten(args.map(arg =>
         arg.needs.map(need =>
             need.type + ' ' + need.name)));
-            
+
     const special = args.map(arg =>
         `${arg.type}<${(arg.args || []).concat(arg.needs.map(need => need.name)).join(', ')}>`);
-    
+
     let encoding = getEncoding(form.Encoding[0], args);
 
     return `template <${parameters.join(', ')}>
 constexpr auto ${name}(${special.join(', ')}) {
     return ${encoding};
-};`;
+}`;
 };
 
 const processInstruction = instruction => {
     const name = instruction.$.name;
-    // Skip XLATB for now since its implicit operands generate duplicate symbols
-    if (name === 'XLATB')
-        return [];
-    
+
     const forms = instruction.InstructionForm;
     return flatten(forms.map(
         processForm.bind(null, name)));
@@ -203,10 +221,16 @@ const writeResult = instructions => {
     fs.writeFile(path.join(__dirname, OUT_FILE), contents, err => {
         if(err)
             return console.log(err);
-    }); 
+    });
 };
- 
- 
+
+function uniqSymbols(a) {
+    var seen = {};
+    return a.filter(function(item) {
+     var symbols = item.substring(0, item.indexOf(") {\n"));
+     return seen.hasOwnProperty(symbols) ? false : (seen[symbols] = true);
+    });
+}
 
 const parser = new xml2js.Parser();
 
@@ -216,8 +240,8 @@ fs.readFile(path.join(__dirname, IN_FILE), (err, data) => {
             console.error(err);
             return;
         }
-        
+
         const instructions = processInstructions(result.InstructionSet.Instruction);
-        writeResult(instructions);
+        writeResult(uniqSymbols(instructions));
     });
 });

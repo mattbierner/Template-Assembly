@@ -1,5 +1,7 @@
 #pragma once
 
+#include <type_traits>
+
 #include "byte_string.h"
 #include "functor.h"
 #include "list.h"
@@ -32,12 +34,24 @@ struct Rewrite {
 
 } // Details
 
+
+template<size_t idx, size_t const * arr>
+struct static_accumulate :
+       std::integral_constant<size_t, arr[idx] + static_accumulate<idx - 1, arr>::value>
+{   };
+
+template<size_t const * arr>
+struct static_accumulate<0, arr> : std::integral_constant<size_t, arr[0]>
+{   };
+
 /**
     Encodes a single, basic instruction as a series of bytes.
 */
 template <typename... components>
 struct Instruction  {
-    static constexpr size_t size = (... + components::size);
+    //static constexpr size_t size = (... + components::size);
+    static constexpr size_t sizes[] = { components::size... };
+    static constexpr size_t size = static_accumulate<sizeof...(components) - 1, sizes>::value;
     
     template <typename state>
     struct apply {

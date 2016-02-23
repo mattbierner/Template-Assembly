@@ -1,3 +1,102 @@
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+*.slo
+*.lai
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Fortran module files
+*.mod
+
+Thumbs.db
+.fuse_hidden*
+*~
+*#
+*.orig
+*.rej
+.gdb_history
+
+#*#
+.directory
+*.cbp
+*.layout*
+*.layout
+*.depend*
+*.depend
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.sln.docstates
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+[Bb]in
+[Dd]ebug*/
+*.sbr
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*                                                                                                                                                                                                                                                                                                                                       
+.#*                                                                                                                                                                                
+*.bin                                                                                                                                                                              
+.cproject                                                                                                                                                                          
+.metadata/
+.project
+.settings/
+build/
+
+# CMake
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+install_manifest.txt
+
+
+#KDevelop
+.kdev4/
+*.kdev4
+*.kdevelop
+*.kdevelop.filelist
+*.kdevelop.pcs
+*.kdevses
+.*kate-swp
+build/
+
+.idea/
+.DS_Store
+
+
 #########################
 # .gitignore file for Xcode4 and Xcode5 Source projects
 #
@@ -187,7 +286,7 @@ xcuserdata
 #
 # IDEA:
 #
-#.idea
+.idea
 #
 # TEXTMATE:
 #
@@ -210,5 +309,4 @@ xcuserdata
 
 ### Other
 *~
-node_modules/*
-
+node_modules
