@@ -1,10 +1,12 @@
-### Stupid Template Tricks: Template Assembly
+# Template Assembly (tasm)
 
 [![Build Status](https://travis-ci.org/izissise/Template-Assembly.svg?branch=master)](https://travis-ci.org/izissise/Template-Assembly)
 
 Uses C++ templates to embed x86 assembly code directly in normal C++ at compile-time using a domain specific language.
 
 ```cpp
+using namespace tasm;
+
 // A simple loop with labels.
 Asm<int>(
     MOV(ecx, 5_d),
@@ -48,6 +50,8 @@ This project is for demonstration purposes and only supports a super limited sub
 
 ```cpp
 #include "asm.h"
+
+using namespace tasm;
 ```
 
 ### Basics

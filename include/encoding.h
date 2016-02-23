@@ -7,7 +7,7 @@
 
 namespace tasm { namespace instruction {
 
-constexpr unsigned get_index(None) {
+constexpr unsigned get_index(details::None) {
     return 0;
 }
 
@@ -93,7 +93,7 @@ struct modrm<code, GeneralPurposeRegister<s, i>> {
 
 /// Memory base only
 template <int code, size_t size, typename reg1, size_t mult, Displacement disp>
-struct modrm<code, Memory<size, reg1, None, mult, disp>> {
+struct modrm<code, Memory<size, reg1, details::None, mult, disp>> {
     template <size_t reg1Index, typename _>
     struct impl {
         using type = byte_string::bytes_join<
@@ -130,7 +130,7 @@ struct modrm<-1, GeneralPurposeRegister<s1, i1>, GeneralPurposeRegister<s2, i2>>
 
 /// Register - Memory displacement only
 template <size_t s, size_t i, size_t size, size_t mult, Displacement disp>
-struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, None, None, mult, disp>> {
+struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, details::None, details::None, mult, disp>> {
     using type = byte_string::bytes_join<
         make_modrm<0, GeneralPurposeRegister<s, i>::index, 4>,
         byte_string::ByteString<'\x25'>,
@@ -139,7 +139,7 @@ struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, None, None, mult, di
 
 /// Register - Memory reg1 only
 template <size_t s, size_t i, size_t size, typename reg, size_t mult, Displacement disp>
-struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, reg, None, mult, disp>> {
+struct modrm<-1, GeneralPurposeRegister<s, i>, Memory<size, reg, details::None, mult, disp>> {
     template <size_t reg1Size, size_t reg1Index>
     struct impl {
         using type = byte_string::bytes_join<

@@ -17,16 +17,16 @@ struct SymbolTableEntry {};
     define a symbol one in a given program.
 */
 template <typename... elements>
-using SymbolTable = List<elements...>;
+using SymbolTable = list::List<elements...>;
 
-using empty_symbol_table = List<>;
+using empty_symbol_table = list::List<>;
 
 /**
     Try to lookup a value in the symbol table or return `def` if not found.
 */
 template <typename def, typename key, typename map>
 struct SymbolTableLookup {
-    using type = typename SymbolTableLookup<def, key, cdr<map>>::type;
+    using type = typename SymbolTableLookup<def, key, list::cdr<map>>::type;
 };
 
 template <typename def, typename key, typename value, typename... xs>
@@ -51,9 +51,9 @@ struct duplicate_symbols_not_allowed;
 template <typename key, typename value, typename table>
 using symbol_table_add = typename std::conditional_t<
     std::is_same<
-        None,
-        symbol_table_lookup<None, key, table>>::value,
-    identity<cons<SymbolTableEntry<key, value>, table>>,
+        details::None,
+        symbol_table_lookup<details::None, key, table>>::value,
+    details::identity<list::cons<SymbolTableEntry<key, value>, table>>,
     duplicate_symbols_not_allowed<key>>::type;
     
 }} // tasm::symbol_table

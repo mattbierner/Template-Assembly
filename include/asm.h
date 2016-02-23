@@ -15,9 +15,9 @@ namespace tasm {
     Convert an Asm program into machine code.
 */
 template <typename program>
-using assemble = typename call<
+using assemble = typename details::call<
     program,
-    pass2state<typename call<program, pass1state>::first>>::second;
+    pass2state<typename details::call<program, pass1state>::first>>::second;
 
 /**
     Assembly function wrapper.

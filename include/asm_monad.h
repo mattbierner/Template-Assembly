@@ -26,6 +26,6 @@ struct next {
     Sequence two or more state operations.
 */
 template <typename x, typename... xs>
-using seq = fold<mfunc<next>, x, List<xs...>>;
+using seq = functional::fold<mfunc<next>, x, list::List<xs...>>;
 
 }} // tasm::details

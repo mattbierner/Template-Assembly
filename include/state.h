@@ -35,7 +35,7 @@ struct BaseState {
 template <size_t lc, typename _labels>
 struct Pass1State : BaseState<Pass1State, lc, _labels> {
     template <typename name>
-    using lookup_label = symbol_table::symbol_table_lookup<None, name, _labels>;
+    using lookup_label = symbol_table::symbol_table_lookup<details::None, name, _labels>;
     
     /**
         Register a new label at the current index

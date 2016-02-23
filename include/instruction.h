@@ -17,7 +17,7 @@ template <size_t size, typename state, typename labelOffset>
 struct GetOffset : ::tasm::byte_string::IntToBytes<size, static_cast<long long>(labelOffset::value - state::index)> { };
 
 template <size_t size, typename state>
-struct GetOffset<size, state, None> : ::tasm::byte_string::IntToBytes<size, 0> { };
+struct GetOffset<size, state, tasm::details::None> : ::tasm::byte_string::IntToBytes<size, 0> { };
 
 /**
     Functor that rewrites instruction components to replace labels with relative offsets.
@@ -57,10 +57,10 @@ struct Instruction  {
     template <typename state>
     struct apply {
         using next_state = typename state::template inc<size>;
-        using type = Pair<next_state, fold<
-            mfunc<byte_string::bytes_join>,
+        using type = tasm::details::Pair<next_state, functional::fold<
+            tasm::details::mfunc<byte_string::bytes_join>,
             byte_string::ByteString<>,
-            fmap<typename details::Rewrite<next_state>, List<components...>>>>;
+            functional::fmap<typename details::Rewrite<next_state>, list::List<components...>>>>;
     };
 };
 

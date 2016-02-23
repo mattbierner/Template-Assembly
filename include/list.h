@@ -3,6 +3,10 @@
 #include "foldable.h"
 #include "functor.h"
 
+namespace tasm {
+
+namespace list {
+
 /**
     Ordered list of types.
 */
@@ -75,24 +79,32 @@ struct Append<List<ls...>, List<rs...>> {
     using type = List<ls..., rs...>;
 };
 
+} // list
+
+namespace functional {
+
 /*------------------------------------------------------------------------------
     Foldable
 */
 template <typename f, typename z>
-struct Foldable<f, z, List<>> {
+struct Foldable<f, z, list::List<>> {
     using type = z;
 };
 
 template <typename f, typename z, typename x, typename... xs>
-struct Foldable<f, z, List<x, xs...>> {
-    using type = fold<f, call<f, z, x>, List<xs...>>;
+struct Foldable<f, z, list::List<x, xs...>> {
+    using type = fold<f, details::call<f, z, x>, list::List<xs...>>;
 };
 
 /*------------------------------------------------------------------------------
     Functor
 */
 template <typename f, typename... elements>
-struct FMap<f, List<elements...>> {
-    using type = List<call<f, elements>...>;
+struct FMap<f, list::List<elements...>> {
+    using type = list::List<details::call<f, elements>...>;
 };
+
+} // functional
+
+} // tasm
 

@@ -1,5 +1,7 @@
 #pragma once
 
+namespace tasm { namespace details {
+
 /**
     Call a metafunction with a set of arguments.
 */
@@ -37,3 +39,5 @@ struct Pair {
     using first = l;
     using second = r;
 };
+
+}} // tasm::details

@@ -41,7 +41,7 @@ constexpr struct {
     */
     template <size_t size, size_t index>
     constexpr auto operator[](GeneralPurposeRegister<size, index> r) const {
-        return Memory<size, decltype(r), None, 0, 0>{};
+        return Memory<size, decltype(r), details::None, 0, 0>{};
     }
 
     /**
@@ -50,7 +50,7 @@ constexpr struct {
     template <Displacement size, typename T, T x>
     constexpr auto operator[](Immediate<T, x>) const {
         static_assert(x < 0xffff, "Displacement too large");
-        return Memory<size, None, None, 0, x>{};
+        return Memory<size, details::None, details::None, 0, x>{};
     }
     
     /**
@@ -109,7 +109,7 @@ constexpr auto operator-(Immediate<T, x> disp, GeneralPurposeRegister<size, inde
 */
 template <size_t size, size_t index, typename T, T x>
 constexpr auto operator*(GeneralPurposeRegister<size, index> r, Immediate<T, x>) {
-    return Memory<size, None, decltype(r), x, 0>{};
+    return Memory<size, details::None, decltype(r), x, 0>{};
 }
 template <size_t size, size_t index, typename T, T x>
 constexpr auto operator*(Immediate<T, x> scale, GeneralPurposeRegister<size, index> r) {
@@ -120,11 +120,11 @@ constexpr auto operator*(Immediate<T, x> scale, GeneralPurposeRegister<size, ind
     Add scaling factor to base reister.
 */
 template <size_t size, size_t index, typename reg2, Displacement disp, size_t scaling>
-constexpr auto operator+(GeneralPurposeRegister<size, index> reg1, Memory<size, None, reg2, scaling, disp>) {
+constexpr auto operator+(GeneralPurposeRegister<size, index> reg1, Memory<size, details::None, reg2, scaling, disp>) {
     return Memory<size, decltype(reg1), reg2, scaling, disp>{};
 }
 template <size_t size, size_t index, typename reg2, Displacement disp, size_t scaling>
-constexpr auto operator+(Memory<size, None, reg2, scaling, disp>, GeneralPurposeRegister<size, index> reg1) {
+constexpr auto operator+(Memory<size, details::None, reg2, scaling, disp>, GeneralPurposeRegister<size, index> reg1) {
     return Memory<size, decltype(reg1), reg2, scaling, disp>{};
 }
 
@@ -132,11 +132,11 @@ constexpr auto operator+(Memory<size, None, reg2, scaling, disp>, GeneralPurpose
     Combine addresses for scaling
 */
 template <size_t size, typename reg1, typename reg2, Displacement disp1, Displacement disp2, size_t scaling>
-constexpr auto operator+(Memory<size, reg1, None, 0, disp1>, Memory<size, None, reg2, scaling, disp2>) {
+constexpr auto operator+(Memory<size, reg1, details::None, 0, disp1>, Memory<size, details::None, reg2, scaling, disp2>) {
     return Memory<size, reg1, reg2, scaling, disp1 + disp2>{};
 }
 template <size_t size, typename reg1, typename reg2, Displacement disp1, Displacement disp2, size_t scaling>
-constexpr auto operator+(Memory<size, None, reg2, scaling, disp2>, Memory<size, reg1, None, 0, disp1>) {
+constexpr auto operator+(Memory<size, details::None, reg2, scaling, disp2>, Memory<size, reg1, details::None, 0, disp1>) {
     return Memory<size, reg1, reg2, scaling, disp1 + disp2>{};
 }
 
@@ -144,11 +144,11 @@ constexpr auto operator+(Memory<size, None, reg2, scaling, disp2>, Memory<size, 
     Offset register.
 */
 template <size_t size, typename reg1, Displacement disp, size_t reg2Size, size_t reg2Index>
-constexpr auto operator+(Memory<size, reg1, None, 0, disp> m, GeneralPurposeRegister<reg2Size, reg2Index> r) {
+constexpr auto operator+(Memory<size, reg1, details::None, 0, disp> m, GeneralPurposeRegister<reg2Size, reg2Index> r) {
     return m + r * 1_d;
 }
 template <size_t size, typename reg1, Displacement disp, size_t reg2Size, size_t reg2Index>
-constexpr auto operator+(GeneralPurposeRegister<reg2Size, reg2Index> r, Memory<size, reg1, None, 0, disp> m) {
+constexpr auto operator+(GeneralPurposeRegister<reg2Size, reg2Index> r, Memory<size, reg1, details::None, 0, disp> m) {
     return m + r;
 }
 
