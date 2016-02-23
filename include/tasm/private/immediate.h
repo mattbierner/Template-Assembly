@@ -45,13 +45,17 @@ struct byte_string::ToBytes<Immediate<T, x>> :
 namespace details {
 
 constexpr unsigned digit_to_value(char c) {
-    return ((c >= 'a' && c <= 'f') * (c - 'a' + 10))
-    + ((c >= 'A' && c <= 'F') * (c - 'A' + 10))
-    + ((c >= '0' && c <= '9') * (c - '0'));
- /*   if      (c >= 'a' && c <= 'f') return c - 'a' + 10;
-    else if (c >= 'A' && c <= 'F') return c - 'A' + 10;
-    else if (c >= '0' && c <= '9') return c - '0';
-    else                           throw std::invalid_argument("c");*/
+    return
+        (c >= 'a' && c <= 'f')
+            ?static_cast<unsigned>(c - 'a' + 10)
+    
+        :(c >= 'A' && c <= 'F')
+            ?static_cast<unsigned>(c - 'A' + 10)
+        
+        :(c >= '0' && c <= '9')
+            ?static_cast<unsigned>(c - '0')
+        
+        :throw std::invalid_argument("c");
 }
 
 template <typename sum, char... digits>

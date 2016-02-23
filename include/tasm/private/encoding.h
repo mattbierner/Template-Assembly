@@ -18,15 +18,12 @@ constexpr unsigned get_index(GeneralPurposeRegister<s, i>) {
 }
 
 constexpr unsigned get_mode_for_disp(Displacement disp, bool needsDisp) {
-  return 0b01
-  + ((disp == 0 && !needsDisp) * (- 0b01))
-  + ((disp > 0xff || disp < -0xff) * 0b01);
-  /*  if (disp == 0 && !needsDisp)
-        return 0b00;
-    else if (disp > 0xff || disp < -0xff)
-        return 0b10;
-    else
-        return 0b01;*/
+  return
+    disp == 0 && !needsDisp
+        ?0b00
+    :disp > 0xff || disp < -0xff
+        ?0b10
+    :0b01;
 }
 
 template <Displacement disp, bool needsDisp>
@@ -38,16 +35,14 @@ struct get_disp<0, false> {
 };
 
 constexpr unsigned to_sib_scale(unsigned x) {
-  return ((x == 2) * 0b01)
-  + ((x == 4) * 0b10)
-  + ((x == 8) * 0b11);
-/*    switch (x) {
-    case 1:  return 0b00;
-    case 2:  return 0b01;
-    case 4:  return 0b10;
-    case 8:  return 0b11;
-    default: return 0b00;
-    }*/
+    return
+        x == 2
+            ?0b01
+        :x == 4
+            ?0b10
+        :x == 8
+            ?0b11
+        :0b00;
 }
 
 /**
