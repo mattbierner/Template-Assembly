@@ -5,6 +5,8 @@
 Uses C++ templates to embed x86 assembly code directly in normal C++ at compile-time using a domain specific language.
 
 ```cpp
+#include <tasm/asm.h>
+
 using namespace tasm;
 
 // A simple loop with labels.
@@ -49,8 +51,7 @@ This project is for demonstration purposes and only supports a super limited sub
 `asm.h` includes all the files needed to write a basic program.
 
 ```cpp
-#include "asm.h"
-
+#include <tasm/asm.h>
 using namespace tasm;
 ```
 

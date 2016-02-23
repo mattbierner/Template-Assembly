@@ -1,7 +1,7 @@
 #pragma once
 
-#include <tasm/label.h>
-#include <tasm/symbol_table.h>
+#include <tasm/private/label.h>
+#include <tasm/private/symbol_table.h>
 
 namespace tasm { namespace state {
 

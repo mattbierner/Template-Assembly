@@ -1,6 +1,6 @@
 #pragma once
 
-#include <tasm/utility.h>
+#include <tasm/private/utility.h>
 
 namespace tasm { namespace functional {
 

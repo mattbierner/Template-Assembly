@@ -1,7 +1,7 @@
 #pragma once
 
-#include <tasm/immediate.h>
-#include <tasm/register.h>
+#include <tasm/private/immediate.h>
+#include <tasm/private/register.h>
 
 namespace tasm {
 
@@ -9,14 +9,14 @@ using Displacement = int32_t;
 
 /**
     Asm memory address.
-    
+
     Suppored syntaxes:
-    
+
         _[eax]    [eax]
         _[4_b]    [4]
- 
+
         _[eax + 4_b]        [eax + 4]
- 
+
         _[eax + ecx]         [eax + ecx]
         _[eax + 4_b + ecx]   [eax + 4 + ecx]
         _[eax + ecx * 2_b]        [eax + ecx * 2]
@@ -52,7 +52,7 @@ constexpr struct {
         static_assert(x < 0xffff, "Displacement too large");
         return Memory<size, details::None, details::None, 0, x>{};
     }
-    
+
     /**
         Identity function to support syntax like `_[esp + 4_b]`
     */

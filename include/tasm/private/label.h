@@ -2,7 +2,7 @@
 
 #include <type_traits>
 
-#include <tasm/list.h>
+#include <tasm/private/list.h>
 
 namespace tasm {
 

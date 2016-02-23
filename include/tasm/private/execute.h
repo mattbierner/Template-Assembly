@@ -1,9 +1,9 @@
 #pragma once
 
-#include <tasm/byte_string.h>
-#include <tasm/foldable.h>
-#include <tasm/list.h>
-#include <tasm/utility.h>
+#include <tasm/private/byte_string.h>
+#include <tasm/private/foldable.h>
+#include <tasm/private/list.h>
+#include <tasm/private/utility.h>
 
 namespace tasm { namespace execute {
 

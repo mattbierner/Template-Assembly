@@ -1,10 +1,10 @@
 #pragma once
 
-#include <tasm/byte_string.h>
-#include <tasm/immediate.h>
-#include <tasm/memory.h>
-#include <tasm/register.h>
-#include <tasm/utility.h>
+#include <tasm/private/byte_string.h>
+#include <tasm/private/immediate.h>
+#include <tasm/private/memory.h>
+#include <tasm/private/register.h>
+#include <tasm/private/utility.h>
 
 namespace tasm { namespace instruction {
 

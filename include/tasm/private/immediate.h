@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <utility>
 
-#include <tasm/byte_string.h>
+#include <tasm/private/byte_string.h>
 
 namespace tasm {
 

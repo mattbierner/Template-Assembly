@@ -1,12 +1,12 @@
 #pragma once
 #include <stddef.h> // size_t definition
 
-#include <tasm/execute.h>
-#include <tasm/byte_string.h>
-#include <tasm/foldable.h>
-#include <tasm/label.h>
 #include <tasm/bytes.h>
-#include <tasm/state.h>
+#include <tasm/private/execute.h>
+#include <tasm/private/byte_string.h>
+#include <tasm/private/foldable.h>
+#include <tasm/private/label.h>
+#include <tasm/private/state.h>
 
 #include "instr.h"
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <tasm/foldable.h>
-#include <tasm/functor.h>
+#include <tasm/private/foldable.h>
+#include <tasm/private/functor.h>
 
 namespace tasm {
 
@@ -107,4 +107,3 @@ struct FMap<f, list::List<elements...>> {
 } // functional
 
 } // tasm
-

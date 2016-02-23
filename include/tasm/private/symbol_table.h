@@ -3,7 +3,7 @@
 */
 #pragma once
 
-#include <tasm/list.h>
+#include <tasm/private/list.h>
 
 namespace tasm { namespace symbol_table {
 
@@ -12,7 +12,7 @@ struct SymbolTableEntry {};
 
 /**
     Maps symbol names to symbol data.
-    
+
     Does not take location into account at all, so you probably should only
     define a symbol one in a given program.
 */
@@ -55,5 +55,5 @@ using symbol_table_add = typename std::conditional_t<
         symbol_table_lookup<details::None, key, table>>::value,
     details::identity<list::cons<SymbolTableEntry<key, value>, table>>,
     duplicate_symbols_not_allowed<key>>::type;
-    
+
 }} // tasm::symbol_table

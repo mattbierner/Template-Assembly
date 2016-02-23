@@ -5,11 +5,11 @@ const xml2js = require('xml2js');
 
 const prefix =
 `#pragma once
-#include <tasm/encoding.h>
-#include <tasm/immediate.h>
-#include <tasm/instruction.h>
-#include <tasm/memory.h>
-#include <tasm/register.h>
+#include <tasm/private/encoding.h>
+#include <tasm/private/immediate.h>
+#include <tasm/private/instruction.h>
+#include <tasm/private/memory.h>
+#include <tasm/private/register.h>
 
 `;
 

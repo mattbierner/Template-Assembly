@@ -2,9 +2,10 @@
 
 #include <type_traits>
 
-#include <tasm/byte_string.h>
-#include <tasm/functor.h>
-#include <tasm/list.h>
+#include <tasm/private/byte_string.h>
+#include <tasm/private/functor.h>
+#include <tasm/private/list.h>
+#include <tasm/private/label.h>
 
 namespace tasm { namespace instruction {
 
