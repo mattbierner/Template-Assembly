@@ -1,10 +1,10 @@
 #pragma once
 
+#include <cstdint>
 #include <stdexcept>
 #include <utility>
 
-#include "assert.h"
-#include "byte_string.h"
+#include <tasm/byte_string.h>
 
 namespace tasm {
 

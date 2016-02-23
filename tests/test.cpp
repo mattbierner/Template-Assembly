@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include "asm.h"
+#include <tasm/asm.h>
 
 using namespace tasm;
 

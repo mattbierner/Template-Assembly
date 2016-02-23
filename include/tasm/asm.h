@@ -1,13 +1,14 @@
 #pragma once
 #include <stddef.h> // size_t definition
 
-#include "execute.h"
-#include "byte_string.h"
-#include "foldable.h"
-#include "label.h"
-#include "bytes.h"
+#include <tasm/execute.h>
+#include <tasm/byte_string.h>
+#include <tasm/foldable.h>
+#include <tasm/label.h>
+#include <tasm/bytes.h>
+#include <tasm/state.h>
+
 #include "instr.h"
-#include "state.h"
 
 namespace tasm {
 

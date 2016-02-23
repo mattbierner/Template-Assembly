@@ -1,7 +1,7 @@
 #pragma once
 
-#include "instruction.h"
-#include "register.h"
+#include <tasm/instruction.h>
+#include <tasm/register.h>
 
 namespace tasm {
 

@@ -1,9 +1,7 @@
-#define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
 #include <type_traits>
-
-#include "asm.h"
+#include <tasm/asm.h>
 
 using namespace tasm;
 

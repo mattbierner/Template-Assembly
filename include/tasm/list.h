@@ -1,7 +1,7 @@
 #pragma once
 
-#include "foldable.h"
-#include "functor.h"
+#include <tasm/foldable.h>
+#include <tasm/functor.h>
 
 namespace tasm {
 

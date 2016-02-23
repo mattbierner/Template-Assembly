@@ -3,7 +3,7 @@
 */
 #pragma once
 
-#include "list.h"
+#include <tasm/list.h>
 
 namespace tasm { namespace symbol_table {
 
