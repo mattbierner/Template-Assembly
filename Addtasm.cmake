@@ -17,5 +17,5 @@ ExternalProject_Add(
 
 # Expose required variable (TASM_INCLUDE_DIR) to parent scope
 ExternalProject_Get_Property(tasm source_dir)
-set(includeDir ${source_dir}/include ${source_dir}/instructions-set)
+set(includeDir ${source_dir}/include)
 set(TASM_INCLUDE_DIR ${includeDir} CACHE INTERNAL "Path to include folder for tasm")
