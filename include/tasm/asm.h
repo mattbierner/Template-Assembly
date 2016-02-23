@@ -27,7 +27,7 @@ struct AsmProgram {
 
     template <typename... Args>
     R operator()(Args... args) {
-        return ((R(*)(std::decay_t<Args>...))P::data)(args...);
+        return reinterpret_cast<R(*)(std::decay_t<Args>...)>(const_cast<char*>(P::data))(args...);
     }
 };
 
