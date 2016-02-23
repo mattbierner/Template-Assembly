@@ -9,6 +9,8 @@
 #include "instr.h"
 #include "state.h"
 
+namespace tasm {
+
 /**
     Convert an Asm program into machine code.
 */
@@ -30,13 +32,12 @@ struct AsmProgram {
     }
 };
 
-
 /**
     Block of assembly code.
 */
 template <typename x, typename... xs>
 constexpr auto block(x, xs...) {
-    return seq<x, xs...>{};
+    return details::seq<x, xs...>{};
 }
 
 /**
@@ -44,5 +45,7 @@ constexpr auto block(x, xs...) {
 */
 template <typename R, typename x, typename... xs>
 constexpr auto Asm(x, xs...) {
-    return AsmProgram<R, assemble<seq<x, xs...>>>();
+    return AsmProgram<R, assemble<details::seq<x, xs...>>>();
 }
+
+} // tasm

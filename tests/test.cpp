@@ -2,6 +2,8 @@
 
 #include "asm.h"
 
+using namespace tasm;
+
 template <typename Count, typename... Body>
 constexpr auto do_x_times(Count count, Body... body)
 {

@@ -89,7 +89,7 @@ const rmOperandSign = function(value) {
 const toModRM = (data, operands) => {
     const reg = hasOperand(data.reg) ? -1 : data.reg;
     const names = operands.map(argToName).join(', ');
-    return `typename modrm<${reg}, ${names}>::type`;
+    return `typename instruction::modrm<${reg}, ${names}>::type`;
 };
 
 const toRex = (data, operands) => {
@@ -98,7 +98,7 @@ const toRex = (data, operands) => {
             let index = rmOperandSign(data[key]);
             if (hasOperand(data[key]) && index !== undefined && operands[index] !== undefined) {
                 let value = argToName(operands[index]);
-                return `get_rex_${key.toLowerCase()}(${value}{})`;
+                return `instruction::get_rex_${key.toLowerCase()}(${value}{})`;
             } else if (data[key] !== undefined)
                 return parseInt(data[key]);
             return 0;
@@ -111,7 +111,7 @@ const toRex = (data, operands) => {
     } else {
         wrxb = getRegxValues(['W', 'R', 'X', 'B']);
     }
-    return `make_rex<${wrxb.join(', ')}>`
+    return `instruction::make_rex<${wrxb.join(', ')}>`
 };
 
 
@@ -139,7 +139,7 @@ const getEncoding = function(encoding, ops) {
     let prefix = [];
     if (encoding.Prefix) {
         let data = encoding.Prefix[0]['$']['byte'];
-        prefix = `Prefix<'\\x${data}'>`;
+        prefix = `instruction::Prefix<'\\x${data}'>`;
     }
 
     let modrm = [];
@@ -160,9 +160,9 @@ const getEncoding = function(encoding, ops) {
             let addend = rmOperandSign(addendnofilter);
             if (hasOperand(addendnofilter)) {
                 let reg = argToName(ops[addend]);
-                return `typename IntToBytes<1, 0x${b} + ${reg}::index>::type`
+                return `typename byte_string::IntToBytes<1, 0x${b} + ${reg}::index>::type`
             } else {
-                return `Opcode<'\\x${b}'>`;
+                return `instruction::Opcode<'\\x${b}'>`;
             }
         });
     }
@@ -177,10 +177,10 @@ const getEncoding = function(encoding, ops) {
         let size = encoding.Immediate[0].$.size;
         let index = rmOperandSign(encoding.Immediate[0].$['value']);
         let data = argToName(ops[index])
-        immediate = `to_bytes<${data}>`;
+        immediate = `byte_string::to_bytes<${data}>`;
     }
     let data = [].concat(prefix, rex, opcode, modrm, codeOffset, immediate).join(', ');
-    return `Instruction<${data}>{}`
+    return `instruction::Instruction<${data}>{}`
 };
 
 
@@ -228,7 +228,13 @@ const processInstructions = instructions =>
 
 
 const writeResult = (outfile, instructions) => {
-    const contents = prefix + instructions.join('\n');
+    const contents = `${prefix}
+namespace tasm {
+
+${instructions.join('\n')}
+
+} // tasm
+`;
     fs.writeFile(outfile, contents, err => {
         if (err)
             return console.error(err);

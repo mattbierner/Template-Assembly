@@ -6,6 +6,8 @@
 #include "assert.h"
 #include "byte_string.h"
 
+namespace tasm {
+
 /**
     Asm literal value.
 */
@@ -36,11 +38,11 @@ constexpr auto operator*(Immediate<L, lx>, Immediate<R, rx>) {
 }
 
 template <typename T, T x>
-struct ToBytes<Immediate<T, x>> :
+struct byte_string::ToBytes<Immediate<T, x>> :
     IntToBytes<Immediate<T, x>::size, x> { };
 
 
-namespace Details {
+namespace details {
 
 constexpr unsigned digit_to_value(char c) {
     return ((c >= 'a' && c <= 'f') * (c - 'a' + 10))
@@ -109,7 +111,8 @@ struct ImmediateFromString {
     using type = Immediate<T, static_cast<T>(fold(0, typename number::digits{}))>;
 };
 
-} // Details
+} // details
+
 
 /**
     Asm byte literal.
@@ -119,7 +122,7 @@ using byte = Immediate<int8_t, x>;
 
 template <char... values>
 constexpr auto operator ""_b() {
-    return typename Details::ImmediateFromString<typename byte<0>::type, values...>::type{};
+    return typename details::ImmediateFromString<typename byte<0>::type, values...>::type{};
 }
 
 /**
@@ -130,7 +133,7 @@ using word = Immediate<int16_t, x>;
 
 template <char... values>
 constexpr auto operator ""_w() {
-    return typename Details::ImmediateFromString<typename word<0>::type, values...>::type{};
+    return typename details::ImmediateFromString<typename word<0>::type, values...>::type{};
 }
 
 /**
@@ -141,7 +144,7 @@ using dword = Immediate<int32_t, x>;
 
 template <char... values>
 constexpr auto operator ""_d() {
-    return typename Details::ImmediateFromString<typename dword<0>::type, values...>::type{};
+    return typename details::ImmediateFromString<typename dword<0>::type, values...>::type{};
 }
 
 /**
@@ -152,5 +155,7 @@ using qword = Immediate<int64_t, x>;
 
 template <char... values>
 constexpr auto operator ""_q() {
-    return typename Details::ImmediateFromString<typename qword<0>::type, values...>::type{};
+    return typename details::ImmediateFromString<typename qword<0>::type, values...>::type{};
 }
+
+} // tasm

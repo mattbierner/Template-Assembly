@@ -6,16 +6,18 @@
 #include "functor.h"
 #include "list.h"
 
-namespace Details {
+namespace tasm { namespace instruction {
+
+namespace details {
 
 /**
     Get the offset of a label.
 */
 template <size_t size, typename state, typename labelOffset>
-struct GetOffset : IntToBytes<size, static_cast<long long>(labelOffset::value - state::index)> { };
+struct GetOffset : ::tasm::byte_string::IntToBytes<size, static_cast<long long>(labelOffset::value - state::index)> { };
 
 template <size_t size, typename state>
-struct GetOffset<size, state, None> : IntToBytes<size, 0> { };
+struct GetOffset<size, state, None> : ::tasm::byte_string::IntToBytes<size, 0> { };
 
 /**
     Functor that rewrites instruction components to replace labels with relative offsets.
@@ -26,23 +28,22 @@ struct Rewrite {
     struct apply {
         using type = x;
     };
-    
+
     template <size_t s, typename x>
     struct apply<Rel<s, x>> :
         GetOffset<s, state, typename state::template lookup_label<x>> {};
 };
 
-} // Details
-
-
 template<size_t idx, size_t const * arr>
 struct static_accumulate :
-       std::integral_constant<size_t, arr[idx] + static_accumulate<idx - 1, arr>::value>
-{   };
+   std::integral_constant<size_t, arr[idx] + static_accumulate<idx - 1, arr>::value>
+{ };
 
 template<size_t const * arr>
 struct static_accumulate<0, arr> : std::integral_constant<size_t, arr[0]>
-{   };
+{ };
+
+} // details
 
 /**
     Encodes a single, basic instruction as a series of bytes.
@@ -51,14 +52,16 @@ template <typename... components>
 struct Instruction  {
     //static constexpr size_t size = (... + components::size);
     static constexpr size_t sizes[] = { components::size... };
-    static constexpr size_t size = static_accumulate<sizeof...(components) - 1, sizes>::value;
-    
+    static constexpr size_t size = details::static_accumulate<sizeof...(components) - 1, sizes>::value;
+
     template <typename state>
     struct apply {
         using next_state = typename state::template inc<size>;
         using type = Pair<next_state, fold<
-            mfunc<bytes_join>,
-            ByteString<>,
-            fmap<typename Details::Rewrite<next_state>, List<components...>>>>;
+            mfunc<byte_string::bytes_join>,
+            byte_string::ByteString<>,
+            fmap<typename details::Rewrite<next_state>, List<components...>>>>;
     };
 };
+
+}} // tasm::instruction

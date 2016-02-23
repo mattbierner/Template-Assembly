@@ -5,6 +5,8 @@
 #include "list.h"
 #include "utility.h"
 
+namespace tasm { namespace details {
+
 /**
     Sequence two state operations.
 */
@@ -16,7 +18,7 @@ struct next {
         using right = call<c, typename left::first>;
         using type = Pair<
             typename right::first,
-            bytes_add<typename left::second, typename right::second>>;
+            byte_string::bytes_add<typename left::second, typename right::second>>;
     };
 };
 
@@ -25,3 +27,5 @@ struct next {
 */
 template <typename x, typename... xs>
 using seq = fold<mfunc<next>, x, List<xs...>>;
+
+}} // tasm::details

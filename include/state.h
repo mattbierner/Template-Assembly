@@ -3,6 +3,8 @@
 #include "label.h"
 #include "symbol_table.h"
 
+namespace tasm {
+
 /**
     Base assembler state object.
 */
@@ -33,19 +35,19 @@ struct BaseState {
 template <size_t lc, typename _labels>
 struct Pass1State : BaseState<Pass1State, lc, _labels> {
     template <typename name>
-    using lookup_label = symbol_table_lookup<None, name, _labels>;
+    using lookup_label = symbol_table::symbol_table_lookup<None, name, _labels>;
     
     /**
         Register a new label at the current index
     */
     template <typename newLabel>
-    using add_label = Pass1State<lc, symbol_table_add<newLabel, LabelOffset<lc>, _labels>>;
+    using add_label = Pass1State<lc, symbol_table::symbol_table_add<newLabel, details::LabelOffset<lc>, _labels>>;
 };
 
 /**
     Initial state for pass1
 */
-using pass1state = Pass1State<0, empty_symbol_table>;
+using pass1state = Pass1State<0, symbol_table::empty_symbol_table>;
 
 
 /**
@@ -63,7 +65,7 @@ struct no_such_label;
 template <size_t lc, typename _labels>
 struct Pass2State : BaseState<Pass2State, lc, _labels> {
     template <typename name>
-    using lookup_label = symbol_table_lookup<no_such_label<name>, name, _labels>;
+    using lookup_label = symbol_table::symbol_table_lookup<no_such_label<name>, name, _labels>;
     
     /**
         Register a new label at the current index. Noop in pass 2.
@@ -77,3 +79,5 @@ struct Pass2State : BaseState<Pass2State, lc, _labels> {
 */
 template <typename pass1state>
 using pass2state = Pass2State<0, typename pass1state::labels>;
+
+} // tasm

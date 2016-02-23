@@ -4,19 +4,9 @@
 
 #include "list.h"
 
-/**
-    Name used to identify an assembly label.
-*/
-template <char... chars>
-struct Label {
-    template <typename s>
-    struct apply {
-        using type = Pair<typename s::template add_label<Label<chars...>>, ByteString<>>;
-    };
-};
+namespace tasm {
 
-template <typename T, T... chars>
-constexpr auto operator""_label() { return Label<chars...>{}; }
+namespace details {
 
 /**
     Relative offset of a label in a program.
@@ -24,6 +14,21 @@ constexpr auto operator""_label() { return Label<chars...>{}; }
 template <size_t x>
 using LabelOffset = std::integral_constant<size_t, x>;
 
+} // details
+
+/**
+    Name used to identify an assembly label.
+*/
+template <char... chars>
+struct Label {
+    template <typename s>
+    struct apply {
+        using type = Pair<typename s::template add_label<Label<chars...>>, byte_string::ByteString<>>;
+    };
+};
+
+template <typename T, T... chars>
+constexpr auto operator""_label() { return Label<chars...>{}; }
 
 /**
     Relative label.
@@ -36,3 +41,5 @@ using Rel8 = Rel<1, name>;
 
 template <typename T, T... chars>
 constexpr auto operator""_rel8() { return Rel8<Label<chars...>>{}; }
+
+} // tasm

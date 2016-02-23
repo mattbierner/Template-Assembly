@@ -1,4 +1,9 @@
+/**
+    Encoding binary data as types.
+*/
 #pragma once
+
+namespace tasm { namespace byte_string {
 
 /**
     String of byte data.
@@ -71,3 +76,5 @@ template <long long x>
 struct IntToBytes<0, x> {
     using type = ByteString<>;
 };
+
+}} // tasm::byte_string

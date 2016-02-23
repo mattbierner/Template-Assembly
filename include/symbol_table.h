@@ -5,6 +5,8 @@
 
 #include "list.h"
 
+namespace tasm { namespace symbol_table {
+
 template <typename k, typename v>
 struct SymbolTableEntry {};
 
@@ -53,3 +55,5 @@ using symbol_table_add = typename std::conditional_t<
         symbol_table_lookup<None, key, table>>::value,
     identity<cons<SymbolTableEntry<key, value>, table>>,
     duplicate_symbols_not_allowed<key>>::type;
+    
+}} // tasm::symbol_table

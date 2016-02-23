@@ -7,7 +7,12 @@
 #include "register.h"
 #include "string.h"
 
+namespace tasm {
+
 template<typename CharT, CharT... chars>
 constexpr auto operator ""_raw() {
-    return Instruction<to_bytes<ByteString<chars...>>>{};
+    return instruction::Instruction<
+        byte_string::to_bytes<byte_string::ByteString<chars...>>>{};
 }
+
+} // tasm

@@ -3,6 +3,8 @@
 #include "immediate.h"
 #include "register.h"
 
+namespace tasm {
+
 using Displacement = int32_t;
 
 /**
@@ -149,3 +151,5 @@ template <size_t size, typename reg1, Displacement disp, size_t reg2Size, size_t
 constexpr auto operator+(GeneralPurposeRegister<reg2Size, reg2Index> r, Memory<size, reg1, None, 0, disp> m) {
     return m + r;
 }
+
+} // tasm

@@ -5,6 +5,8 @@
 
 #include "asm.h"
 
+using namespace tasm;
+
 TEST_CASE("Compile time immediate tests", "[compile][immediate]") {
 
   constexpr auto test_1_decimal = std::is_same<byte<4>, decltype(4_b)>();
