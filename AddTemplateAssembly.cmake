@@ -5,7 +5,7 @@ find_package(Git REQUIRED)
 ExternalProject_Add(
     template-assembly
     PREFIX ${CMAKE_BINARY_DIR}/template-assembly
-    GIT_REPOSITORY https://github.com/izissise/Template-Assembly.git
+    GIT_REPOSITORY https://github.com/mattbierner/Template-Assembly.git
     TIMEOUT 10
     UPDATE_COMMAND ""
     CONFIGURE_COMMAND ""
