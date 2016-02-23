@@ -31,8 +31,7 @@ const getOperandTemplateArgs = operand => {
                 args: [r[1] / 8],
                 needs: ['size_t']
             }];
-        else
-            return null;
+        return null;
     }
 
     const m = type.match(/^m(\d+)$/)
@@ -43,33 +42,52 @@ const getOperandTemplateArgs = operand => {
                 args: [m[1] / 8],
                 needs: ['typename', 'typename', 'size_t', 'Displacement']
             }];
-        else
-            return null;
+        return null;
     }
 
     switch (type) {
-    case 'imm8': return [{ type: 'byte', needs: ['int8_t'] }];
-    case 'imm16': return [{ type: 'word', needs: ['int16_t'] }];
-    case 'imm32': return [{ type: 'dword', needs: ['int32_t'] }];
-    case 'imm64': return [{ type: 'qword', needs: ['int64_t'] }];
+        case 'imm8':
+            return [{
+                type: 'byte',
+                needs: ['int8_t']
+            }];
+        case 'imm16':
+            return [{
+                type: 'word',
+                needs: ['int16_t']
+            }];
+        case 'imm32':
+            return [{
+                type: 'dword',
+                needs: ['int32_t']
+            }];
+        case 'imm64':
+            return [{
+                type: 'qword',
+                needs: ['int64_t']
+            }];
 
-    case 'rel8': return [{ type: 'Rel8', needs: ['typename'] }];
+        case 'rel8':
+            return [{
+                type: 'Rel8',
+                needs: ['typename']
+            }];
 
-    case 'ymm':
-    case 'xmm':
+        //case 'ymm':
+        //case 'xmm':
 
     }
     return null;
 };
 
 const hasOperand = function(value) {
-  return (value !== undefined && value[0] === '#');
+    return (value !== undefined && value[0] === '#');
 }
 
 const rmOperandSign = function(value) {
-  if (hasOperand(value))
-    return +value[1];
-  return value;
+    if (hasOperand(value))
+        return +value[1];
+    return value;
 }
 
 const toModRM = (data, operands) => {
@@ -82,23 +100,20 @@ const toRex = (data, operands) => {
     const getRegxValues = keys =>
         keys.map(key => {
             let index = rmOperandSign(data[key]);
-            if (hasOperand(data[key])
-              && index !== undefined && operands[index] !== undefined) {
+            if (hasOperand(data[key]) && index !== undefined && operands[index] !== undefined) {
                 let value = argToName(operands[index]);
                 return `get_rex_${key.toLowerCase()}(${value}{})`;
-            }
-            else if (data[key] !== undefined)
-              return parseInt(data[key]);
+            } else if (data[key] !== undefined)
+                return parseInt(data[key]);
             return 0;
         });
 
     var wrxb;
 
-    if (data['B'] !== undefined && data['X'] !== undefined
-      && data['B'] == data['X']) {
-      wrxb = getRegxValues(['W', 'R', 0, 0]);
+    if (data['B'] !== undefined && data['X'] !== undefined && data['B'] == data['X']) {
+        wrxb = getRegxValues(['W', 'R', 0, 0]);
     } else {
-      wrxb = getRegxValues(['W', 'R', 'X', 'B']);
+        wrxb = getRegxValues(['W', 'R', 'X', 'B']);
     }
     return `make_rex<${wrxb.join(', ')}>`
 };
@@ -219,7 +234,7 @@ const processInstructions = instructions =>
 const writeResult = instructions => {
     const contents = prefix + instructions.join('\n');
     fs.writeFile(path.join(__dirname, OUT_FILE), contents, err => {
-        if(err)
+        if (err)
             return console.log(err);
     });
 };
@@ -227,14 +242,14 @@ const writeResult = instructions => {
 function uniqSymbols(a) {
     var seen = {};
     return a.filter(function(item) {
-     var symbols = item.substring(0, item.indexOf(") {\n"));
-     return seen.hasOwnProperty(symbols) ? false : (seen[symbols] = true);
+        var symbols = item.substring(0, item.indexOf(") {\n"));
+        return seen.hasOwnProperty(symbols) ? false : (seen[symbols] = true);
     });
 }
 
-const parser = new xml2js.Parser();
-
 fs.readFile(path.join(__dirname, IN_FILE), (err, data) => {
+    const parser = new xml2js.Parser();
+
     parser.parseString(data, function(err, result) {
         if (err) {
             console.error(err);

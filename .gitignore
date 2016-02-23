@@ -265,48 +265,7 @@ xcuserdata
 
 *.moved-aside
 
-####
-# OPTIONAL: Some well-known tools that people use side-by-side with Xcode / iOS development
-#
-# NB: I'd rather not include these here, but gitignore's design is weak and doesn't allow
-#     modular gitignore: you have to put EVERYTHING in one file.
-#
-# COCOAPODS:
-#
-# c.f. http://guides.cocoapods.org/using/using-cocoapods.html#what-is-a-podfilelock
-# c.f. http://guides.cocoapods.org/using/using-cocoapods.html#should-i-ignore-the-pods-directory-in-source-control
-#
-#!Podfile.lock
-#
-# RUBY:
-#
-# c.f. http://yehudakatz.com/2010/12/16/clarifying-the-roles-of-the-gemspec-and-gemfile/
-#
-#!Gemfile.lock
-#
-# IDEA:
-#
-.idea
-#
-# TEXTMATE:
-#
-# -- UNVERIFIED: c.f. http://stackoverflow.com/a/50283/153422
-#
-#tm_build_errors
-
-####
-# UNKNOWN: recommended by others, but I can't discover what these files are
-#
-# Community suggestions (unverified, no evidence available - DISABLED by default)
-#
-# 1. Xcode 5 - VCS file
-#
-# "The data in this file not represent state of your project.
-# If you'll leave this file in git - you will have merge conflicts during 
-# pull your cahnges to other's repo"
-#
-#*.xccheckout
-
 ### Other
 *~
 node_modules
+template\ assembly
