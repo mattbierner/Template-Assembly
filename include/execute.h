@@ -5,7 +5,7 @@
 #include "list.h"
 #include "utility.h"
 
-namespace tasm { namespace details {
+namespace tasm { namespace execute {
 
 /**
     Sequence two state operations.
@@ -14,9 +14,9 @@ template <typename p, typename c>
 struct next {
     template <typename s>
     struct apply {
-        using left = call<p, s>;
-        using right = call<c, typename left::first>;
-        using type = Pair<
+        using left = details::call<p, s>;
+        using right = details::call<c, typename left::first>;
+        using type = details::Pair<
             typename right::first,
             byte_string::bytes_add<typename left::second, typename right::second>>;
     };
@@ -26,6 +26,6 @@ struct next {
     Sequence two or more state operations.
 */
 template <typename x, typename... xs>
-using seq = functional::fold<mfunc<next>, x, list::List<xs...>>;
+using seq = functional::fold<details::mfunc<next>, x, list::List<xs...>>;
 
-}} // tasm::details
+}} // tasm::execute

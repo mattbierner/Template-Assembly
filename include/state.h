@@ -3,7 +3,7 @@
 #include "label.h"
 #include "symbol_table.h"
 
-namespace tasm {
+namespace tasm { namespace state {
 
 /**
     Base assembler state object.
@@ -80,4 +80,4 @@ struct Pass2State : BaseState<Pass2State, lc, _labels> {
 template <typename pass1state>
 using pass2state = Pass2State<0, typename pass1state::labels>;
 
-} // tasm
+}} // tasm::state

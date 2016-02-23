@@ -1,7 +1,7 @@
 #pragma once
 #include <stddef.h> // size_t definition
 
-#include "asm_monad.h"
+#include "execute.h"
 #include "byte_string.h"
 #include "foldable.h"
 #include "label.h"
@@ -17,7 +17,7 @@ namespace tasm {
 template <typename program>
 using assemble = typename details::call<
     program,
-    pass2state<typename details::call<program, pass1state>::first>>::second;
+    state::pass2state<typename details::call<program, state::pass1state>::first>>::second;
 
 /**
     Assembly function wrapper.
@@ -37,7 +37,7 @@ struct AsmProgram {
 */
 template <typename x, typename... xs>
 constexpr auto block(x, xs...) {
-    return details::seq<x, xs...>{};
+    return execute::seq<x, xs...>{};
 }
 
 /**
@@ -45,7 +45,7 @@ constexpr auto block(x, xs...) {
 */
 template <typename R, typename x, typename... xs>
 constexpr auto Asm(x, xs...) {
-    return AsmProgram<R, assemble<details::seq<x, xs...>>>();
+    return AsmProgram<R, assemble<execute::seq<x, xs...>>>();
 }
 
 } // tasm

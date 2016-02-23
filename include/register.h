@@ -1,5 +1,7 @@
 #pragma once
 
+namespace tasm {
+
 /**
     General purpose x86 register.
 */
@@ -79,3 +81,5 @@ constexpr auto r12 = GeneralPurposeRegister<8, 12>{};
 constexpr auto r13 = GeneralPurposeRegister<8, 13>{};
 constexpr auto r14 = GeneralPurposeRegister<8, 14>{};
 constexpr auto r15 = GeneralPurposeRegister<8, 15>{};
+
+} // tasm
