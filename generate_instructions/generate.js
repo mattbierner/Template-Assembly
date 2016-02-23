@@ -227,11 +227,11 @@ const processInstructions = instructions =>
     flatten(instructions.map(processInstruction));
 
 
-const writeResult = instructions => {
+const writeResult = (outfile, instructions) => {
     const contents = prefix + instructions.join('\n');
-    fs.writeFile(path.join(__dirname, OUT_FILE), contents, err => {
+    fs.writeFile(outfile, contents, err => {
         if (err)
-            return console.log(err);
+            return console.error(err);
     });
 };
 
@@ -247,15 +247,14 @@ function uniqSymbols(a) {
 const IN_FILE = 'x86_64.xml'
 const OUT_FILE = 'instr.h'
 
+
 const argv = require('yargs')
     .usage('Usage: $0 [instructions.xml] [outfile.h]')
-    .demand(['instructions', 'out'])
+    .demand(1, ['out'])
     .argv;
 
-
-fs.readFile(path.join(__dirname, IN_FILE), (err, data) => {
+fs.readFile(argv._[0], (err, data) => {
     const parser = new xml2js.Parser();
-
     parser.parseString(data, function(err, result) {
         if (err) {
             console.error(err);
@@ -263,6 +262,6 @@ fs.readFile(path.join(__dirname, IN_FILE), (err, data) => {
         }
 
         const instructions = processInstructions(result.InstructionSet.Instruction);
-        writeResult(uniqSymbols(instructions));
+        writeResult(argv.out, uniqSymbols(instructions));
     });
 });

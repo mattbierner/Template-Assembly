@@ -2,5 +2,8 @@
   "dependencies": {
     "xml2js": "^0.4.16",
     "yargs": "^4.1.0"
+  },
+  "scripts": {
+    "generate": "node generate_instructions/generate.js ./generate_instructions/x86_64.xml --out ./instructions-set/instr.h"
   }
 }
