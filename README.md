@@ -139,32 +139,16 @@ Asm<int>(
 Any C++ syntax can be used to extend the embedded language.
 
 
-## Build tests
-A cmake script is included to build tests
-Just do:
-```
-mkdir build; cd build
-cmake ..
-make
-./tester
-```
+### Contributing
+Any and all contributions to the project are welcome.
 
-## Development
+The best way to get a new feature supported or get a bug fixed is by submitting a pull request. Be sure to checkout the [CONTRIBUTING.md guide][CONTRIBUTING] which details how to run some simple tests and generate the instruction files.
 
-### Contribute
-If you run into an issue or want a feature supported, feel free to create a pull request or open a bug.
+If you run into any bugs, be sure to open an issue. Please make sure to provide a description of the expected behavior compared to the current behavior.
 
-
-### Generating Instruction Templates
-`index.js` is the node script that generates the C++ x86 instruction template expressions found in `instr.h`. It's super hacky, but then again, what else can you expect from embedding C++ metaprogramming in Javascript string templates.
-
-To regenerate the instruction file run:
-
-```
-$ node index.js
-```
-
-If you want to support a new instruction, take a look at modifying `index.js` to generate it in `instr.h`.
 
 # Acknowledgments
 x86 / x86_64 instruction xml specification is copied from [Opcodes](https://github.com/Maratyszcza/Opcodes).
+
+
+[CONTRIBUTING]: /blob/master/CONTRIBUTING.md
