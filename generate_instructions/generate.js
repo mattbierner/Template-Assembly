@@ -1,11 +1,7 @@
 "use strict";
-
 const fs = require('fs');
 const path = require('path');
 const xml2js = require('xml2js');
-
-const IN_FILE = 'x86_64.xml'
-const OUT_FILE = 'instr.h'
 
 const prefix =
 `#pragma once
@@ -246,6 +242,16 @@ function uniqSymbols(a) {
         return seen.hasOwnProperty(symbols) ? false : (seen[symbols] = true);
     });
 }
+
+
+const IN_FILE = 'x86_64.xml'
+const OUT_FILE = 'instr.h'
+
+const argv = require('yargs')
+    .usage('Usage: $0 [instructions.xml] [outfile.h]')
+    .demand(['instructions', 'out'])
+    .argv;
+
 
 fs.readFile(path.join(__dirname, IN_FILE), (err, data) => {
     const parser = new xml2js.Parser();
