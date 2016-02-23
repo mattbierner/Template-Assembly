@@ -142,9 +142,9 @@ Any C++ syntax can be used to extend the embedded language.
 ### Contributing
 Any and all contributions to the project are welcome.
 
-The best way to get a new feature supported or get a bug fixed is by submitting a pull request. Be sure to checkout the [CONTRIBUTING.md guide][CONTRIBUTING] which details how to run some simple tests and generate the instruction files.
+The best way to fix a bug or add support for a new feature is by submitting a pull request. Be sure to checkout the [CONTRIBUTING.md guide][CONTRIBUTING] which details how to run some simple tests and how to regenerate the instruction files.
 
-If you run into any bugs, be sure to open an issue. Please make sure to provide a description of the expected behavior compared to the current behavior.
+If you run into any bugs, be sure to [open an issue](/issues). Please make sure to provide a description of the expected behavior compared to the current behavior.
 
 
 # Acknowledgments
