@@ -58,6 +58,21 @@ This project is for demonstration purposes and only supports a super limited sub
 using namespace tasm;
 ```
 
+You can add tasm to your project using the 'Addtasm.cmake' file, just download the file and then add this in you CMakeLists.txt
+```CMake
+# Includes tasm in the project:
+include(Addtasm)
+include_directories(${TASM_INCLUDE_DIR})
+
+add_executable(
+  # executable name
+  yourbinary
+  # source files
+  main.cpp
+)
+add_dependencies(yourbinary tasm)
+```
+
 ### Basics
 `Asm` is the top level function that creates assembly code. This code acts like a functor with its implementation written in assembly language. `Asm` takes a single parmeter specifying the expected result type of the assembly code.
 

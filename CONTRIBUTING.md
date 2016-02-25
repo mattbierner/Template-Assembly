@@ -20,7 +20,7 @@ $ npm install
 $ npm run generate
 ```
 
-The instructions are written to: `instructions-set/instr.h` by default.
+The instructions are written to: `include/tasm/isa/x86.h` by default.
 
 
 [catch]: https://github.com/philsquared/Catch

@@ -37,9 +37,13 @@ constexpr auto operator*(Immediate<L, lx>, Immediate<R, rx>) {
     return Immediate<L, static_cast<L>(lx * rx)>{};
 }
 
+namespace byte_string {
+
 template <typename T, T x>
-struct byte_string::ToBytes<Immediate<T, x>> :
+struct ToBytes<Immediate<T, x>> :
     IntToBytes<Immediate<T, x>::size, x> { };
+
+} // byte_string
 
 
 namespace details {
@@ -48,13 +52,13 @@ constexpr unsigned digit_to_value(char c) {
     return
         (c >= 'a' && c <= 'f')
             ?static_cast<unsigned>(c - 'a' + 10)
-    
+
         :(c >= 'A' && c <= 'F')
             ?static_cast<unsigned>(c - 'A' + 10)
-        
+
         :(c >= '0' && c <= '9')
             ?static_cast<unsigned>(c - '0')
-        
+
         :throw std::invalid_argument("c");
 }
 
